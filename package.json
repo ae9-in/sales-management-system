@@ -1,7 +1,7 @@
 {
-  "name": "petrol-bunk-management-system",
+  "name": "akshara-sales-management",
   "version": "1.0.0",
-  "description": "A management system for petrol bunk operations.",
+  "description": "Akshara Sales Operating System.",
   "type": "module",
   "main": "backend/index.js",
   "scripts": {
