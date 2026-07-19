@@ -25,7 +25,7 @@ const InventoryTable = ({ data }) => (
                                 ? { class: "bg-yellow-900 text-yellow-200", text: "Medium Stock" }
                                 : { class: "bg-green-900 text-green-200", text: "Sufficient" };
                         return (
-                            <tr key={item._id} className="transition-colors border-b border-gray-700/50 hover:bg-gray-800/50">
+                            <tr key={item.id} className="transition-colors border-b border-gray-700/50 hover:bg-gray-800/50">
                                 <td className="p-3">{item.name}</td>
                                 <td className="p-3">{formatNumber(item.currentStock)}</td>
                                 <td className="p-3">{formatNumber(item.reorderLevel)}</td>

@@ -32,6 +32,8 @@ api.interceptors.request.use(
 // URLs where we handle errors manually — skip global toast
 const SILENT_URLS = ["/auth/login"];
 
+let isSessionExpiredToastShown = false;
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -49,7 +51,17 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
       localStorage.removeItem(STORAGE_KEYS.USER);
-      toast.error("Your session has expired. Please log in again.", toastConfig);
+      if (!isSessionExpiredToastShown) {
+        isSessionExpiredToastShown = true;
+        const msg = error.response?.data?.message || "Your session has expired. Please log in again.";
+        toast.error(msg, toastConfig);
+        setTimeout(() => {
+          isSessionExpiredToastShown = false;
+        }, 5000);
+      }
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 300);
       return Promise.reject(error);
     }
 
@@ -76,5 +88,7 @@ export const fetchSales = () => api.get("/sales").then((r) => r.data);
 export const fetchInventory = () => api.get("/inventory").then((r) => r.data);
 export const fetchEmployees = () => api.get("/employees").then((r) => r.data);
 export const fetchExpenses = () => api.get("/expenses").then((r) => r.data);
+export const exportBackupData = () => api.get("/backup/export").then((r) => r.data);
+export const importBackupData = (data) => api.post("/backup/import", data).then((r) => r.data);
 
 export default api;

@@ -18,8 +18,8 @@ const SalesAnalysis = ({ data }) => {
                         content={<CustomTooltip />}
                         formatter={(value, name) => {
                             if (name === "Revenue (₹)") return [formatCurrency(value), name];
-                            if (name === "Quantity (L)") return [formatQuantityInKL(value), name];
-                            if (name === "Avg Price (₹/L)") return [formatCurrency(value), name];
+                            if (name === "Quantity") return [formatQuantityInKL(value), name];
+                            if (name === "Avg Price (₹)") return [formatCurrency(value), name];
                             return [value, name];
                         }}
                         contentStyle={{
@@ -31,8 +31,8 @@ const SalesAnalysis = ({ data }) => {
                     />
                     <Legend wrapperStyle={{ color: "#fff" }} verticalAlign="top" height={36} />
                     <Bar yAxisId="left" dataKey="revenue" name="Revenue (₹)" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                    <Bar yAxisId="quantity" dataKey="quantity" name="Quantity (L)" fill="#10b981" radius={[4, 4, 0, 0]} />
-                    <Line yAxisId="price" type="monotone" dataKey="avgPrice" name="Avg Price (₹/L)" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b" }} />
+                    <Bar yAxisId="quantity" dataKey="quantity" name="Quantity" fill="#10b981" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="price" type="monotone" dataKey="avgPrice" name="Avg Price (₹)" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b" }} />
                 </ComposedChart>
             </ResponsiveContainer>
         </ChartContainer>

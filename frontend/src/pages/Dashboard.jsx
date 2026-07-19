@@ -1,81 +1,453 @@
-import React from "react";
-import { Package, BarChart2, Users, IndianRupee, ChartArea, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Typewriter } from "react-simple-typewriter";
-import { useAuth } from "../hooks/useAuth";
-import { showToast, toastConfig } from "../utils/toastConfig";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { toastConfig } from "../utils/toastConfig";
+import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
+import { format, parseISO } from "date-fns";
+import api from "../services/api";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+
+import StatCards from "../components/dashboard/StatCards";
+import SalesOverviewChart from "../components/dashboard/SalesOverviewChart";
+import TopProductsChart from "../components/dashboard/TopProductsChart";
+import TopExecutivesList from "../components/dashboard/TopExecutivesList";
+import RecentSalesList from "../components/dashboard/RecentSalesList";
+import FollowUpsList from "../components/dashboard/FollowUpsList";
+import DashboardSummary from "../components/dashboard/DashboardSummary";
+import RecentSalesHistoryTable from "../components/dashboard/RecentSalesHistoryTable";
+import SalesByDayChart from "../components/dashboard/SalesByDayChart";
+import { SkeletonPageFallback } from "../components/common/Skeleton";
+
+const getStatusColor = (status) => {
+  if (status === 'Paid') return 'bg-green-500/20 text-green-400';
+  if (status === 'Pending') return 'bg-orange-500/20 text-orange-400';
+  return 'bg-blue-500/20 text-blue-400';
+};
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+  const [sales, setSales] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [inventory, setInventory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(() => format(new Date(), "yyyy-MM-dd"));
+  const [isExporting, setIsExporting] = useState(false);
+  const dashboardRef = useRef(null);
 
-  const handleLogout = () => {
-    showToast.info("Logged out successfully!");
-    setTimeout(() => logout(), 1000);
+  const [showModal, setShowModal] = useState(false);
+  const [editingSale, setEditingSale] = useState(null);
+  const [viewingSale, setViewingSale] = useState(null);
+
+  // Form fields
+  const [customer, setCustomer] = useState("");
+  const [rep, setRep] = useState("");
+  const [product, setProduct] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [status, setStatus] = useState("Paid");
+  const [method, setMethod] = useState("UPI");
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+  const loadData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [salesData, employeesData, inventoryData] = await Promise.all([
+        fetchSales(),
+        fetchEmployees(),
+        fetchInventory()
+      ]);
+      setSales(salesData);
+      setEmployees(employeesData);
+      setInventory(inventoryData);
+    } catch (error) {
+      console.error("Failed to load dashboard data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const handleExportClick = async () => {
+    if (!dashboardRef.current) return;
+    try {
+      setIsExporting(true);
+      toast.info("Compiling dashboard widgets into PDF report...");
+
+      // Small delay to let the toast render
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(dashboardRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#111827" // match app gray-900 bg
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(`dashboard-report-${selectedDate}.pdf`);
+      toast.success("Dashboard report PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Failed to export PDF:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
-  const cards = [
-    {id: 1,title: "Inventory",description: "Track and manage product inventory",icon: Package,path: "/inventory",color: "blue"},
-    {id: 2,title: "Sales",description: "Monitor sales of Petrol and Diesel",icon: BarChart2,path: "/sales",color: "green"},
-    {id: 3,title: "Employees",description: "Manage staff salary distribution",icon: Users,path: "/employees",color: "purple"},
-    {id: 4,title: "Expenses",description: "Track business expenses and budgets",icon: IndianRupee,path: "/expenses",color: "orange"},
-    {id: 5,title: "Reports",description: "Generate business insights and reports",icon: ChartArea,path: "/reports",color: "teal"},
-    {id: 6,title: "Logout",description: "Exit Petrol Bunk Management System?",icon: LogOut,action: handleLogout,color: "red"},
-  ];
-  
-  //Custom CSS
-  const iconStyles = {
-    blue: "text-blue-400 bg-blue-400/10 ring-blue-400/20 group-hover:text-blue-300 group-hover:bg-blue-400/20 group-hover:ring-blue-400/30",
-    green: "text-green-400 bg-green-400/10 ring-green-400/20 group-hover:text-green-300 group-hover:bg-green-400/20 group-hover:ring-green-400/30",
-    purple: "text-purple-400 bg-purple-400/10 ring-purple-400/20 group-hover:text-purple-300 group-hover:bg-purple-400/20 group-hover:ring-purple-400/30",
-    orange: "text-orange-400 bg-orange-400/10 ring-orange-400/20 group-hover:text-orange-300 group-hover:bg-orange-400/20 group-hover:ring-orange-400/30",
-    teal: "text-teal-400 bg-teal-400/10 ring-teal-400/20 group-hover:text-teal-300 group-hover:bg-teal-400/20 group-hover:ring-teal-400/30",
-    red: "text-red-400 bg-red-400/10 ring-red-400/20 group-hover:text-red-300 group-hover:bg-red-400/20 group-hover:ring-red-400/30",
-    default: "text-gray-400 bg-gray-400/10 ring-gray-400/20 group-hover:text-gray-300 group-hover:bg-gray-400/20 group-hover:ring-gray-400/30"
+  const handleUpdateSale = async (e) => {
+    e.preventDefault();
+    if (!customer || !product || !quantity || !price) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const total = parseFloat(quantity) * parseFloat(price);
+      await api.put(`/sales/${editingSale.id}`, {
+        customer,
+        rep: rep || (employees[0]?.name || "Arjun Kumar"),
+        product,
+        quantity: parseFloat(quantity),
+        price: parseFloat(price),
+        total,
+        status,
+        method,
+        date: new Date(`${date}T12:00:00`).toISOString()
+      });
+
+      toast.success("Sale details updated successfully!");
+      setShowModal(false);
+      setEditingSale(null);
+      loadData();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update sale.");
+    }
   };
 
-  const gradientBackgrounds = {
-    blue: "bg-gradient-to-br from-blue-500/20 to-blue-900/20 border-blue-500/50 hover:border-blue-400 hover:shadow-blue-500/20",
-    green: "bg-gradient-to-br from-green-500/20 to-green-900/20 border-green-500/50 hover:border-green-400 hover:shadow-green-500/20",
-    purple: "bg-gradient-to-br from-purple-500/20 to-purple-900/20 border-purple-500/50 hover:border-purple-400 hover:shadow-purple-500/20",
-    orange: "bg-gradient-to-br from-orange-500/20 to-orange-900/20 border-orange-500/50 hover:border-orange-400 hover:shadow-orange-500/20",
-    teal: "bg-gradient-to-br from-teal-500/20 to-teal-900/20 border-teal-500/50 hover:border-teal-400 hover:shadow-teal-500/20",
-    red: "bg-gradient-to-br from-red-500/20 to-red-900/20 border-red-500/50 hover:border-red-400 hover:shadow-red-500/20",
-    default: "bg-gradient-to-br from-gray-500/20 to-gray-900/20 border-gray-500/50 hover:border-gray-400 hover:shadow-gray-500/20"
+  const handleDeleteSale = async (id) => {
+    try {
+      await api.delete(`/sales/${id}`);
+      toast.warning(`Deleted sales record: SAL-${String(id).padStart(5, '0')}`);
+      loadData(); // Reload live data from database
+    } catch (error) {
+      console.error("Failed to delete sale:", error);
+    }
   };
 
-  const getIconStyles = (color) => iconStyles[color] || iconStyles.default;
-  const getGradientBackground = (color) => gradientBackgrounds[color] || gradientBackgrounds.default;
-
-  const handleCardClick = (card) => {
-    if (card.action) card.action();
-    else navigate(card.path);
-  };
+  if (loading) {
+    return <SkeletonPageFallback />;
+  }
 
   return (
-    <div className="flex flex-col justify-center min-h-screen text-gray-100 transition-all duration-200 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 animate-fadeIn">
-      <main className="flex flex-col w-full max-w-6xl p-6 mx-auto">
-        <div className="flex-1 p-3 ml-16 overflow-auto transition-all duration-300 bg-transparent">
-          <h1 className="self-start mb-10 text-4xl font-black leading-tight tracking-tight text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text animate-gradient-flow drop-shadow-[0_0_15px_rgba(147,51,234,0.3)]">
-            <Typewriter words={["Welcome to Petrol Bunk Management System!"]} typeSpeed={32} />
-          </h1>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {cards.map((card) => (
-              <div key={card.id} onClick={() => handleCardClick(card)} className={`flex flex-col items-center justify-center space-y-2 transition-all duration-200 ease-out ${getGradientBackground(card.color)} border shadow-none cursor-pointer px-6 py-4 rounded-xl group hover:shadow-[0_4px_12px] hover:scale-[1.02] backdrop-blur-sm h-[180px]`}>
-                <div className={`p-2.5 rounded-full ring-2 transform transition-all duration-200 ease-out ${getIconStyles(card.color)} group-hover:rotate-6 group-hover:scale-110`}>
-                  <card.icon size={28} className="transition-transform duration-200 group-hover:animate-pulse" />
-                </div>
-                <div className="text-center transition-all duration-200 ease-out group-hover:-translate-y-1">
-                  <h3 className="text-lg font-semibold text-gray-100">{card.title}</h3>
-                  <p className="text-sm text-gray-400 transition-all duration-200 group-hover:text-gray-200 line-clamp-1">{card.description}</p>
-                </div>
-              </div>
-            ))}
+    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
+      <main ref={dashboardRef} className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
+        <div className="mb-6 flex justify-between items-end">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-1">Dashboard</h1>
+            <p className="text-gray-400 text-sm">Here's what's happening with your sales today.</p>
+          </div>
+          <div className="flex gap-3">
+            <div className="relative flex items-center bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700/80 transition px-3 py-2">
+              <span className="mr-2 text-sm">📅</span>
+              <input 
+                type="date" 
+                value={selectedDate}
+                onChange={(e) => {
+                  setSelectedDate(e.target.value);
+                  toast.info(`Filtered dashboard data for ${e.target.value}`);
+                }}
+                className="bg-transparent border-none text-gray-300 text-xs font-semibold outline-none cursor-pointer"
+              />
+            </div>
+            <button 
+              onClick={handleExportClick}
+              disabled={isExporting}
+              className={`text-white px-4 py-2 rounded-lg text-sm transition shadow-lg ${
+                isExporting 
+                  ? "bg-blue-600/50 cursor-not-allowed" 
+                  : "bg-blue-600 hover:bg-blue-700 shadow-blue-500/20"
+              }`}
+            >
+              {isExporting ? "Exporting..." : "Export Report"}
+            </button>
           </div>
         </div>
+
+        {/* Top Stats Row */}
+        <StatCards sales={sales} employees={employees} selectedDate={selectedDate} />
+
+        {/* First Charts Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
+          <div className="col-span-1 lg:col-span-4">
+            <SalesOverviewChart sales={sales} />
+          </div>
+          <div className="col-span-1 lg:col-span-4">
+            <TopProductsChart sales={sales} />
+          </div>
+          <div className="col-span-1 lg:col-span-4">
+            <TopExecutivesList sales={sales} employees={employees} />
+          </div>
+        </div>
+
+        {/* Second Row (Lists & Summary) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
+          <div className="col-span-1 lg:col-span-4">
+            <RecentSalesList sales={sales} selectedDate={selectedDate} />
+          </div>
+          <div className="col-span-1 lg:col-span-4">
+            <FollowUpsList sales={sales} />
+          </div>
+          <div className="col-span-1 lg:col-span-4">
+            <DashboardSummary sales={sales} selectedDate={selectedDate} />
+          </div>
+        </div>
+
+        {/* Third Row (Table & Bar Chart) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-8">
+          <RecentSalesHistoryTable 
+            sales={sales} 
+            employees={employees} 
+            onView={(sale) => setViewingSale(sale)}
+            onEdit={(sale) => {
+              setEditingSale(sale);
+              setCustomer(sale.customer || "Walk-in");
+              setRep(sale.rep || (employees[0]?.name || "Arjun Kumar"));
+              setProduct(sale.product || "");
+              setQuantity(sale.quantity || "");
+              setPrice(sale.price || "");
+              setStatus(sale.status || "Paid");
+              setMethod(sale.method || "UPI");
+              setDate(sale.date ? sale.date.split('T')[0] : new Date().toISOString().split('T')[0]);
+              setShowModal(true);
+            }}
+            onDelete={handleDeleteSale} 
+            selectedDate={selectedDate} 
+          />
+          <SalesByDayChart sales={sales} />
+        </div>
+
       </main>
+
+      {/* Edit Sale Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-lg font-bold text-white mb-4">
+              Edit Sale: SAL-{String(editingSale.id).padStart(5, '0')}
+            </h3>
+            
+            <form onSubmit={handleUpdateSale} className="space-y-4 text-sm">
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Customer Name</label>
+                <input 
+                  type="text" 
+                  value={customer} 
+                  onChange={(e) => setCustomer(e.target.value)} 
+                  placeholder="e.g. Rajesh Enterprises" 
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Sales Executive</label>
+                  <select 
+                    value={rep} 
+                    onChange={(e) => setRep(e.target.value)}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  >
+                    {employees.map((emp) => (
+                      <option key={emp.id} value={emp.name}>{emp.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Product / Service</label>
+                  <select 
+                    value={product} 
+                    onChange={(e) => setProduct(e.target.value)}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  >
+                    {inventory.map((inv) => (
+                      <option key={inv.id} value={inv.name}>{inv.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Quantity</label>
+                  <input 
+                    type="number" 
+                    value={quantity} 
+                    onChange={(e) => setQuantity(e.target.value)} 
+                    placeholder="e.g. 2"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Unit Price (₹)</label>
+                  <input 
+                    type="number" 
+                    value={price} 
+                    onChange={(e) => setPrice(e.target.value)} 
+                    placeholder="e.g. 15000"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Payment Status</label>
+                  <select 
+                    value={status} 
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  >
+                    <option value="Paid">Paid</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Partial">Partial</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-400 mb-1 text-xs">Payment Method</label>
+                  <select 
+                    value={method} 
+                    onChange={(e) => setMethod(e.target.value)}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  >
+                    <option value="UPI">UPI</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Sale Date</label>
+                <input 
+                  type="date" 
+                  value={date} 
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-3 justify-end pt-4">
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowModal(false);
+                    setEditingSale(null);
+                  }}
+                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-700 transition"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* View Sale Modal */}
+      {viewingSale && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-lg font-bold text-white mb-4">Transaction Details</h3>
+            
+            <div className="space-y-4 text-xs text-gray-300">
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Transaction ID</span>
+                <span className="text-gray-200 font-semibold">SAL-{String(viewingSale.id).padStart(5, '0')}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Customer Name</span>
+                <span className="text-gray-200 font-semibold">{viewingSale.customer || 'Walk-in'}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Sales Executive</span>
+                <span className="text-gray-200 font-semibold">{viewingSale.rep}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Product / Service</span>
+                <span className="text-gray-200 font-semibold">{viewingSale.product}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Quantity</span>
+                <span className="text-gray-200 font-semibold">{viewingSale.quantity}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Unit Price</span>
+                <span className="text-gray-200 font-semibold">₹{(viewingSale.price || 0).toLocaleString()}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Total Bill</span>
+                <span className="text-green-400 font-bold text-sm">₹{(viewingSale.total || 0).toLocaleString()}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Payment Status</span>
+                <span className={`px-2 py-0.5 rounded text-[10px] w-fit font-medium ${getStatusColor(viewingSale.status)}`}>
+                  {viewingSale.status}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Payment Method</span>
+                <span className="text-gray-200 font-semibold">{viewingSale.method}</span>
+              </div>
+              <div className="grid grid-cols-2 border-b border-gray-700/50 pb-2">
+                <span className="text-gray-500">Transaction Date</span>
+                <span className="text-gray-200 font-semibold">
+                  {viewingSale.date ? format(parseISO(viewingSale.date), 'dd MMM yyyy, hh:mm a') : 'N/A'}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-6">
+              <button 
+                type="button" 
+                onClick={() => setViewingSale(null)}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 text-xs font-semibold"
+              >
+                Close Details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ToastContainer {...toastConfig} />
     </div>
   );

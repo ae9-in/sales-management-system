@@ -1,32 +1,104 @@
-// MongoDB connection with serverless caching
-import mongoose from "mongoose";
+import { createClient } from "@libsql/client";
 
-let cached = global.__mongooseCache;
-
-if (!cached) {
-  cached = global.__mongooseCache = { conn: null, promise: null };
-}
+let client = null;
 
 export async function connectDB() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) throw new Error("MONGODB_URI is not defined in environment variables");
+  const url = process.env.TURSO_DB_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
 
-  if (cached.conn) return cached.conn;
+  if (!url || !authToken) {
+    throw new Error("TURSO_DB_URL or TURSO_AUTH_TOKEN is not defined in environment variables");
+  }
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000,
-      maxPoolSize: 10,
+  if (!client) {
+    client = createClient({
+      url,
+      authToken,
     });
+
+    // Create tables if they don't exist
+    await client.execute(`
+      CREATE TABLE IF NOT EXISTS employees (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        position TEXT NOT NULL,
+        salary REAL NOT NULL,
+        phone TEXT DEFAULT '',
+        area TEXT DEFAULT '',
+        dateAdded DATETIME DEFAULT CURRENT_TIMESTAMP,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await client.execute(`
+      CREATE TABLE IF NOT EXISTS expenses (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT NOT NULL,
+        amount REAL NOT NULL,
+        date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await client.execute(`
+      CREATE TABLE IF NOT EXISTS inventory (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        currentStock REAL NOT NULL,
+        reorderLevel REAL NOT NULL,
+        price REAL DEFAULT 0,
+        dateUpdated DATETIME DEFAULT CURRENT_TIMESTAMP,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    try {
+      await client.execute("ALTER TABLE inventory ADD COLUMN price REAL DEFAULT 0");
+    } catch (e) {
+      // Ignore if column already exists
+    }
+
+    await client.execute(`
+      CREATE TABLE IF NOT EXISTS sales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product TEXT NOT NULL,
+        quantity REAL NOT NULL,
+        price REAL NOT NULL,
+        total REAL NOT NULL,
+        customer TEXT DEFAULT 'Walk-in',
+        rep TEXT DEFAULT '',
+        status TEXT DEFAULT 'Paid',
+        method TEXT DEFAULT 'Cash',
+        date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Add missing columns to existing tables (safe — ignores if already exists)
+    const alterStatements = [
+      "ALTER TABLE sales ADD COLUMN customer TEXT DEFAULT 'Walk-in'",
+      "ALTER TABLE sales ADD COLUMN rep TEXT DEFAULT ''",
+      "ALTER TABLE sales ADD COLUMN status TEXT DEFAULT 'Paid'",
+      "ALTER TABLE sales ADD COLUMN method TEXT DEFAULT 'Cash'",
+      "ALTER TABLE employees ADD COLUMN phone TEXT DEFAULT ''",
+      "ALTER TABLE employees ADD COLUMN area TEXT DEFAULT ''",
+    ];
+
+    for (const sql of alterStatements) {
+      try { await client.execute(sql); } catch (e) { /* column already exists */ }
+    }
   }
 
-  try {
-    cached.conn = await cached.promise;
-    return cached.conn;
-  } catch (err) {
-    // reset cache so next request retries instead of reusing failed promise
-    cached.promise = null;
-    cached.conn = null;
-    throw err;
+  return client;
+}
+
+export function getDB() {
+  if (!client) {
+    throw new Error("Database not connected. Call connectDB first.");
   }
+  return client;
 }

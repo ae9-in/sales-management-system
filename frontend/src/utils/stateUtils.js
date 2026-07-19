@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 export const getInitialFormState = (type) => ({
   date: format(new Date(), "yyyy-MM-dd"),
-  ...(type === "sales" && { product: "Petrol", quantity: "", price: "" }),
+  ...(type === "sales" && { product: "", quantity: "", price: "" }),
   ...(type === "inventory" && { name: "", currentStock: "", reorderLevel: "" }),
   ...(type === "employee" && { name: "", position: "", salary: "" }),
   ...(type === "expense" && { category: "", amount: "" }),

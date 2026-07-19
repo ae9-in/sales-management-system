@@ -33,7 +33,7 @@ const SalesTrend = ({ data }) => {
                     />
                     <Legend wrapperStyle={{ color: "#fff" }} verticalAlign="top" height={36} />
                     <Area type="monotone" dataKey="revenue" name="Revenue (₹)" stroke="#3b82f6" fill="url(#colorRevenue)" />
-                    <Area type="monotone" dataKey="quantity" name="Quantity (L)" stroke="#10b981" fill="url(#colorQuantity)" />
+                    <Area type="monotone" dataKey="quantity" name="Quantity" stroke="#10b981" fill="url(#colorQuantity)" />
                 </AreaChart>
             </ResponsiveContainer>
         </ChartContainer>

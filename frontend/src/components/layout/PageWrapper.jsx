@@ -120,8 +120,8 @@ const PageWrapper = ({ type, title, additionalFields = {}, onDataUpdate = () => 
     try {
       const dataToSubmit = { ...currentItem, date: currentItem.date ? 
         format(new Date(currentItem.date), "yyyy-MM-dd") : currentItem.date };
-      const updated = await updateItem(endpoint, dataToSubmit._id, dataToSubmit);
-      await updateFilteredData(data.map(item => item._id === currentItem._id ? updated : item));
+      const updated = await updateItem(endpoint, dataToSubmit.id, dataToSubmit);
+      await updateFilteredData(data.map(item => item.id === currentItem.id ? updated : item));
       setModals(prev => ({ ...prev, edit: false }));
       showToast.success(`${title.split(" ")[0]} updated!`);
     } catch (error) {
@@ -136,8 +136,8 @@ const PageWrapper = ({ type, title, additionalFields = {}, onDataUpdate = () => 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await deleteItem(endpoint, currentItem._id);
-      await updateFilteredData(data.filter(item => item._id !== currentItem._id));
+      await deleteItem(endpoint, currentItem.id);
+      await updateFilteredData(data.filter(item => item.id !== currentItem.id));
       setModals(prev => ({ ...prev, delete: false }));
       showToast.success(`${title.split(" ")[0]} deleted!`);
     } catch (error) {

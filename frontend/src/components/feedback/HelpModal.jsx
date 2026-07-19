@@ -1,10 +1,7 @@
 import React from 'react';
 
 const DEVELOPERS = [
-  { name: "Darshan Gowda G S", email: "DarshanGowdaa223@gmail.com" },
-  { name: "Monish Kumar R", email: "Kumarrmonish06@gmail.com" },
-  { name: "Gnanesh K C", email: "appuGnanesh655@gmail.com" },
-  { name: "Kushal J Vishwas", email: "KushalVishwas3835@gmail.com" },
+  { name: "sai varshith", email: "saivarshithmaddala@gmail.com" },
 ];
 
 const HelpModal = ({ onClose }) => {

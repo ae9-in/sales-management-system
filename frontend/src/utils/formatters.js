@@ -47,19 +47,19 @@ export const formatLargeCurrency = value => formatLargeNumber(value, { currency:
 // Format quantity in K-L format
 export const formatQuantityInKL = (value) => {
   // Handle null/undefined/empty values
-  if (value == null || value === "") return "0 L";
+  if (value == null || value === "") return "0";
   const num = Math.abs(typeof value === "string" ? parseFloat(value) : value);
   // Use K-L for >= 1000
   if (num >= 1e3) {
-    return formatLargeNumber(num / 1e3, { decimals: num >= 1e5 ? 1 : 2 }).replace(/(\.\d)?0* (Cr|L|K)/, "$1 K-L");
+    return formatLargeNumber(num / 1e3, { decimals: num >= 1e5 ? 1 : 2 }).replace(/(\.\d)?0* (Cr|L|K)/, "$1 K");
   }
-  return `${formatIndianNumber(num, { decimals: 0 })} L`;
+  return `${formatIndianNumber(num, { decimals: 0 })}`;
 };
 
 // Convert numbers to Indian words representation
 export const getIndianNumberInWords = (number, isRupees = false, isLiters = false) => {
   // Handle invalid inputs
-  if (!number || isNaN(number)) return isRupees ? "Zero rupees" : isLiters ? "Zero liters" : "Zero";
+  if (!number || isNaN(number)) return isRupees ? "Zero rupees" : "Zero";
   const [integerPart, decimalPart] = String(number).replace(/,/g, "").split(".");
   let value = parseInt(integerPart);
 
@@ -107,5 +107,5 @@ export const getIndianNumberInWords = (number, isRupees = false, isLiters = fals
   result = result.trim();
   if (!result) result = "zero";
   result = result.charAt(0).toUpperCase() + result.slice(1);
-  return result + (isRupees ? " rupees" : isLiters ? " liters" : "");
+  return result + (isRupees ? " rupees" : "");
 };

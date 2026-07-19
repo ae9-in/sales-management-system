@@ -8,11 +8,11 @@ const dateFields = [
   { name: "dateTo", label: "To Date", type: "date", formatValue: formatDate },
 ];
 
-export const getFormFields = (type) => ({
+export const getFormFields = (type, products = []) => ({
   sales: [
-    { name: "product", label: "Product", type: "select", options: ["Petrol", "Diesel"] },
-    { name: "quantity", label: "Quantity (L)", type: "number", step: "0.01", min: "0" },
-    { name: "price", label: "Price per Liter (₹)", type: "number", step: "0.01", min: "0" },
+    { name: "product", label: "Product", type: "select", options: products.length > 0 ? products : ["No Products Available"] },
+    { name: "quantity", label: "Quantity", type: "number", step: "0.01", min: "0" },
+    { name: "price", label: "Price (₹)", type: "number", step: "0.01", min: "0" },
     dateField,
   ],
   inventory: [
@@ -34,9 +34,9 @@ export const getFormFields = (type) => ({
   ],
 }[type] || []);
 
-export const getFilterFields = (type, categories = []) => ({
+export const getFilterFields = (type, categories = [], products = []) => ({
   sales: [
-    { name: "product", label: "Product", type: "select", options: ["All", "Petrol", "Diesel"] },
+    { name: "product", label: "Product", type: "select", options: ["All", ...products] },
     { name: "quantity", label: "Quantity Range", type: "range" },
     { name: "price", label: "Price Range", type: "range" },
     ...dateFields,
@@ -70,8 +70,8 @@ export const getTableColumns = (type) => {
   return {
     sales: [
       { key: "product", label: "Product" },
-      { key: "quantity", label: "Quantity (L)", isNumber: true },
-      { key: "price", label: "Price per Liter (₹)", isCurrency: true },
+      { key: "quantity", label: "Quantity", isNumber: true },
+      { key: "price", label: "Price (₹)", isCurrency: true },
       { key: "total", label: "Total (₹)", isCurrency: true },
       dateColumn,
     ],

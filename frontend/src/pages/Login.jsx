@@ -10,26 +10,23 @@ const HelpModal = lazy(() => import("../components/feedback/HelpModal"));
 
 // Import styles only when needed
 const loadToastStyles = () => import("react-toastify/dist/ReactToastify.css");
-const loadBgImage = () => import("../assets/bg_image.avif");
+
 
 const DEVELOPERS = [
-  { name: "Darshan Gowda G S", email: "DarshanGowdaa223@gmail.com" },
-  { name: "Monish Kumar R", email: "Kumarrmonish06@gmail.com" },
-  { name: "Gnanesh K C", email: "appuGnanesh655@gmail.com" },
-  { name: "Kushal J Vishwas", email: "KushalVishwas3835@gmail.com" },
+  { name: "sai varshith", email: "saivarshithmaddala@gmail.com" },
 ];
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [state, setState] = useState({ showHelpModal: false, isSubmitting: false });
-  const [bgImageUrl, setBgImageUrl] = useState(null);
+
   const navigate = useNavigate();
   const { login } = useAuth();
 
   // Load non-critical resources after component mounts
   React.useEffect(() => {
     loadToastStyles();
-    loadBgImage().then(module => setBgImageUrl(module.default));
+
   }, []);
 
   const handleChange = (e) => {
@@ -77,15 +74,7 @@ const Login = () => {
   return (
     <div className="flex flex-col justify-center min-h-screen text-gray-100 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <main className="flex flex-col items-center justify-center w-full max-w-6xl p-6 mx-auto">
-        {bgImageUrl && (
-          <div
-            className="fixed inset-0 transition-all duration-300 bg-center bg-cover"
-            style={{
-              backgroundImage: `url(${bgImageUrl})`,
-              filter: `brightness(${state.showHelpModal ? '25%' : '35%'})`,
-            }}
-          />
-        )}
+
 
         <div className="relative z-10 w-full max-w-md p-12 transition-all duration-300 bg-black rounded-lg shadow-xl opacity-90 backdrop-blur-sm hover:shadow-2xl">
           <h1 className="mb-8 text-3xl font-bold text-center text-white">Welcome Back!</h1>

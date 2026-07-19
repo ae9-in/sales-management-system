@@ -1,0 +1,32 @@
+# Vercel Ignore File - Optimize uploads and builds
+
+# Node dependency directories
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Local databases and backups
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.json.bak
+C:/Users/admin/.gemini/
+
+# Environment configurations (should be set in Vercel Dashboard)
+.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# IDE and system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.gemini/
+.agents/
+
+# Compiled frontend output (Vercel builds it fresh)
+frontend/dist/
+dist/

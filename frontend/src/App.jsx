@@ -18,9 +18,13 @@ import "./styles/toast.css";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
 const SalesManagement = lazy(() => import("./pages/SalesManagement"));
+const DailySales = lazy(() => import("./pages/DailySales"));
 const EmployeeManagement = lazy(() => import("./pages/EmployeeManagement"));
-const ExpenseTracking = lazy(() => import("./pages/ExpenseTracking"));
+const Customers = lazy(() => import("./pages/Customers"));
+const CalendarPage = lazy(() => import("./pages/CalendarPage"));
 const Reports = lazy(() => import("./pages/Reports"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const Settings = lazy(() => import("./pages/Settings"));
 const Login = lazy(() => import("./pages/Login"));
 const Sidebar = lazy(() => import("./components/layout/Sidebar"));
 
@@ -68,12 +72,11 @@ const AppContent = () => {
       "/inventory": "Inventory Management",
       "/sales": "Sales Management",
       "/employees": "Employee Management",
-      "/expenses": "Expense Tracking",
       "/reports": "Reports",
       "/": "Login",
     };
     document.title =
-      pageTitles[location.pathname] || "PetrolBunk Management System";
+      pageTitles[location.pathname] || "Akshara Sales Management";
   }, [location.pathname]);
 
   if (!isReady) {
@@ -84,10 +87,14 @@ const AppContent = () => {
   const validRoutes = [
     "/",
     "/dashboard",
+    "/daily-sales",
     "/inventory",
     "/sales",
     "/employees",
-    "/expenses",
+    "/customers",
+    "/calendar",
+    "/notifications",
+    "/settings",
     "/reports",
   ];
   if (!validRoutes.includes(location.pathname)) {
@@ -134,10 +141,14 @@ const ProtectedLayout = () => {
         <Suspense fallback={<SkeletonPageFallback />}>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/daily-sales" element={<DailySales />} />
             <Route path="/inventory" element={<InventoryManagement />} />
             <Route path="/sales" element={<SalesManagement />} />
             <Route path="/employees" element={<EmployeeManagement />} />
-            <Route path="/expenses" element={<ExpenseTracking />} />
+            <Route path="/customers" element={<Customers />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/reports" element={<Reports />} />
           </Routes>
         </Suspense>

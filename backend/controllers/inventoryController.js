@@ -1,38 +1,29 @@
-import Inventory from "../models/Inventory.js";
+import { getDB } from "../db.js";
 import { format } from "date-fns";
 
-const formatInventory = (item) => ({
-  ...(item._doc || item),
-  date: format(new Date(item.date || item.createdAt), "yyyy-MM-dd"),
+const formatInventory = (inventory) => ({
+  ...inventory,
+  date: format(new Date(inventory.dateUpdated), "yyyy-MM-dd"),
 });
-
-const buildFilter = (query) => {
-  const filter = {};
-  const { name, stockMin, stockMax, reorderMin, reorderMax, dateFrom, dateTo } = query;
-
-  if (name) filter.name = { $regex: name, $options: "i" };
-  if (stockMin || stockMax) {
-    filter.currentStock = {};
-    if (stockMin) filter.currentStock.$gte = parseFloat(stockMin);
-    if (stockMax) filter.currentStock.$lte = parseFloat(stockMax);
-  }
-  if (reorderMin || reorderMax) {
-    filter.reorderLevel = {};
-    if (reorderMin) filter.reorderLevel.$gte = parseFloat(reorderMin);
-    if (reorderMax) filter.reorderLevel.$lte = parseFloat(reorderMax);
-  }
-  if (dateFrom || dateTo) {
-    filter.date = {};
-    if (dateFrom) filter.date.$gte = new Date(dateFrom);
-    if (dateTo) filter.date.$lte = new Date(dateTo);
-  }
-  return filter;
-};
 
 export const getInventory = async (req, res, next) => {
   try {
-    const inventory = await Inventory.find(buildFilter(req.query));
-    res.status(200).json(inventory.map(formatInventory));
+    const db = getDB();
+    const { name, stockMin, stockMax, reorderMin, reorderMax, dateFrom, dateTo } = req.query;
+    
+    let query = "SELECT * FROM inventory WHERE 1=1";
+    let args = [];
+
+    if (name) { query += " AND name LIKE ?"; args.push('%'+name+'%'); }
+    if (stockMin) { query += " AND currentStock >= ?"; args.push(parseFloat(stockMin)); }
+    if (stockMax) { query += " AND currentStock <= ?"; args.push(parseFloat(stockMax)); }
+    if (reorderMin) { query += " AND reorderLevel >= ?"; args.push(parseFloat(reorderMin)); }
+    if (reorderMax) { query += " AND reorderLevel <= ?"; args.push(parseFloat(reorderMax)); }
+    if (dateFrom) { query += " AND dateUpdated >= ?"; args.push(dateFrom); }
+    if (dateTo) { query += " AND dateUpdated <= ?"; args.push(dateTo + ' 23:59:59'); }
+
+    const result = await db.execute({ sql: query, args });
+    res.status(200).json(result.rows.map(row => formatInventory(row)));
   } catch (err) {
     next(err);
   }
@@ -40,8 +31,15 @@ export const getInventory = async (req, res, next) => {
 
 export const createInventoryItem = async (req, res, next) => {
   try {
-    const item = await new Inventory(req.body).save();
-    res.status(201).json(formatInventory(item));
+    const db = getDB();
+    const { name, currentStock, reorderLevel, price, date } = req.body;
+    const dateUpdated = date || new Date().toISOString();
+    
+    const result = await db.execute({
+      sql: "INSERT INTO inventory (name, currentStock, reorderLevel, price, dateUpdated) VALUES (?, ?, ?, ?, ?) RETURNING *",
+      args: [name, currentStock, reorderLevel, price || 0, dateUpdated]
+    });
+    res.status(201).json(formatInventory(result.rows[0]));
   } catch (err) {
     next(err);
   }
@@ -49,9 +47,17 @@ export const createInventoryItem = async (req, res, next) => {
 
 export const updateInventoryItem = async (req, res, next) => {
   try {
-    const item = await Inventory.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!item) return res.status(404).json({ message: "Inventory item not found" });
-    res.status(200).json(formatInventory(item));
+    const db = getDB();
+    const { name, currentStock, reorderLevel, price, date, dateUpdated } = req.body;
+    const dateToUpdate = date || dateUpdated;
+
+    const result = await db.execute({
+      sql: "UPDATE inventory SET name = ?, currentStock = ?, reorderLevel = ?, price = ?, dateUpdated = ? WHERE id = ? RETURNING *",
+      args: [name, currentStock, reorderLevel, price || 0, dateToUpdate, req.params.id]
+    });
+
+    if (result.rows.length === 0) return res.status(404).json({ message: "Inventory item not found" });
+    res.status(200).json(formatInventory(result.rows[0]));
   } catch (err) {
     next(err);
   }
@@ -59,8 +65,12 @@ export const updateInventoryItem = async (req, res, next) => {
 
 export const deleteInventoryItem = async (req, res, next) => {
   try {
-    const item = await Inventory.findByIdAndDelete(req.params.id);
-    if (!item) return res.status(404).json({ message: "Inventory item not found" });
+    const db = getDB();
+    const result = await db.execute({
+      sql: "DELETE FROM inventory WHERE id = ?",
+      args: [req.params.id]
+    });
+    if (result.rowsAffected === 0) return res.status(404).json({ message: "Inventory item not found" });
     res.status(204).send();
   } catch (err) {
     next(err);

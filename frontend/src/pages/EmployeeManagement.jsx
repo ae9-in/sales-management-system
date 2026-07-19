@@ -1,21 +1,269 @@
-// frontend/src/pages/EmployeeManagement.jsx - Employee management page component for handling staff records
-import React from "react";
-import PageWrapper from "../components/layout/PageWrapper";
+import { format, startOfMonth } from "date-fns";
+import React, { useState, useEffect, useCallback } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { toastConfig } from "../utils/toastConfig";
+import { Calendar, Download, Plus } from "lucide-react";
+import { fetchEmployees, fetchSales } from "../services/api";
+import api from "../services/api";
+
+import ExecutivesStats from "../components/sales-executives/ExecutivesStats";
+import ExecutivesTable from "../components/sales-executives/ExecutivesTable";
+import ExecutiveInsights from "../components/sales-executives/ExecutiveInsights";
+import ExecutiveProfilePanel from "../components/sales-executives/ExecutiveProfilePanel";
+import { SkeletonPageFallback } from "../components/common/Skeleton";
 
 const EmployeeManagement = () => {
+  const [employees, setEmployees] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedExecutive, setSelectedExecutive] = useState(null);
+  const [editingEmployee, setEditingEmployee] = useState(null);
+
+  // Form states
+  const [name, setName] = useState("");
+  const [position, setPosition] = useState("Sales Executive");
+  const [salary, setSalary] = useState("");
+  const [phone, setPhone] = useState("");
+  const [area, setArea] = useState("");
+
+  const loadData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [empData, salesData] = await Promise.all([
+        fetchEmployees(),
+        fetchSales()
+      ]);
+      setEmployees(empData);
+      setSales(salesData);
+      if (empData.length > 0 && !selectedExecutive) {
+        setSelectedExecutive(empData[0]);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedExecutive]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !salary || !phone || !area) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      if (editingEmployee) {
+        await api.put(`/employees/${editingEmployee.id}`, {
+          name,
+          position,
+          salary: parseFloat(salary),
+          phone,
+          area,
+          date: editingEmployee.dateAdded
+        });
+        toast.success("Sales Executive details updated successfully!");
+      } else {
+        await api.post("/employees", {
+          name,
+          position,
+          salary: parseFloat(salary),
+          phone,
+          area,
+          date: new Date().toISOString()
+        });
+        toast.success("New Sales Executive registered successfully!");
+      }
+      
+      setShowModal(false);
+      setName("");
+      setSalary("");
+      setPhone("");
+      setArea("");
+      setEditingEmployee(null);
+      loadData();
+    } catch (err) {
+      console.error(err);
+      toast.error(editingEmployee ? "Failed to update executive." : "Failed to add executive.");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/employees/${id}`);
+      toast.warning("Executive deleted from system.");
+      if (selectedExecutive?.id === id) setSelectedExecutive(null);
+      loadData();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading) return <SkeletonPageFallback />;
+
   return (
-    <PageWrapper
-      type="employee"
-      title="Employee Management"
-      additionalFields={{
-        nameField: "name",
-        formatters: {
-          salary: (value) => `₹${value.toLocaleString()}`,
-        },
-      }}
-    />
+    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
+      <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
+        
+        {/* Header */}
+        <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-1">Sales Executives</h1>
+            <p className="text-gray-400 text-sm">Manage and track your sales team performance.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
+              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
+            </button>
+            <button 
+              onClick={() => {
+                setEditingEmployee(null);
+                setName("");
+                setPosition("Sales Executive");
+                setSalary("");
+                setPhone("");
+                setArea("");
+                setShowModal(true);
+              }}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+            >
+              <Plus className="w-4 h-4 mr-1" /> Add Executive
+            </button>
+          </div>
+        </div>
+
+        {/* Stats Row */}
+        <ExecutivesStats employees={employees} sales={sales} />
+
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
+          {/* Left Column */}
+          <div className="col-span-1 xl:col-span-9 flex flex-col">
+            <ExecutivesTable 
+              employees={employees} 
+              sales={sales} 
+              onSelect={setSelectedExecutive} 
+              onEdit={(emp) => {
+                setEditingEmployee(emp);
+                setName(emp.name);
+                setPosition(emp.position);
+                setSalary(emp.salary);
+                setPhone(emp.phone);
+                setArea(emp.area);
+                setShowModal(true);
+              }}
+              onDelete={handleDelete}
+            />
+            <ExecutiveInsights sales={sales} employees={employees} />
+          </div>
+
+          {/* Right Column */}
+          <div className="col-span-1 xl:col-span-3 flex flex-col">
+            <ExecutiveProfilePanel executive={selectedExecutive} sales={sales} />
+          </div>
+        </div>
+
+      </main>
+
+      {/* Add/Edit Executive Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-lg font-bold text-white mb-4">
+              {editingEmployee ? "Edit Sales Executive" : "Register Sales Executive"}
+            </h3>
+            
+            <form onSubmit={handleSubmit} className="space-y-4 text-sm">
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Full Name</label>
+                <input 
+                  type="text" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  placeholder="e.g. Vikram Yadav" 
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Designation / Position</label>
+                <input 
+                  type="text" 
+                  value={position} 
+                  onChange={(e) => setPosition(e.target.value)} 
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Base Salary (₹)</label>
+                <input 
+                  type="number" 
+                  value={salary} 
+                  onChange={(e) => setSalary(e.target.value)} 
+                  placeholder="e.g. 18000"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Mobile Number</label>
+                <input 
+                  type="text" 
+                  value={phone} 
+                  onChange={(e) => setPhone(e.target.value)} 
+                  placeholder="e.g. 9876543210"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 mb-1 text-xs">Area / Region</label>
+                <input 
+                  type="text" 
+                  value={area} 
+                  onChange={(e) => setArea(e.target.value)} 
+                  placeholder="e.g. Hyderabad"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-3 justify-end pt-4">
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowModal(false);
+                    setEditingEmployee(null);
+                  }}
+                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-700 transition"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+                >
+                  {editingEmployee ? "Save Changes" : "Register"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <ToastContainer {...toastConfig} />
+    </div>
   );
 };
 
 export default EmployeeManagement;
-
