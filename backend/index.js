@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import compression from "compression";
 
-import { connectDB } from "./db.js";
+import { connectDB, ensureSchema } from "./db.js";
 import salesRoutes from "./routes/sales.js";
 import employeeRoutes from "./routes/employees.js";
 import inventoryRoutes from "./routes/inventoryroutes.js";
@@ -19,6 +21,9 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(helmet());
+app.use(compression());
 
 // CORS
 const allowedOrigins = [
@@ -79,8 +84,14 @@ app.use(errorHandler);
 
 // Local dev only
 if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  app.listen(PORT, async () => {
+    try {
+      await connectDB();
+      await ensureSchema();
+      console.log(`Server running on http://localhost:${PORT}`);
+    } catch (err) {
+      console.error("Database schema initialization failed on startup:", err);
+    }
   });
 }
 
