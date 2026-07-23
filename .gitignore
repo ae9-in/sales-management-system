@@ -1,0 +1,84 @@
+# Dependencies
+node_modules/
+
+# Environment variables - NEVER COMMIT THESE
+.env
+.env.local
+.env.*.local
+.env.prod
+backend/.env
+frontend/.env.local
+frontend/.env.production.local
+# Allow frontend/.env.production (no secrets, just VITE_API_URL)
+!frontend/.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+.nyc_output/
+
+# IDE and editor files
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.bak
+
+# Testing
+.coverage
+.nyc_output
+*.lcov
+
+# Misc
+*.pem
+*.key
+*.jks
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.yarn/install-state.gz
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/local.db
+local.db
+
+
+

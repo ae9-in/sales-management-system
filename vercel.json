@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "installCommand": "npm install && npm install --prefix backend && npm install --prefix frontend",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["backend/**"]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*\\..*)",
+      "dest": "/frontend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
+    }
+  ]
+}
