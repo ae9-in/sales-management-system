@@ -82,13 +82,13 @@ app.use("/api/*", (req, res) => {
 
 app.use(errorHandler);
 
-// Local dev only
-if (process.env.NODE_ENV !== "production") {
+// Start listening on non-Vercel environments (like Render or local development)
+if (!process.env.VERCEL) {
   app.listen(PORT, async () => {
     try {
       await connectDB();
       await ensureSchema();
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     } catch (err) {
       console.error("Database schema initialization failed on startup:", err);
     }
