@@ -108,14 +108,24 @@ const Login = () => {
             </button>
           </div>
 
-          <div className="mt-3.5 text-center">
+          <div className="mt-3.5 text-center flex flex-col gap-2">
             <button
               type="button"
               onClick={() => setState(prev => ({ ...prev, showHelpModal: true }))}
-              className="text-white transition-colors duration-300 hover:text-red-400 hover:underline focus:outline-none"
+              className="text-white text-xs transition-colors duration-300 hover:text-red-400 hover:underline focus:outline-none"
             >
               Need Help?
             </button>
+            <span className="text-gray-500 text-[11px] mt-1">
+              Don't have an account?{" "}
+              <button
+                type="button"
+                onClick={() => navigate("/signup")}
+                className="text-red-500 font-semibold hover:underline focus:outline-none"
+              >
+                Sign Up
+              </button>
+            </span>
           </div>
         </div>
 

@@ -10,6 +10,7 @@ import SystemPreferencesForm from "../components/settings/SystemPreferencesForm"
 import SettingsQuickActions from "../components/settings/SettingsQuickActions";
 import SettingsAccountSummary from "../components/settings/SettingsAccountSummary";
 import AppSettingsForm from "../components/settings/AppSettingsForm";
+import UserManagement from "../components/settings/UserManagement";
 
 const Settings = () => {
   const [activeMenu, setActiveMenu] = useState("General");
@@ -46,7 +47,8 @@ const Settings = () => {
           <div className="col-span-1 xl:col-span-6 flex flex-col gap-6">
             {activeMenu === "General" && <GeneralSettingsForm />}
             {activeMenu === "Company" && <BusinessSettingsForm />}
-            {(activeMenu !== "General" && activeMenu !== "Company" && activeMenu !== "Security") && (
+            {activeMenu === "User Management" && <UserManagement />}
+            {(activeMenu !== "General" && activeMenu !== "Company" && activeMenu !== "Security" && activeMenu !== "User Management") && (
               <SystemPreferencesForm />
             )}
             {activeMenu === "Security" && (

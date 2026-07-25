@@ -85,6 +85,35 @@ export async function ensureSchema() {
     )
   `);
 
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'employee',
+      status TEXT NOT NULL DEFAULT 'active',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Seed default admin if no users exist
+  try {
+    const usersCount = await db.execute("SELECT COUNT(*) as count FROM users");
+    if (usersCount.rows[0].count === 0) {
+      const adminUsername = process.env.ADMIN_USERNAME || "admin";
+      const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S";
+      await db.execute({
+        sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
+        args: [adminUsername, "admin@stockos.com", adminPasswordHash, "admin", "active"]
+      });
+      console.log("✓ Seeded default admin user in users table");
+    }
+  } catch (e) {
+    console.error("Failed to seed default admin:", e);
+  }
+
   // Add missing columns to existing tables (safe — ignores if already exists)
   const alterStatements = [
     "ALTER TABLE sales ADD COLUMN customer TEXT DEFAULT 'Walk-in'",

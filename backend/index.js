@@ -12,6 +12,7 @@ import expenseRoutes from "./routes/expenseRoutes.js";
 import reportsRoutes from "./routes/reports.js";
 import authRoutes from "./routes/auth.js";
 import backupRoutes from "./routes/backupRoutes.js";
+import userRoutes from "./routes/users.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 // only load .env file in dev — Vercel injects env vars directly
@@ -75,6 +76,7 @@ app.use("/api/inventory", inventoryRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/reports", reportsRoutes);
 app.use("/api/backup", backupRoutes);
+app.use("/api/users", userRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

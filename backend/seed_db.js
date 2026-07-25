@@ -24,6 +24,28 @@ async function main() {
   await client.execute('DROP TABLE IF EXISTS inventory');
   await client.execute('DROP TABLE IF EXISTS expenses');
   await client.execute('DROP TABLE IF EXISTS employees');
+  await client.execute('DROP TABLE IF EXISTS users');
+
+  await client.execute(`
+    CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'employee',
+      status TEXT NOT NULL DEFAULT 'active',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S';
+  await client.execute({
+    sql: 'INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)',
+    args: [adminUsername, 'admin@stockos.com', adminPasswordHash, 'admin', 'active']
+  });
+  console.log('✓ Seeded users table & default admin');
 
   await client.execute(`
     CREATE TABLE employees (

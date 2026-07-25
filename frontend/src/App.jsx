@@ -26,6 +26,7 @@ const Reports = lazy(() => import("./pages/Reports"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Login = lazy(() => import("./pages/Login"));
+const SignUp = lazy(() => import("./pages/SignUp"));
 const Sidebar = lazy(() => import("./components/layout/Sidebar"));
 
 // Thin spinner used only for sidebar (tiny lazy load)
@@ -46,7 +47,7 @@ const App = () => {
 const AppContent = () => {
   const location = useLocation();
   const { isAuthenticated, loading } = useAuth();
-  const isLoginPage = location.pathname === "/";
+  const isLoginPage = location.pathname === "/" || location.pathname === "/signup";
   const [isReady, setIsReady] = useState(false);
   const [authState, setAuthState] = useState(false);
 
@@ -86,6 +87,7 @@ const AppContent = () => {
   // Handle undefined routes
   const validRoutes = [
     "/",
+    "/signup",
     "/dashboard",
     "/daily-sales",
     "/inventory",
@@ -115,7 +117,7 @@ const AppContent = () => {
       <Suspense fallback={<SkeletonPageFallback />}>
         {isLoginPage ? (
           <div className="h-screen text-gray-100">
-            <Login />
+            {location.pathname === "/signup" ? <SignUp /> : <Login />}
           </div>
         ) : (
           <ProtectedLayout />

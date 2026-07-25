@@ -1,14 +1,18 @@
 import React from 'react';
 import { Settings, User, Building, Users, Shield, Bell, DollarSign, CreditCard, RotateCcw, Share2, ListCollapse } from 'lucide-react';
 
-const menuItems = [
-  { icon: Settings, label: 'General' },
-  { icon: Building, label: 'Company' },
-  { icon: Shield, label: 'Security' },
-  { icon: Bell, label: 'System Preferences' },
-];
-
 const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
+  const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const isAdmin = loggedInUser.role === "admin";
+
+  const menuItems = [
+    { icon: Settings, label: 'General' },
+    { icon: Building, label: 'Company' },
+    { icon: Shield, label: 'Security' },
+    { icon: Bell, label: 'System Preferences' },
+    ...(isAdmin ? [{ icon: Users, label: 'User Management' }] : [])
+  ];
+
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 w-full flex flex-col gap-1">
       {menuItems.map((item, i) => (
