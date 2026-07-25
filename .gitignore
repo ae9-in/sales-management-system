@@ -80,5 +80,7 @@ Thumbs.db
 backend/local.db
 local.db
 
-
-
+# Scratch and test utility files
+scratch_test_runner.js
+check_password.js
+*.js.map

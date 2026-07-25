@@ -24,11 +24,12 @@ const StatCard = ({ title, amount, subtext, change, isPositive, icon: Icon, colo
 );
 
 const ReportsStats = ({ sales = [] }) => {
-  const totalRevenue = sales.reduce((sum, s) => sum + (s.total || 0), 0);
-  const totalSales = sales.length;
-  const uniqueCustomers = new Set(sales.map(s => s.customer || 'Walk-in')).size;
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const totalRevenue = activeSales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const totalSales = activeSales.length;
+  const uniqueCustomers = new Set(activeSales.map(s => s.customer || 'Walk-in')).size;
   const avgOrderValue = totalSales > 0 ? Math.round(totalRevenue / totalSales) : 0;
-  const pendingAmount = sales.filter(s => s.status !== 'Paid').reduce((sum, s) => sum + (s.total || 0), 0);
+  const pendingAmount = sales.filter(s => s.status === 'Partial').reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5 mb-6">

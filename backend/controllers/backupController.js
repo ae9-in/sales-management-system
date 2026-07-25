@@ -3,16 +3,18 @@ import { getDB } from "../db.js";
 export const exportBackup = async (req, res) => {
   try {
     const db = getDB();
-    const [salesRes, employeesRes, inventoryRes] = await Promise.all([
+    const [salesRes, employeesRes, inventoryRes, expensesRes] = await Promise.all([
       db.execute("SELECT * FROM sales"),
       db.execute("SELECT * FROM employees"),
-      db.execute("SELECT * FROM inventory")
+      db.execute("SELECT * FROM inventory"),
+      db.execute("SELECT * FROM expenses")
     ]);
 
     res.json({
       sales: salesRes.rows,
       employees: employeesRes.rows,
-      inventory: inventoryRes.rows
+      inventory: inventoryRes.rows,
+      expenses: expensesRes.rows
     });
   } catch (error) {
     console.error("Export backup failed:", error);
@@ -23,7 +25,7 @@ export const exportBackup = async (req, res) => {
 export const importBackup = async (req, res) => {
   try {
     const db = getDB();
-    const { sales, employees, inventory } = req.body;
+    const { sales, employees, inventory, expenses } = req.body;
 
     const queries = [];
     
@@ -31,6 +33,7 @@ export const importBackup = async (req, res) => {
     queries.push({ sql: "DELETE FROM sales", args: [] });
     queries.push({ sql: "DELETE FROM employees", args: [] });
     queries.push({ sql: "DELETE FROM inventory", args: [] });
+    queries.push({ sql: "DELETE FROM expenses", args: [] });
 
     // 2. Insert sales
     if (Array.isArray(sales) && sales.length > 0) {
@@ -68,13 +71,26 @@ export const importBackup = async (req, res) => {
       });
     }
 
+    // 5. Insert expenses
+    if (Array.isArray(expenses) && expenses.length > 0) {
+      const columns = Object.keys(expenses[0]);
+      const sql = `INSERT INTO expenses (${columns.join(", ")}) VALUES (${columns.map(() => "?").join(", ")})`;
+      expenses.forEach(exp => {
+        queries.push({
+          sql,
+          args: columns.map(col => exp[col])
+        });
+      });
+    }
+
     // Run batch transaction
     await db.batch(queries, "write");
 
     res.json({ message: "Backup restored successfully!", counts: {
       sales: sales?.length || 0,
       employees: employees?.length || 0,
-      inventory: inventory?.length || 0
+      inventory: inventory?.length || 0,
+      expenses: expenses?.length || 0
     }});
   } catch (error) {
     console.error("Restore backup failed:", error);

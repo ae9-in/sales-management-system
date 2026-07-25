@@ -65,7 +65,7 @@ const SettingsQuickActions = ({ onNavigate }) => {
   const actions = [
     { icon: Key, title: 'Change Password', subtext: 'Update your account password', color: 'text-blue-400 bg-blue-500/10' },
     { icon: CloudLightning, title: 'Backup Data', subtext: 'Download database backups', color: 'text-blue-400 bg-blue-500/10' },
-    { icon: FileDown, title: 'Import Data', subtext: 'Import CSV records', color: 'text-orange-400 bg-orange-500/10' },
+    { icon: FileDown, title: 'Import Data', subtext: 'Restore JSON backup', color: 'text-orange-400 bg-orange-500/10' },
   ];
 
   return (

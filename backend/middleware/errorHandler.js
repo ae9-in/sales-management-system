@@ -1,10 +1,9 @@
-// Error handler middleware
 const humanizeErrorMessage = (err) => {
   if (err.message?.includes('ECONNREFUSED')) {
     return 'Database connection failed. Please try again in a moment.';
   }
-  if (err.message?.includes('MongoServerError')) {
-    return 'Database operation failed. Please contact admin if this persists.';
+  if (err.message?.includes('SQLITE_CONSTRAINT') || err.message?.includes('UNIQUE constraint failed')) {
+    return 'This record already exists. Please use a different value.';
   }
   if (err.name === 'ValidationError') {
     return 'Invalid data provided. Please check your inputs and try again.';
@@ -14,12 +13,6 @@ const humanizeErrorMessage = (err) => {
   }
   if (err.message?.includes('jwt expired')) {
     return 'Your session has expired. Please login again.';
-  }
-  if (err.name === 'CastError') {
-    return 'Invalid ID format. Please check the data and try again.';
-  }
-  if (err.code === 11000) {
-    return 'This record already exists. Please use a different value.';
   }
   if (err.statusCode === 401) {
     return 'Invalid credentials. Please check your username and password.';
@@ -36,7 +29,7 @@ const humanizeErrorMessage = (err) => {
 export const errorHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;
   
-  if (err.name === 'ValidationError' || err.name === 'CastError' || err.code === 11000) {
+  if (err.name === 'ValidationError' || err.message?.includes('SQLITE_CONSTRAINT') || err.message?.includes('UNIQUE constraint failed')) {
     statusCode = 400;
   }
   if (err.name === 'JsonWebTokenError' || err.message?.includes('jwt expired')) {

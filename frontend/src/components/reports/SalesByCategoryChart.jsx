@@ -17,9 +17,10 @@ const PRODUCT_CATEGORIES = {
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
 
 const SalesByCategoryChart = ({ sales = [] }) => {
-  const totalRevenue = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const totalRevenue = activeSales.reduce((sum, s) => sum + (s.total || 0), 0);
 
-  const counts = sales.reduce((acc, sale) => {
+  const counts = activeSales.reduce((acc, sale) => {
     const cat = PRODUCT_CATEGORIES[sale.product] || 'Others';
     acc[cat] = (acc[cat] || 0) + (sale.total || 0);
     return acc;

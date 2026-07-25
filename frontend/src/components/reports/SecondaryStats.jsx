@@ -15,9 +15,10 @@ const Card = ({ title, amount, subtext, icon: Icon, colorClass }) => (
 );
 
 const SecondaryStats = ({ sales = [] }) => {
-  const totalRevenue = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const totalRevenue = activeSales.reduce((sum, s) => sum + (s.total || 0), 0);
   const paidAmount = sales.filter(s => s.status === 'Paid').reduce((sum, s) => sum + (s.total || 0), 0);
-  const pendingAmount = sales.filter(s => s.status !== 'Paid').reduce((sum, s) => sum + (s.total || 0), 0);
+  const pendingAmount = sales.filter(s => s.status === 'Partial').reduce((sum, s) => sum + (s.total || 0), 0);
   const estDiscount = Math.round(totalRevenue * 0.05);
   const estTax = Math.round(totalRevenue * 0.18);
 

@@ -95,10 +95,11 @@ const Customers = () => {
 
   // Derive live customer records from `/api/sales` history
   const customerMap = sales.reduce((acc, sale) => {
-    const name = sale.customer || 'Walk-in';
-    if (!acc[name]) {
-      acc[name] = {
-        name,
+    const rawName = sale.customer || 'Walk-in';
+    const normalizedKey = rawName.trim().toLowerCase();
+    if (!acc[normalizedKey]) {
+      acc[normalizedKey] = {
+        name: rawName.trim(),
         orders: 0,
         spend: 0,
         lastDate: sale.date,
@@ -106,11 +107,12 @@ const Customers = () => {
         product: sale.product
       };
     }
-    acc[name].orders += 1;
-    acc[name].spend += (sale.total || 0);
-    if (new Date(sale.date) > new Date(acc[name].lastDate)) {
-      acc[name].lastDate = sale.date;
-      acc[name].product = sale.product;
+    acc[normalizedKey].orders += 1;
+    acc[normalizedKey].spend += (sale.total || 0);
+    if (new Date(sale.date) > new Date(acc[normalizedKey].lastDate)) {
+      acc[normalizedKey].lastDate = sale.date;
+      acc[normalizedKey].product = sale.product;
+      acc[normalizedKey].name = rawName.trim();
     }
     return acc;
   }, {});

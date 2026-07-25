@@ -8,12 +8,13 @@ const getAggregatedData = async (table, groupBy) => {
     const db = getDB();
     const dateField = table === 'inventory' ? 'dateUpdated' : (table === 'employees' ? 'dateAdded' : 'date');
     const fieldToSum = table === 'sales' ? 'total' : 'amount';
+    const filterCond = table === 'sales' ? "WHERE status != 'Pending'" : "";
 
     let sql = "";
     if (groupBy === 'month') {
-        sql = `SELECT strftime('%m', ${dateField}) as month, strftime('%Y', ${dateField}) as year, SUM(${fieldToSum}) as total FROM ${table} GROUP BY year, month ORDER BY year ASC, month ASC`;
+        sql = `SELECT strftime('%m', ${dateField}) as month, strftime('%Y', ${dateField}) as year, SUM(${fieldToSum}) as total FROM ${table} ${filterCond} GROUP BY year, month ORDER BY year ASC, month ASC`;
     } else {
-        sql = `SELECT strftime('%Y', ${dateField}) as year, SUM(${fieldToSum}) as total FROM ${table} GROUP BY year ORDER BY year ASC`;
+        sql = `SELECT strftime('%Y', ${dateField}) as year, SUM(${fieldToSum}) as total FROM ${table} ${filterCond} GROUP BY year ORDER BY year ASC`;
     }
 
     const result = await db.execute(sql);

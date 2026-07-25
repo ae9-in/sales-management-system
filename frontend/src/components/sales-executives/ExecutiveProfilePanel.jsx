@@ -12,7 +12,7 @@ const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
   }
 
   // Calculate executive totals
-  const execSales = sales.filter(s => s.rep === executive.name);
+  const execSales = sales.filter(s => s.rep === executive.name && s.status !== 'Pending');
   const totalRev = execSales.reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (

@@ -31,10 +31,11 @@ export const calculateStats = (data, type) => {
 
   const totalCount = data.length;
   if (type === "sales") {
+    const activeSales = data.filter(s => s.status !== 'Pending');
     return {
-      totalCount,
-      totalRevenue: data.reduce((sum, s) => sum + (+s.total || 0), 0),
-      totalQuantity: data.reduce((sum, s) => sum + (+s.quantity || 0), 0),
+      totalCount: activeSales.length,
+      totalRevenue: activeSales.reduce((sum, s) => sum + (+s.total || 0), 0),
+      totalQuantity: activeSales.reduce((sum, s) => sum + (+s.quantity || 0), 0),
     };
   }
   if (type === "inventory") {

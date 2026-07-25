@@ -4,9 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#8b5cf6'];
 
 const PaymentMethodChart = ({ sales = [] }) => {
-  const totalRevenue = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const totalRevenue = activeSales.reduce((sum, s) => sum + (s.total || 0), 0);
 
-  const methodsMap = sales.reduce((acc, sale) => {
+  const methodsMap = activeSales.reduce((acc, sale) => {
     const method = sale.method || 'UPI';
     acc[method] = (acc[method] || 0) + (sale.total || 0);
     return acc;

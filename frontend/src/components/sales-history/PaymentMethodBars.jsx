@@ -2,7 +2,8 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const PaymentMethodBars = ({ sales = [] }) => {
-  const aggregated = sales.reduce((acc, s) => {
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const aggregated = activeSales.reduce((acc, s) => {
     const method = s.method || 'UPI';
     acc[method] = (acc[method] || 0) + (s.total || 0);
     return acc;

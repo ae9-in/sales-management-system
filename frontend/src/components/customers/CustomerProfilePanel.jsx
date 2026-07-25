@@ -12,7 +12,7 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
   }
 
   // Derive stats
-  const customerSales = sales.filter(s => (s.customer || 'Walk-in') === customerName);
+  const customerSales = sales.filter(s => (s.customer || 'Walk-in').trim().toLowerCase() === customerName.trim().toLowerCase());
   const totalSpend = customerSales.reduce((sum, s) => sum + (s.total || 0), 0);
   const totalOrders = customerSales.length;
 

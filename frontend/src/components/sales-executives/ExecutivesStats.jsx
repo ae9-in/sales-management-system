@@ -21,7 +21,7 @@ const StatCard = ({ title, value, change, isPositive, icon: Icon, colorClass }) 
 );
 
 const ExecutivesStats = ({ employees = [], sales = [] }) => {
-  const totalRev = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const totalRev = sales.filter(s => s.status !== 'Pending').reduce((sum, s) => sum + (s.total || 0), 0);
   const activeCount = employees.length;
   const totalSalaries = employees.reduce((sum, emp) => sum + (emp.salary || 0), 0);
 

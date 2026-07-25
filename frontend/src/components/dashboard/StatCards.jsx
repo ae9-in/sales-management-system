@@ -24,6 +24,7 @@ const StatCard = ({ title, amount, change, isPositive, icon: Icon }) => (
 const StatCards = ({ sales = [], employees = [], selectedDate = format(new Date(), "yyyy-MM-dd") }) => {
   const getSalesTotal = (filterFn) => {
     return sales
+      .filter(s => s.status !== 'Pending')
       .filter(s => {
         try {
           const date = parseISO(s.date);

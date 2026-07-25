@@ -21,10 +21,11 @@ const StatCard = ({ title, value, change, isPositive, icon: Icon, color }) => (
 );
 
 const SalesHistoryStats = ({ sales = [] }) => {
-  const totalRev = sales.reduce((sum, s) => sum + (s.total || 0), 0);
-  const avgOrder = sales.length > 0 ? Math.round(totalRev / sales.length) : 0;
+  const activeSales = sales.filter(s => s.status !== 'Pending');
+  const totalRev = activeSales.reduce((sum, s) => sum + (s.total || 0), 0);
+  const avgOrder = activeSales.length > 0 ? Math.round(totalRev / activeSales.length) : 0;
   const pendingPayments = sales
-    .filter(s => s.status !== 'Paid')
+    .filter(s => s.status === 'Partial')
     .reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (
