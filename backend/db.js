@@ -122,6 +122,8 @@ export async function ensureSchema() {
     "ALTER TABLE sales ADD COLUMN method TEXT DEFAULT 'Cash'",
     "ALTER TABLE employees ADD COLUMN phone TEXT DEFAULT ''",
     "ALTER TABLE employees ADD COLUMN area TEXT DEFAULT ''",
+    "ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'employee'",
+    "ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'active'",
   ];
 
   for (const sql of alterStatements) {
