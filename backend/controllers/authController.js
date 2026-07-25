@@ -94,7 +94,7 @@ export const signup = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userRole = role || "employee"; // Default to employee role
+    const userRole = "employee"; // Forced to employee role for security (no self-admin creation)
 
     const result = await db.execute({
       sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?) RETURNING id, username, email, role, status",

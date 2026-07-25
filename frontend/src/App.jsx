@@ -47,7 +47,7 @@ const App = () => {
 const AppContent = () => {
   const location = useLocation();
   const { isAuthenticated, loading } = useAuth();
-  const isLoginPage = location.pathname === "/" || location.pathname === "/signup";
+  const isLoginPage = location.pathname === "/" || location.pathname === "/signup" || location.pathname === "/admin/login";
   const [isReady, setIsReady] = useState(false);
   const [authState, setAuthState] = useState(false);
 
@@ -88,28 +88,55 @@ const AppContent = () => {
   const validRoutes = [
     "/",
     "/signup",
+    "/admin/login",
     "/dashboard",
     "/daily-sales",
     "/inventory",
     "/sales",
-    "/employees",
     "/customers",
     "/calendar",
     "/notifications",
     "/settings",
-    "/reports",
+    "/admin/dashboard",
+    "/admin/daily-sales",
+    "/admin/inventory",
+    "/admin/sales",
+    "/admin/employees",
+    "/admin/customers",
+    "/admin/calendar",
+    "/admin/notifications",
+    "/admin/settings",
+    "/admin/reports",
   ];
   if (!validRoutes.includes(location.pathname)) {
-    return <Navigate to={authState ? "/dashboard" : "/"} replace />;
+    if (authState) {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      return <Navigate to={user.role === "admin" ? "/admin/dashboard" : "/dashboard"} replace />;
+    }
+    return <Navigate to="/" replace />;
   }
 
   // Handle authentication redirects
   if (!authState && !isLoginPage) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={location.pathname.startsWith("/admin") ? "/admin/login" : "/"} replace />;
   }
 
-  if (authState && isLoginPage) {
-    return <Navigate to="/dashboard" replace />;
+  if (authState) {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    
+    // If on login pages, redirect to dashboards
+    if (isLoginPage) {
+      return <Navigate to={user.role === "admin" ? "/admin/dashboard" : "/dashboard"} replace />;
+    }
+    
+    // Enforce RBAC route access
+    if (user.role === "admin" && !location.pathname.startsWith("/admin")) {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    
+    if (user.role !== "admin" && location.pathname.startsWith("/admin")) {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   return (
@@ -146,12 +173,22 @@ const ProtectedLayout = () => {
             <Route path="/daily-sales" element={<DailySales />} />
             <Route path="/inventory" element={<InventoryManagement />} />
             <Route path="/sales" element={<SalesManagement />} />
-            <Route path="/employees" element={<EmployeeManagement />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/reports" element={<Reports />} />
+            
+            {/* Admin routes */}
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/daily-sales" element={<DailySales />} />
+            <Route path="/admin/inventory" element={<InventoryManagement />} />
+            <Route path="/admin/sales" element={<SalesManagement />} />
+            <Route path="/admin/employees" element={<EmployeeManagement />} />
+            <Route path="/admin/customers" element={<Customers />} />
+            <Route path="/admin/calendar" element={<CalendarPage />} />
+            <Route path="/admin/notifications" element={<Notifications />} />
+            <Route path="/admin/settings" element={<Settings />} />
+            <Route path="/admin/reports" element={<Reports />} />
           </Routes>
         </Suspense>
       </div>

@@ -1,6 +1,6 @@
 // frontend/src/pages/Login.jsx - Authentication page component for user login
 import React, { useState, lazy, Suspense } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast, toastConfig } from "../utils/toastConfig";
 import { useAuth } from "../hooks/useAuth";
@@ -21,7 +21,10 @@ const Login = () => {
   const [state, setState] = useState({ showHelpModal: false, isSubmitting: false });
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, logout } = useAuth();
+
+  const isAdminMode = location.pathname === "/admin/login";
 
   // Load non-critical resources after component mounts
   React.useEffect(() => {
@@ -46,8 +49,27 @@ const Login = () => {
       const result = await login(formData);
 
       if (result.success) {
-        showToast.success("Login successful! Redirecting...");
-        setTimeout(() => navigate("/dashboard"), 1000);
+        const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+        
+        if (isAdminMode) {
+          if (loggedInUser.role === "admin") {
+            showToast.success("Admin login successful! Redirecting...");
+            setTimeout(() => navigate("/admin/dashboard"), 1000);
+          } else {
+            logout();
+            showToast.error("Unauthorized. Employees must log in via the main login page.");
+            setFormData(prev => ({ ...prev, password: "" }));
+          }
+        } else {
+          if (loggedInUser.role !== "admin") {
+            showToast.success("Login successful! Redirecting...");
+            setTimeout(() => navigate("/dashboard"), 1000);
+          } else {
+            logout();
+            showToast.error("Admins must log in via the Admin Login page.");
+            setFormData(prev => ({ ...prev, password: "" }));
+          }
+        }
       } else {
         showToast.error(result.message || "Invalid username or password");
         setFormData(prev => ({ ...prev, password: "" }));
@@ -77,7 +99,9 @@ const Login = () => {
 
 
         <div className="relative z-10 w-full max-w-md p-12 transition-all duration-300 bg-black rounded-lg shadow-xl opacity-90 backdrop-blur-sm hover:shadow-2xl">
-          <h1 className="mb-8 text-3xl font-bold text-center text-white">Welcome Back!</h1>
+          <h1 className="mb-8 text-3xl font-bold text-center text-white">
+            {isAdminMode ? "Admin Portal" : "Welcome Back!"}
+          </h1>
 
           <div className="space-y-4">
             {["username", "password"].map((field) => (
@@ -116,16 +140,41 @@ const Login = () => {
             >
               Need Help?
             </button>
-            <span className="text-gray-500 text-[11px] mt-1">
-              Don't have an account?{" "}
-              <button
-                type="button"
-                onClick={() => navigate("/signup")}
-                className="text-red-500 font-semibold hover:underline focus:outline-none"
-              >
-                Sign Up
-              </button>
-            </span>
+            {isAdminMode ? (
+              <span className="text-gray-500 text-[11px] mt-1">
+                Are you an Employee?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/")}
+                  className="text-red-500 font-semibold hover:underline focus:outline-none"
+                >
+                  Employee Portal
+                </button>
+              </span>
+            ) : (
+              <>
+                <span className="text-gray-500 text-[11px] mt-1">
+                  Don't have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/signup")}
+                    className="text-red-500 font-semibold hover:underline focus:outline-none"
+                  >
+                    Sign Up
+                  </button>
+                </span>
+                <span className="text-gray-500 text-[11px] mt-1">
+                  Are you an Admin?{" "}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/login")}
+                    className="text-red-500 font-semibold hover:underline focus:outline-none"
+                  >
+                    Admin Portal
+                  </button>
+                </span>
+              </>
+            )}
           </div>
         </div>
 

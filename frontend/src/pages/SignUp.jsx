@@ -9,8 +9,7 @@ const SignUp = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    role: "employee"
+    confirmPassword: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const { username, email, password, confirmPassword, role } = formData;
+    const { username, email, password, confirmPassword } = formData;
 
     if (!username || !email || !password || !confirmPassword) {
       showToast.error("Please fill in all fields.");
@@ -40,8 +39,7 @@ const SignUp = () => {
       const response = await api.post("/auth/signup", {
         username,
         email,
-        password,
-        role
+        password
       });
 
       showToast.success(response.data?.message || "Registration successful! Redirecting to login...");
@@ -122,24 +120,6 @@ const SignUp = () => {
               <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData.confirmPassword ? "text-xs -translate-y-3" : ""}`}>
                 Confirm Password
               </label>
-            </div>
-
-            {/* Role Select Dropdown */}
-            <div className="relative mb-4">
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 appearance-none cursor-pointer"
-              >
-                <option value="employee">Employee / Staff</option>
-                <option value="admin">Administrator / Admin</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                </svg>
-              </div>
             </div>
 
             <button

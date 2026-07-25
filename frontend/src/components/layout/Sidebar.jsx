@@ -119,11 +119,20 @@ const Sidebar = ({ updateSidebarState }) => {
     updateSidebarState?.(isExpanded ? "w-64" : "w-16");
   }, [isExpanded, updateSidebarState]);
 
-  const items = NAV_ITEMS.map(item => {
-    if (item.label === "Notifications") {
-      return { ...item, badge: unreadCount };
+  const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const isAdmin = loggedInUser.role === "admin";
+
+  const items = NAV_ITEMS.filter(item => {
+    // Hide Admin-only features from normal employees
+    if (!isAdmin && (item.path === "/reports" || item.path === "/employees")) {
+      return false;
     }
-    return item;
+    return true;
+  }).map(item => {
+    // Prefix path with /admin for Super Admins
+    const path = isAdmin ? `/admin${item.path}` : item.path;
+    const badge = item.label === "Notifications" ? unreadCount : undefined;
+    return { ...item, path, badge };
   });
 
   return (

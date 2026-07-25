@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 const SettingsAccountSummary = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const displayRole = user.role === "admin" ? "Super Admin" : "Employee";
+  const displayUsername = user.username || "Guest";
 
   const handleLogout = () => {
     logout();
@@ -20,11 +23,11 @@ const SettingsAccountSummary = () => {
       <div className="space-y-3 text-xs mb-6">
         <div className="flex justify-between items-center">
             <span className="text-gray-400">Your Role</span>
-            <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-400 font-semibold">Super Admin</span>
+            <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-400 font-semibold">{displayRole}</span>
         </div>
         <div className="flex justify-between">
             <span className="text-gray-400">Username</span>
-            <span className="font-medium text-gray-200">admin</span>
+            <span className="font-medium text-gray-200">{displayUsername}</span>
         </div>
         <div className="flex justify-between">
             <span className="text-gray-400">Member Since</span>
