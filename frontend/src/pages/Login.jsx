@@ -17,7 +17,7 @@ const DEVELOPERS = [
 ];
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [state, setState] = useState({ showHelpModal: false, isSubmitting: false });
 
   const navigate = useNavigate();
@@ -38,8 +38,8 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    if (!formData.username || !formData.password) {
-      showToast.error("Please enter both username and password");
+    if (!formData.email || !formData.password) {
+      showToast.error("Please enter both email and password");
       return;
     }
 
@@ -71,7 +71,7 @@ const Login = () => {
           }
         }
       } else {
-        showToast.error(result.message || "Invalid username or password");
+        showToast.error(result.message || "Invalid email or password");
         setFormData(prev => ({ ...prev, password: "" }));
       }
     } catch (error) {
@@ -83,7 +83,7 @@ const Login = () => {
 
   const handleKeyPress = (e, field) => {
     if (e.key === 'Enter') {
-      if (field === 'username') {
+      if (field === 'email') {
         e.preventDefault();
         document.querySelector('input[name="password"]').focus();
       } else if (field === 'password') {
@@ -104,20 +104,20 @@ const Login = () => {
           </h1>
 
           <div className="space-y-4">
-            {["username", "password"].map((field) => (
+            {["email", "password"].map((field) => (
               <div key={field} className="relative mb-4">
                 <input
-                  type={field === "password" ? "password" : "text"}
+                  type={field === "password" ? "password" : "email"}
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
                   onKeyDown={(e) => handleKeyPress(e, field)}
-                  autoComplete={field === "username" ? "off" : "current-password"}
+                  autoComplete={field === "email" ? "email" : "current-password"}
                   required
                   className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
                 />
-                <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 ${formData[field] ? "text-xs -translate-y-3" : ""}`}>
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData[field] ? "text-xs -translate-y-3" : ""}`}>
+                  {field === "email" ? "Email Address" : "Password"}
                 </label>
               </div>
             ))}

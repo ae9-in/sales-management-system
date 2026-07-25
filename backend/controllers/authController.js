@@ -4,10 +4,10 @@ import { getDB } from "../db.js";
 
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json({
-        message: "Please enter both username and password to login."
+        message: "Please enter both email and password to login."
       });
     }
 
@@ -21,13 +21,13 @@ export const login = async (req, res) => {
 
     const db = getDB();
     const result = await db.execute({
-      sql: "SELECT * FROM users WHERE username = ? OR email = ?",
-      args: [username, username]
+      sql: "SELECT * FROM users WHERE email = ?",
+      args: [email.trim().toLowerCase()]
     });
 
     if (result.rows.length === 0) {
       return res.status(401).json({
-        message: "Invalid username or password. Please try again."
+        message: "Invalid email or password. Please try again."
       });
     }
 
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
-        message: "Invalid username or password. Please try again."
+        message: "Invalid email or password. Please try again."
       });
     }
 
