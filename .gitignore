@@ -6,6 +6,10 @@ node_modules/
 .env.local
 .env.*.local
 .env.prod
+.env.development
+.env.development.local
+.env.test.local
+.env.production.local
 backend/.env
 frontend/.env.local
 frontend/.env.production.local
@@ -75,6 +79,9 @@ Thumbs.db
 
 # Databases
 *.db
+*.db-journal
+*.db-wal
+*.db-shm
 *.sqlite
 *.sqlite3
 backend/local.db
@@ -84,3 +91,10 @@ local.db
 scratch_test_runner.js
 check_password.js
 *.js.map
+test_signup.js
+test_signup_endpoint.js
+test_duplicate_endpoint.js
+create_admin.js
+clear_dummy_data.js
+list_users.js
+clean_users.js
