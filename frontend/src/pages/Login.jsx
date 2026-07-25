@@ -152,28 +152,16 @@ const Login = () => {
                 </button>
               </span>
             ) : (
-              <>
-                <span className="text-gray-500 text-[11px] mt-1">
-                  Don't have an account?{" "}
-                  <button
-                    type="button"
-                    onClick={() => navigate("/signup")}
-                    className="text-red-500 font-semibold hover:underline focus:outline-none"
-                  >
-                    Sign Up
-                  </button>
-                </span>
-                <span className="text-gray-500 text-[11px] mt-1">
-                  Are you an Admin?{" "}
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/login")}
-                    className="text-red-500 font-semibold hover:underline focus:outline-none"
-                  >
-                    Admin Portal
-                  </button>
-                </span>
-              </>
+              <span className="text-gray-500 text-[11px] mt-1">
+                Don't have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/signup")}
+                  className="text-red-500 font-semibold hover:underline focus:outline-none"
+                >
+                  Sign Up
+                </button>
+              </span>
             )}
           </div>
         </div>
