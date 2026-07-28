@@ -98,15 +98,15 @@ export async function ensureSchema() {
     )
   `);
 
-  // Seed default admin if no users exist
+  // Seed default admin if no admin exists
   try {
-    const usersCount = await db.execute("SELECT COUNT(*) as count FROM users");
-    if (usersCount.rows[0].count === 0) {
+    const adminCount = await db.execute("SELECT COUNT(*) as count FROM users WHERE role = 'admin'");
+    if (adminCount.rows[0].count === 0) {
       const adminUsername = process.env.ADMIN_USERNAME || "admin";
       const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-        args: [adminUsername, "admin@stockos.com", adminPasswordHash, "admin", "active"]
+        args: [adminUsername, "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
       });
       console.log("✓ Seeded default admin user in users table");
     }
