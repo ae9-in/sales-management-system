@@ -24,3 +24,6 @@ const MonthlyPerformanceChart = () => (
 
 export default MonthlyPerformanceChart;
 
+
+
+

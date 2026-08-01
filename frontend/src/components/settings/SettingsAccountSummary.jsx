@@ -17,7 +17,7 @@ const SettingsAccountSummary = () => {
   };
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6 font-sans">
+    <div className="glass-card-elevated p-5 mb-6 font-sans">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Account Summary</h3>
       
       <div className="space-y-3 text-xs mb-6">
@@ -50,5 +50,8 @@ const SettingsAccountSummary = () => {
 };
 
 export default SettingsAccountSummary;
+
+
+
 
 

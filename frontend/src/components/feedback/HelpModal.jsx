@@ -11,7 +11,7 @@ const HelpModal = ({ onClose }) => {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md p-8 bg-white border border-gray-200 shadow-2xl rounded-xl opacity-95 backdrop-blur-sm"
+        className="w-full max-w-md p-8 glass-card shadow-2xl rounded-xl opacity-95 backdrop-blur-sm"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
@@ -55,3 +55,6 @@ const HelpModal = ({ onClose }) => {
 };
 
 export default HelpModal; 
+
+
+

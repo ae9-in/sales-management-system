@@ -86,3 +86,5 @@ const InventoryStatus = ({ inventory }) => {
 
 export default InventoryStatus; 
 
+
+

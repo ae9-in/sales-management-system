@@ -42,3 +42,5 @@ const SalesTrend = ({ data }) => {
 
 export default SalesTrend; 
 
+
+

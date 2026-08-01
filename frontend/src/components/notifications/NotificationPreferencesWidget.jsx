@@ -23,7 +23,7 @@ const NotificationPreferencesWidget = () => {
   };
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl">
+    <div className="glass-card-elevated p-5">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Notification Preferences</h3>
       <div className="space-y-4 mb-4">
         
@@ -74,5 +74,8 @@ const NotificationPreferencesWidget = () => {
 };
 
 export default NotificationPreferencesWidget;
+
+
+
 
 

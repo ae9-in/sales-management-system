@@ -141,7 +141,7 @@ const AppContent = () => {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gray-50">
+    <div className="min-h-screen overflow-hidden page-bg">
       <Suspense fallback={<SkeletonPageFallback />}>
         {isLoginPage ? (
           <div className="h-screen text-gray-900">
@@ -164,7 +164,7 @@ const ProtectedLayout = () => {
         <Sidebar updateSidebarState={setSidebarWidth} />
       </Suspense>
       <div
-        className={`flex-1 overflow-auto transition-all duration-300 p-3 bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 ${
+        className={`flex-1 overflow-auto transition-all duration-300 p-3 page-bg ${
           sidebarWidth === "w-64" ? "ml-64" : "ml-16"
         }`}
       >

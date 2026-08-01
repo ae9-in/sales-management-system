@@ -89,3 +89,5 @@ const StatsCard = ({ title, value, icon: Icon, color = "blue", footer, getFooter
 };
 
 export default StatsCard;
+
+

@@ -17,7 +17,7 @@ const Filters = ({
             name={field.name}
             value={filters[field.name] || ""}
             onChange={handleFilterChange}
-            className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 text-gray-900 glass-card rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             {field.options.map((option) => (
               <option key={option.value || option} value={option.value || option}>
@@ -36,7 +36,7 @@ const Filters = ({
                 name={`${field.name}Min`}
                 value={filters[`${field.name}Min`] || ""}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 text-gray-900 glass-card rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Min"
               />
             </div>
@@ -47,7 +47,7 @@ const Filters = ({
                 name={`${field.name}Max`}
                 value={filters[`${field.name}Max`] || ""}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 text-gray-900 glass-card rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Max"
               />
             </div>
@@ -60,7 +60,7 @@ const Filters = ({
             name={field.name}
             value={filters[field.name] || ""}
             onChange={handleFilterChange}
-            className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 text-gray-900 glass-card rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder={field.placeholder}
           />
         );
@@ -101,3 +101,6 @@ const Filters = ({
 };
 
 export default Filters;
+
+
+

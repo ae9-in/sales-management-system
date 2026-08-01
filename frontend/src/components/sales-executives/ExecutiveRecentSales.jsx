@@ -38,3 +38,6 @@ const ExecutiveRecentSales = ({ executiveName, sales = [] }) => {
 
 export default ExecutiveRecentSales;
 
+
+
+

@@ -14,7 +14,7 @@ const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
   ];
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 w-full flex flex-col gap-1">
+    <div className="glass-card-elevated p-4 w-full flex flex-col gap-1">
       {menuItems.map((item, i) => (
         <button
           key={i}
@@ -34,5 +34,8 @@ const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
 };
 
 export default SettingsSidebar;
+
+
+
 
 

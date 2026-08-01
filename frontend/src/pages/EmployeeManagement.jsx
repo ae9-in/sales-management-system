@@ -123,7 +123,7 @@ const EmployeeManagement = () => {
   const filteredSales = filterDataByDate(sales, activeDateRange, "date");
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn overflow-hidden">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 page-bg animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
         
         {/* Header */}
@@ -281,4 +281,5 @@ const EmployeeManagement = () => {
 };
 
 export default EmployeeManagement;
+
 

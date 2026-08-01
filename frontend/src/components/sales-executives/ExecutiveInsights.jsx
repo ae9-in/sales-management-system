@@ -3,7 +3,7 @@ import { TrendingUp, TrendingDown, Target, IndianRupee } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 
 const InsightCard = ({ title, name, amount, subtext, icon: Icon, color, colorClass, chartData = [] }) => (
-  <div className="p-4 bg-white border border-gray-200 rounded-xl flex items-center justify-between">
+  <div className="glass-card-elevated p-5 flex items-center justify-between">
     <div className="flex gap-3">
       <div className={`p-2 rounded-lg h-fit ${colorClass}`}>
         <Icon className="w-5 h-5" />
@@ -90,3 +90,6 @@ const ExecutiveInsights = ({ sales = [], employees = [] }) => {
 };
 
 export default ExecutiveInsights;
+
+
+

@@ -26,7 +26,7 @@ const SalesOverviewChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col relative">
+    <div className="glass-card-elevated p-5 h-[300px] flex flex-col relative">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-gray-900 text-sm">Sales Overview</h3>
         <select className="bg-gray-100 border border-gray-200 text-xs text-gray-600 rounded px-2 py-1"><option>Daily</option></select>
@@ -38,7 +38,7 @@ const SalesOverviewChart = ({ sales = [] }) => {
               <XAxis dataKey="day" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis yAxisId="left" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
               <YAxis yAxisId="right" orientation="right" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
               <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#9ca3af', top: '-10px' }}/>
               <Line yAxisId="left" type="monotone" dataKey="revenue" name="Revenue (₹)" stroke="#059669" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
               <Line yAxisId="right" type="monotone" dataKey="orders" name="Orders" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
@@ -55,6 +55,9 @@ const SalesOverviewChart = ({ sales = [] }) => {
 };
 
 export default SalesOverviewChart;
+
+
+
 
 
 

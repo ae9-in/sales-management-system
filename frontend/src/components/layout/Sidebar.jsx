@@ -138,7 +138,7 @@ const Sidebar = ({ updateSidebarState }) => {
 
   return (
     <aside
-      className={`fixed h-full bg-white border-r border-gray-200 shadow-sm z-20 transition-all duration-300 ease-in-out flex flex-col justify-between
+      className={`fixed h-full glass-sidebar z-20 transition-all duration-300 ease-in-out flex flex-col justify-between
         ${isExpanded ? "w-64" : "w-16"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -203,4 +203,6 @@ const Sidebar = ({ updateSidebarState }) => {
 };
 
 export default memo(Sidebar);
+
+
 

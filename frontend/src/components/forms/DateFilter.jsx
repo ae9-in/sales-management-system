@@ -54,7 +54,7 @@ const DateFilter = ({ dateFilter, setDateFilter }) => {
     <div className="relative" ref={popupRef}>
       <div className="flex items-center gap-3">
         <select
-          className="w-48 px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+          className="w-48 px-4 py-2 text-gray-900 glass-card focus:border-emerald-500 focus:outline-none"
           value={dateFilter.range}
           onChange={handleRangeChange}
         >
@@ -107,4 +107,7 @@ const DateFilter = ({ dateFilter, setDateFilter }) => {
 };
 
 export default DateFilter;
+
+
+
 

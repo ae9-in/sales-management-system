@@ -14,7 +14,7 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
   ];
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Mini Calendar</h3>
       
       <div className="flex justify-between items-center mb-4">
@@ -56,4 +56,7 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
 };
 
 export default MiniCalendarWidget;
+
+
+
 

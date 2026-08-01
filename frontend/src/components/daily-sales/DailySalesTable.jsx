@@ -20,7 +20,7 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl">
+    <div className="glass-card-elevated p-5">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Today's Transactions</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-xs text-left text-gray-500">
@@ -70,6 +70,9 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
 };
 
 export default DailySalesTable;
+
+
+
 
 
 

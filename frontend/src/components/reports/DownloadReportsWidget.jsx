@@ -138,7 +138,7 @@ const DownloadReportsWidget = ({ sales = [] }) => {
   ];
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <h3 className="font-semibold text-gray-900 mb-1 text-sm">Download Reports</h3>
       <p className="text-[10px] text-gray-500 mb-4">Download your reports in different formats</p>
       
@@ -162,6 +162,9 @@ const DownloadReportsWidget = ({ sales = [] }) => {
 };
 
 export default DownloadReportsWidget;
+
+
+
 
 
 

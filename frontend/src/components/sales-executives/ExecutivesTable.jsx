@@ -29,7 +29,7 @@ const ExecutivesTable = ({ employees = [], sales = [], onSelect, onEdit, onDelet
   );
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <div className="flex flex-wrap gap-3 mb-6 items-center">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
@@ -108,4 +108,7 @@ const ExecutivesTable = ({ employees = [], sales = [], onSelect, onEdit, onDelet
 };
 
 export default ExecutivesTable;
+
+
+
 

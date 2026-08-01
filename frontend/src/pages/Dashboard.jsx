@@ -158,16 +158,16 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn overflow-hidden">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 page-bg animate-fadeIn overflow-hidden">
       <main ref={dashboardRef} className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
-        <div className="mb-6 flex justify-between items-end">
+        <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1 tracking-tight">Dashboard</h1>
             <p className="text-gray-500 text-sm">Here's what's happening with your sales today.</p>
           </div>
-          <div className="flex gap-3">
-            <div className="relative flex items-center bg-white border border-gray-200 rounded-lg hover:bg-gray-100/80 transition px-3 py-2">
-              <span className="mr-2 text-sm">📅</span>
+          <div className="flex gap-3 items-center">
+            <div className="glass-card flex items-center px-3.5 py-2.5 gap-2 hover-lift cursor-pointer">
+              <span className="text-sm">📅</span>
               <input 
                 type="date" 
                 value={selectedDate}
@@ -181,13 +181,13 @@ const Dashboard = () => {
             <button 
               onClick={handleExportClick}
               disabled={isExporting}
-              className={`text-gray-900 px-4 py-2 rounded-lg text-sm transition shadow-lg ${
+              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-lg ${
                 isExporting 
-                  ? "bg-emerald-600/50 cursor-not-allowed" 
-                  : "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20"
+                  ? "bg-emerald-500/60 text-white cursor-not-allowed" 
+                  : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/30 hover:-translate-y-0.5 active:translate-y-0"
               }`}
             >
-              {isExporting ? "Exporting..." : "Export Report"}
+              {isExporting ? "Exporting…" : "Export Report"}
             </button>
           </div>
         </div>
@@ -454,4 +454,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 

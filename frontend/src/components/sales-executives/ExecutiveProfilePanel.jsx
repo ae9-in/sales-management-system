@@ -5,7 +5,7 @@ import ExecutiveRecentSales from './ExecutiveRecentSales';
 const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
   if (!executive) {
     return (
-      <div className="p-4 bg-white border border-gray-200 rounded-xl text-center text-gray-500 text-xs py-10">
+      <div className="glass-card-elevated p-5 text-center text-gray-500 text-xs py-10">
         Select a sales executive to view profile
       </div>
     );
@@ -16,7 +16,7 @@ const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
   const totalRev = execSales.reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl flex flex-col gap-6">
+    <div className="glass-card-elevated p-5 flex flex-col gap-6">
       <div className="text-center pb-4 border-b border-gray-200">
         <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-2xl text-gray-900 mx-auto mb-3 shadow-lg shadow-emerald-500/20">
           {executive.name.charAt(0)}
@@ -61,4 +61,7 @@ const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
 };
 
 export default ExecutiveProfilePanel;
+
+
+
 

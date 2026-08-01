@@ -58,7 +58,7 @@ const ReportSummaryTable = ({ sales = [] }) => {
   };
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6 flex-1">
+    <div className="glass-card-elevated p-5 mb-6 flex-1">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Report Summary</h3>
       
       <div className="flex text-xs border-b border-gray-200 mb-4">
@@ -119,6 +119,9 @@ const ReportSummaryTable = ({ sales = [] }) => {
 };
 
 export default ReportSummaryTable;
+
+
+
 
 
 

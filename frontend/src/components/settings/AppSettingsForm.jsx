@@ -26,7 +26,7 @@ const AppSettingsForm = () => {
   };
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl">
+    <div className="glass-card-elevated p-5">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Application Preferences</h3>
       
       <div className="space-y-4 text-xs">
@@ -91,5 +91,8 @@ const AppSettingsForm = () => {
 };
 
 export default AppSettingsForm;
+
+
+
 
 

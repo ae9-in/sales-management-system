@@ -30,7 +30,7 @@ const BusinessSettingsForm = () => {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+    <div className="glass-card-elevated p-6 mb-6">
       <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">Business Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -100,5 +100,8 @@ const BusinessSettingsForm = () => {
 };
 
 export default BusinessSettingsForm;
+
+
+
 
 

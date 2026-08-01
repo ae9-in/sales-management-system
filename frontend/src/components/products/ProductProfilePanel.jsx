@@ -4,7 +4,7 @@ import { Package, ShieldAlert, BadgeInfo } from 'lucide-react';
 const ProductProfilePanel = ({ product }) => {
   if (!product) {
     return (
-      <div className="p-4 bg-white border border-gray-200 rounded-xl text-center text-gray-500 text-xs py-10">
+      <div className="glass-card-elevated p-5 text-center text-gray-500 text-xs py-10">
         Select a product to view details
       </div>
     );
@@ -13,7 +13,7 @@ const ProductProfilePanel = ({ product }) => {
   const isLowStock = product.currentStock <= product.reorderLevel;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl flex flex-col gap-6">
+    <div className="glass-card-elevated p-5 flex flex-col gap-6">
       <div className="text-center pb-4 border-b border-gray-200">
         <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-2xl text-gray-900 mx-auto mb-3 shadow-lg shadow-emerald-500/20">
           <Package size={24} />
@@ -40,7 +40,7 @@ const ProductProfilePanel = ({ product }) => {
         </div>
       </div>
 
-      <div className="p-3 bg-white rounded-lg border border-gray-200 flex gap-3 text-xs">
+      <div className="p-3 glass-card flex gap-3 text-xs">
         <BadgeInfo className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
         <p className="text-[10px] text-gray-500 leading-relaxed">
           Product sales are tracked and graphed in real-time on your main Sales Overview page.
@@ -51,4 +51,7 @@ const ProductProfilePanel = ({ product }) => {
 };
 
 export default ProductProfilePanel;
+
+
+
 

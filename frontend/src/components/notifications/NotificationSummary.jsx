@@ -6,7 +6,7 @@ const NotificationSummary = ({ notifications = [] }) => {
   const readCount = notifications.length - unreadCount;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Notification Summary</h3>
       
       <div className="flex items-center gap-6 mb-2">
@@ -44,5 +44,8 @@ const NotificationSummary = ({ notifications = [] }) => {
 };
 
 export default NotificationSummary;
+
+
+
 
 

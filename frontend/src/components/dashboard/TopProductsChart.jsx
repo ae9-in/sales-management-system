@@ -16,23 +16,28 @@ const TopProductsChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col relative">
+    <div className="glass-card-elevated p-5 h-[300px] flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-900 text-sm">Top Products</h3>
+        <div>
+          <h3 className="font-semibold text-gray-800 text-sm">Top Products</h3>
+          <p className="text-[11px] text-gray-400 mt-0.5">By units sold</p>
+        </div>
+        <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-full">Top 5</span>
       </div>
       <div className="flex-1 w-full">
         {hasData ? (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} layout="vertical" margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <XAxis type="number" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
-              <YAxis dataKey="name" type="category" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} width={120} />
-              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
-              <Bar dataKey="value" fill="#059669" radius={[0, 4, 4, 0]} barSize={12} />
+              <XAxis type="number" stroke="#9ca3af" fontSize={10} tickLine={false} axisLine={false} />
+              <YAxis dataKey="name" type="category" stroke="#9ca3af" fontSize={10} tickLine={false} axisLine={false} width={120} />
+              <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
+              <Bar dataKey="value" fill="#059669" radius={[0, 4, 4, 0]} barSize={10} />
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-full flex items-center justify-center text-xs text-gray-500">
-            No sales data available for this month.
+          <div className="h-full flex flex-col items-center justify-center gap-2">
+            <div className="glass-icon w-10 h-10 rounded-full flex items-center justify-center text-xl">📦</div>
+            <p className="text-xs text-gray-400">No product data yet</p>
           </div>
         )}
       </div>
@@ -41,6 +46,9 @@ const TopProductsChart = ({ sales = [] }) => {
 };
 
 export default TopProductsChart;
+
+
+
 
 
 

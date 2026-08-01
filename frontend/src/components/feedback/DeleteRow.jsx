@@ -19,7 +19,7 @@ const DeleteRow = ({ show, item, onCancel, onDelete, loading, itemName }) => {
         </p>
         <div className="flex justify-center space-x-4">
           <button onClick={onCancel}
-            className="px-4 py-2 font-medium text-gray-900 transition duration-200 bg-gray-100 rounded-lg hover:bg-gray-600 hover:scale-105 active:scale-95">
+            className="px-4 py-2 font-medium text-gray-900 transition duration-200 glass-icon rounded-lg hover:bg-gray-600 hover:scale-105 active:scale-95">
             Cancel
           </button>
           <button onClick={onDelete} disabled={loading}
@@ -37,4 +37,7 @@ const DeleteRow = ({ show, item, onCancel, onDelete, loading, itemName }) => {
 };
 
 export default DeleteRow;
+
+
+
 

@@ -40,7 +40,7 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
   }).slice(0, 5);
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col">
+    <div className="glass-card-elevated p-5 h-[300px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-gray-900 text-sm">Recent Sales (Today)</h3>
         <button 
@@ -73,6 +73,9 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
 };
 
 export default RecentSalesList;
+
+
+
 
 
 

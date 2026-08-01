@@ -19,7 +19,7 @@ const SalesSummaryChart = ({ sales = [] }) => {
   const hasData = chartData.length > 0;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[230px] flex flex-col mb-6">
+    <div className="glass-card-elevated p-5 h-[230px] flex flex-col mb-6">
       <h3 className="font-semibold text-gray-900 text-sm mb-4">Sales Trends</h3>
       <div className="flex-1 w-full">
         {hasData ? (
@@ -33,7 +33,7 @@ const SalesSummaryChart = ({ sales = [] }) => {
               </defs>
               <XAxis dataKey="day" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
-              <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+              <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
               <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={2} fillOpacity={1} fill="url(#colorSalesHist)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -48,6 +48,9 @@ const SalesSummaryChart = ({ sales = [] }) => {
 };
 
 export default SalesSummaryChart;
+
+
+
 
 
 

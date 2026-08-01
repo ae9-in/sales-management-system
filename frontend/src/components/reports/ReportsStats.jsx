@@ -2,7 +2,7 @@ import React from 'react';
 import { IndianRupee, ShoppingBag, Users, ShoppingCart, Clock } from 'lucide-react';
 
 const StatCard = ({ title, amount, subtext, change, isPositive, icon: Icon, colorClass }) => (
-  <div className="flex flex-col justify-between p-4 bg-white border border-gray-200 rounded-xl">
+  <div className="flex flex-col justify-between glass-card-elevated p-5">
     <div className="flex items-start justify-between mb-2">
       <div className={`p-2 rounded-lg ${colorClass}`}>
         <Icon className="w-5 h-5" />
@@ -43,6 +43,9 @@ const ReportsStats = ({ sales = [] }) => {
 };
 
 export default ReportsStats;
+
+
+
 
 
 

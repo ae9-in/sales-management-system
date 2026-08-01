@@ -26,7 +26,7 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
   const hasData = list.length > 0;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <div className="flex justify-between items-center mb-6">
           <h3 className="font-semibold text-gray-900 text-sm">Today's Agenda</h3>
           <span className="text-emerald-600 text-xs font-semibold">{format(new Date(), "dd MMMM yyyy")}</span>
@@ -61,4 +61,7 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
 };
 
 export default TodaysAgendaWidget;
+
+
+
 

@@ -52,7 +52,7 @@ const MainCalendarGrid = ({
   const allEventsList = [...sales].sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden h-full min-h-[500px]">
+    <div className="glass-card-elevated flex flex-col overflow-hidden h-full min-h-[500px]">
       {/* Calendar Header Controls */}
       <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-white/80">
         <div className="flex bg-white rounded-lg overflow-hidden border border-gray-200">
@@ -244,4 +244,7 @@ const MainCalendarGrid = ({
 };
 
 export default MainCalendarGrid;
+
+
+
 

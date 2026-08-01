@@ -33,7 +33,7 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
   }));
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl flex-1 flex flex-col min-h-[300px]">
+    <div className="glass-card-elevated p-5 flex-1 flex flex-col min-h-[300px]">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Top Sales Executives (Today)</h3>
       <div className="flex-1 flex flex-col justify-around">
         {execs.map((exec, i) => (
@@ -59,6 +59,9 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
 };
 
 export default TopExecutivesProgress;
+
+
+
 
 
 

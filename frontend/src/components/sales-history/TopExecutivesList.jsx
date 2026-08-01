@@ -17,7 +17,7 @@ const TopExecutivesList = ({ sales = [], employees = [] }) => {
   })).sort((a, b) => b.amount - a.amount).slice(0, 3);
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[230px] flex flex-col justify-between">
+    <div className="glass-card-elevated p-5 h-[230px] flex flex-col justify-between">
       <div>
         <h3 className="font-semibold text-gray-900 text-sm mb-4">Top Performance</h3>
         <div className="space-y-4">
@@ -37,6 +37,9 @@ const TopExecutivesList = ({ sales = [], employees = [] }) => {
 };
 
 export default TopExecutivesList;
+
+
+
 
 
 

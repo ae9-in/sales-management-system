@@ -45,7 +45,7 @@ const SystemPreferencesForm = () => {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6">
+    <div className="glass-card-elevated p-6">
       <h3 className="text-sm font-semibold text-gray-200 mb-4 border-b border-gray-200 pb-3">System Preferences</h3>
       <div className="space-y-1">
         <ToggleSwitch
@@ -86,5 +86,8 @@ const SystemPreferencesForm = () => {
 };
 
 export default SystemPreferencesForm;
+
+
+
 
 

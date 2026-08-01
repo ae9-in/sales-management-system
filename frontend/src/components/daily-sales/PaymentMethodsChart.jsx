@@ -19,7 +19,7 @@ const PaymentMethodsChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[230px] flex flex-col relative justify-between">
+    <div className="glass-card-elevated p-5 h-[230px] flex flex-col relative justify-between">
       <h3 className="font-semibold text-gray-900 text-sm mb-2">Payment Methods</h3>
       {hasData ? (
         <div className="flex-1 flex items-center justify-center">
@@ -39,7 +39,7 @@ const PaymentMethodsChart = ({ sales = [] }) => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -62,6 +62,9 @@ const PaymentMethodsChart = ({ sales = [] }) => {
 };
 
 export default PaymentMethodsChart;
+
+
+
 
 
 

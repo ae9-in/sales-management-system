@@ -15,7 +15,7 @@ const NotificationQuickFilters = ({ notifications = [], onSelectFilter }) => {
   ];
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+    <div className="glass-card-elevated p-5 mb-6">
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Quick Filters</h3>
       <div className="space-y-3">
         {filters.map((f, i) => (
@@ -39,5 +39,8 @@ const NotificationQuickFilters = ({ notifications = [], onSelectFilter }) => {
 };
 
 export default NotificationQuickFilters;
+
+
+
 
 

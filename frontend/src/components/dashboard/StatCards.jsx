@@ -1,23 +1,34 @@
 import React from 'react';
-import { IndianRupee, TrendingUp, Users, ShoppingCart } from 'lucide-react';
+import { IndianRupee, TrendingUp, Users, ShoppingCart, TrendingDown } from 'lucide-react';
 import { parseISO, format } from 'date-fns';
 
-const StatCard = ({ title, amount, change, isPositive, icon: Icon }) => (
-  <div className="flex flex-col justify-between p-4 bg-white border border-gray-200 rounded-xl">
-    <div className="flex items-center justify-between mb-4">
-      <div className="p-2 bg-gray-100 rounded-lg">
-        <Icon className="w-5 h-5 text-gray-600" />
+const StatCard = ({ title, amount, change, isPositive, icon: Icon, accent = "emerald" }) => (
+  <div className="glass-stat-card p-5 flex flex-col justify-between hover-lift">
+    {/* Top Row: Icon + Badge */}
+    <div className="flex items-start justify-between mb-4">
+      <div className="glass-icon p-2.5">
+        <Icon className="w-5 h-5 text-emerald-700" />
       </div>
       {change && (
-        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${isPositive ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'}`}>
-          {isPositive ? '+' : ''}{change}
+        <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1
+          ${isPositive
+            ? 'text-emerald-700 bg-emerald-100/80 border border-emerald-200/60'
+            : 'text-red-600 bg-red-50 border border-red-200/60'
+          }`}>
+          {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          {isPositive && !change.startsWith('+') ? '+' : ''}{change}
         </span>
       )}
     </div>
+
+    {/* Bottom Row: Label + Value */}
     <div>
-      <p className="text-xs text-gray-500">{title}</p>
-      <h3 className="text-xl font-bold text-gray-900 mt-1">{amount}</h3>
+      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">{title}</p>
+      <h3 className="text-2xl font-bold text-gray-900 leading-none tracking-tight">{amount}</h3>
     </div>
+
+    {/* Bottom accent bar */}
+    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-emerald-400/0 via-emerald-400/40 to-emerald-400/0 rounded-b-xl" />
   </div>
 );
 
@@ -36,11 +47,8 @@ const StatCards = ({ sales = [], employees = [], selectedDate = format(new Date(
       .reduce((sum, s) => sum + (s.total || 0), 0);
   };
 
-  // Compute live values from DB filtered by selectedDate
   const todayTotal = getSalesTotal((d) => d.toISOString().startsWith(selectedDate));
-  const allTimeTotal = getSalesTotal(); // Full database total
-
-  // Get count of unique customers from sales
+  const allTimeTotal = getSalesTotal();
   const uniqueCustomers = sales.length > 0 ? new Set(sales.map(s => s.customer || 'Walk-in')).size : 0;
 
   return (
@@ -49,7 +57,7 @@ const StatCards = ({ sales = [], employees = [], selectedDate = format(new Date(
       <StatCard title="Sales This Week" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "22.4%" : ""} isPositive={true} icon={TrendingUp} />
       <StatCard title="Sales This Month" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "16.3%" : ""} isPositive={true} icon={TrendingUp} />
       <StatCard title="Total Revenue" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "14.8%" : ""} isPositive={true} icon={IndianRupee} />
-      <StatCard title="Total Customers" amount={uniqueCustomers} change={uniqueCustomers > 0 ? "8 New" : ""} isPositive={true} icon={Users} />
+      <StatCard title="Total Customers" amount={uniqueCustomers} change={uniqueCustomers > 0 ? `${uniqueCustomers} New` : ""} isPositive={true} icon={Users} />
       <StatCard title="Sales Executives" amount={employees.length} change={employees.length > 0 ? "Active" : ""} isPositive={true} icon={Users} />
     </div>
   );

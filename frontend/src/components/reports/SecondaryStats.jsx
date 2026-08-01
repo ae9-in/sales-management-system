@@ -2,7 +2,7 @@ import React from 'react';
 import { IndianRupee, Clock, Tag, FileText } from 'lucide-react';
 
 const Card = ({ title, amount, subtext, icon: Icon, colorClass }) => (
-  <div className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl flex-1">
+  <div className="flex items-center gap-4 glass-card-elevated p-5 flex-1">
     <div className={`p-3 rounded-lg ${colorClass}`}>
       <Icon className="w-6 h-6" />
     </div>
@@ -35,6 +35,9 @@ const SecondaryStats = ({ sales = [] }) => {
 };
 
 export default SecondaryStats;
+
+
+
 
 
 

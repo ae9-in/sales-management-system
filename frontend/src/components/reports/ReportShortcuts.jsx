@@ -11,7 +11,7 @@ const shortcuts = [
 ];
 
 const ReportShortcuts = () => (
-  <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+  <div className="glass-card-elevated p-5 mb-6">
     <h3 className="font-semibold text-gray-900 mb-4 text-sm">Report Shortcuts</h3>
     <div className="space-y-2">
       {shortcuts.map((s, i) => (
@@ -34,6 +34,9 @@ const ReportShortcuts = () => (
 );
 
 export default ReportShortcuts;
+
+
+
 
 
 

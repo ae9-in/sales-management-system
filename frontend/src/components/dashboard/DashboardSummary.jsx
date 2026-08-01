@@ -23,7 +23,7 @@ const DashboardSummary = ({ sales = [], selectedDate = format(new Date(), "yyyy-
     .reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col">
+    <div className="glass-card-elevated p-5 h-[300px] flex flex-col">
       <h3 className="font-semibold text-gray-900 text-sm mb-4">Today's Summary</h3>
       <div className="flex-1 flex flex-col justify-around">
         <div className="flex justify-between items-center text-xs">
@@ -52,6 +52,9 @@ const DashboardSummary = ({ sales = [], selectedDate = format(new Date(), "yyyy-
 };
 
 export default DashboardSummary;
+
+
+
 
 
 

@@ -73,7 +73,7 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
   });
 
   return (
-    <div className="col-span-1 lg:col-span-8 p-4 bg-white border border-gray-200 rounded-xl">
+    <div className="col-span-1 lg:col-span-8 glass-card-elevated p-5">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
         <h3 className="font-semibold text-gray-900">Recent Sales History</h3>
         <div className="flex gap-2">
@@ -151,6 +151,9 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
 };
 
 export default RecentSalesHistoryTable;
+
+
+
 
 
 

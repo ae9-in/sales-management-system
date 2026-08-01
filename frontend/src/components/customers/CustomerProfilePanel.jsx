@@ -5,7 +5,7 @@ import { parseISO, format } from 'date-fns';
 const CustomerProfilePanel = ({ customerName, sales = [] }) => {
   if (!customerName) {
     return (
-      <div className="p-4 bg-white border border-gray-200 rounded-xl text-center text-gray-500 text-xs py-10">
+      <div className="glass-card-elevated p-5 text-center text-gray-500 text-xs py-10">
         Select a customer to view profile
       </div>
     );
@@ -17,7 +17,7 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
   const totalOrders = customerSales.length;
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-xl flex flex-col gap-6">
+    <div className="glass-card-elevated p-5 flex flex-col gap-6">
       <div className="text-center pb-4 border-b border-gray-200">
         <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-2xl text-gray-900 mx-auto mb-3 shadow-lg shadow-emerald-500/20">
           {customerName.charAt(0)}
@@ -37,7 +37,7 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
         </div>
       </div>
 
-      <div className="p-3 bg-white rounded-lg border border-gray-200 flex items-center gap-3">
+      <div className="p-3 glass-card flex items-center gap-3">
         <div className="p-2 bg-yellow-500/10 text-yellow-400 rounded-md shrink-0">
           <Award size={18} />
         </div>
@@ -70,4 +70,7 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
 };
 
 export default CustomerProfilePanel;
+
+
+
 

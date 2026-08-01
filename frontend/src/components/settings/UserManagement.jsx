@@ -84,7 +84,7 @@ const UserManagement = () => {
 
   if (loading) {
     return (
-      <div className="bg-white border border-gray-200 rounded-xl p-6 text-center text-gray-500 py-12">
+      <div className="glass-card-elevated p-6 text-center text-gray-500 py-12">
         <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
         Loading users...
       </div>
@@ -92,7 +92,7 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6">
+    <div className="glass-card-elevated p-6">
       <div className="flex justify-between items-center mb-6 border-b border-gray-200 pb-3">
         <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2">
           <Users size={16} className="text-emerald-600" /> User Management
@@ -202,5 +202,8 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
+
+
+
 
 

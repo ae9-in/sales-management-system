@@ -2,9 +2,9 @@ import React from 'react';
 import { IndianRupee, TrendingUp, Users, ShoppingCart } from 'lucide-react';
 
 const StatCard = ({ title, amount, change, isPositive, icon: Icon }) => (
-  <div className="flex flex-col justify-between p-4 bg-white border border-gray-200 rounded-xl">
+  <div className="flex flex-col justify-between glass-card-elevated p-5">
     <div className="flex items-center justify-between mb-4">
-      <div className="p-2 bg-gray-100 rounded-lg">
+      <div className="p-2 glass-icon rounded-lg">
         <Icon className="w-5 h-5 text-gray-600" />
       </div>
       {change && (
@@ -38,6 +38,9 @@ const DailyStats = ({ sales = [] }) => {
 };
 
 export default DailyStats;
+
+
+
 
 
 

@@ -13,19 +13,15 @@ input[type=number] {
     0% {
         text-shadow: 0 0 10px #059669, 0 0 20px #059669, 0 0 30px #059669;
     }
-
     25% {
         text-shadow: 0 0 10px #10b981, 0 0 20px #10b981, 0 0 30px #10b981;
     }
-
     50% {
         text-shadow: 0 0 10px #34d399, 0 0 20px #34d399, 0 0 30px #34d399;
     }
-
     75% {
         text-shadow: 0 0 10px #6ee7b7, 0 0 20px #6ee7b7, 0 0 30px #6ee7b7;
     }
-
     100% {
         text-shadow: 0 0 10px #059669, 0 0 20px #059669, 0 0 30px #059669;
     }
@@ -36,17 +32,9 @@ input[type=number] {
 }
 
 @keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .animate-gradient-flow {
@@ -54,19 +42,150 @@ input[type=number] {
     animation: gradientFlow 3s linear infinite;
 }
 
-/* Skeleton shimmer - light theme */
+/* =====================================================
+   GLASSMORPHISM CARD SYSTEM
+   ===================================================== */
+
+/* Primary glass card — frosted white glass */
+.glass-card {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    box-shadow:
+        0 4px 24px -4px rgba(5, 150, 105, 0.08),
+        0 1px 6px -1px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-card:hover {
+    box-shadow:
+        0 8px 32px -4px rgba(5, 150, 105, 0.13),
+        0 2px 10px -2px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Elevated glass card — for charts and main content */
+.glass-card-elevated {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(209, 250, 229, 0.6);
+    border-radius: 1rem;
+    box-shadow:
+        0 8px 32px -8px rgba(5, 150, 105, 0.12),
+        0 2px 8px -2px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Stat card with green tint glass */
+.glass-stat-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(236, 253, 245, 0.6) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(167, 243, 208, 0.5);
+    border-radius: 1rem;
+    box-shadow:
+        0 4px 20px -4px rgba(5, 150, 105, 0.1),
+        0 1px 4px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(5, 150, 105, 0.3), transparent);
+    border-radius: 1rem 1rem 0 0;
+}
+
+.glass-stat-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(209, 250, 229, 0.7) 100%);
+    border-color: rgba(52, 211, 153, 0.6);
+    box-shadow:
+        0 8px 28px -4px rgba(5, 150, 105, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.98);
+    transform: translateY(-2px);
+}
+
+/* Sidebar glass style */
+.glass-sidebar {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(167, 243, 208, 0.4);
+    box-shadow: 4px 0 24px -4px rgba(5, 150, 105, 0.08);
+}
+
+/* Table wrapper glass */
+.glass-table {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(209, 250, 229, 0.5);
+    border-radius: 1rem;
+    box-shadow:
+        0 4px 20px -4px rgba(5, 150, 105, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+/* Modal backdrop glass */
+.glass-modal {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(167, 243, 208, 0.5);
+    border-radius: 1.25rem;
+    box-shadow:
+        0 20px 60px -12px rgba(5, 150, 105, 0.18),
+        0 8px 24px -6px rgba(0, 0, 0, 0.08);
+}
+
+/* Icon wrapper in stat cards */
+.glass-icon {
+    background: linear-gradient(135deg, rgba(209, 250, 229, 0.8), rgba(167, 243, 208, 0.5));
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(8px);
+}
+
+/* Badge glass pill */
+.glass-badge {
+    background: rgba(209, 250, 229, 0.6);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    backdrop-filter: blur(8px);
+    border-radius: 9999px;
+}
+
+/* =====================================================
+   SKELETON SHIMMER - Light theme
+   ===================================================== */
 @keyframes shimmer {
     0% { background-position: -600px 0; }
     100% { background-position: 600px 0; }
 }
 
 .skeleton {
-    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+    background: linear-gradient(90deg, #f0fdf4 25%, #d1fae5 50%, #f0fdf4 75%);
     background-size: 600px 100%;
     animation: shimmer 1.6s infinite linear;
     border-radius: 0.5rem;
 }
 
+/* =====================================================
+   FADE IN ANIMATION
+   ===================================================== */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
@@ -74,4 +193,31 @@ input[type=number] {
 
 .animate-fadeIn {
     animation: fadeIn 0.25s ease-out both;
+}
+
+/* =====================================================
+   PAGE BACKGROUND — subtle moving gradient
+   ===================================================== */
+.page-bg {
+    background:
+        radial-gradient(ellipse at 10% 20%, rgba(209, 250, 229, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(167, 243, 208, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(240, 253, 244, 0.6) 0%, transparent 70%),
+        #f8fffe;
+}
+
+/* =====================================================
+   UTILITY: No scrollbar
+   ===================================================== */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* =====================================================
+   SMOOTH HOVER TRANSITIONS
+   ===================================================== */
+.hover-lift {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-2px);
 }

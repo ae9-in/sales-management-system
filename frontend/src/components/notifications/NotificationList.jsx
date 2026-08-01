@@ -44,7 +44,7 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
   });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 flex-1 flex flex-col overflow-hidden">
+    <div className="glass-card-elevated p-4 flex-1 flex flex-col overflow-hidden">
       {/* Tabs Header */}
       <div className="flex border-b border-gray-200 mb-4 overflow-x-auto no-scrollbar whitespace-nowrap">
         {tabs.map((tab, i) => (
@@ -123,5 +123,8 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
 };
 
 export default NotificationList;
+
+
+
 
 

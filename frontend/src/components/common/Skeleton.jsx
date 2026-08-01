@@ -16,7 +16,7 @@ export const SkeletonStatsCard = () => (
 );
 
 export const SkeletonTableRows = ({ rows = 6, cols = 5 }) => (
-  <div className="divide-y divide-gray-200">
+  <div className="divide-y divide-emerald-100/60">
     {Array.from({ length: rows }).map((_, i) => (
       <div key={i} className="flex gap-4 px-4 py-3">
         {Array.from({ length: cols }).map((_, j) => (
@@ -46,11 +46,11 @@ export const SkeletonPageFallback = () => (
       </div>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-      {[0,1,2].map(i => <SkeletonStatsCard key={i} />)}
+      {[0, 1, 2].map(i => <SkeletonStatsCard key={i} />)}
     </div>
     <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-      <div className="flex gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200">
-        {[40,20,20,15].map((w, i) => (
+      <div className="flex gap-4 px-4 py-3 bg-emerald-50/50 border-b border-emerald-100">
+        {[40, 20, 20, 15].map((w, i) => (
           <SkeletonBox key={i} className="h-3 rounded" style={{ width: `${w}%` }} />
         ))}
       </div>
@@ -58,5 +58,7 @@ export const SkeletonPageFallback = () => (
     </div>
   </div>
 );
+
+
 
 
