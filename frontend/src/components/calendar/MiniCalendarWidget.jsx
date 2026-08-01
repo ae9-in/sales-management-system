@@ -14,13 +14,13 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
   ];
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Mini Calendar</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Mini Calendar</h3>
       
       <div className="flex justify-between items-center mb-4">
-          <button className="p-1 text-gray-400 hover:text-white"><ChevronLeft size={16} /></button>
+          <button className="p-1 text-gray-500 hover:text-gray-900"><ChevronLeft size={16} /></button>
           <span className="text-sm font-semibold text-gray-200">July 2026</span>
-          <button className="p-1 text-gray-400 hover:text-white"><ChevronRight size={16} /></button>
+          <button className="p-1 text-gray-500 hover:text-gray-900"><ChevronRight size={16} /></button>
       </div>
 
       <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2">
@@ -40,9 +40,9 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
                 }}
                 className={`py-1 rounded cursor-pointer transition ${
                   isTodayHighlight 
-                    ? 'bg-blue-600 text-white font-bold' 
+                    ? 'bg-emerald-600 text-gray-900 font-bold' 
                     : day.isCurrentMonth 
-                      ? 'text-gray-300 hover:bg-gray-700' 
+                      ? 'text-gray-600 hover:bg-gray-100' 
                       : 'text-gray-600'
                 }`}
               >
@@ -56,3 +56,4 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
 };
 
 export default MiniCalendarWidget;
+

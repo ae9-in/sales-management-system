@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const getStatusColor = (status) => {
   if (status === 'Paid') return 'bg-green-500/20 text-green-400';
   if (status === 'Pending') return 'bg-orange-500/20 text-orange-400';
-  return 'bg-blue-500/20 text-blue-400';
+  return 'bg-emerald-500/20 text-emerald-600';
 };
 
 const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
@@ -20,11 +20,11 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Today's Transactions</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Today's Transactions</h3>
       <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left text-gray-400">
-          <thead className="text-gray-500 uppercase bg-gray-700/50">
+        <table className="w-full text-xs text-left text-gray-500">
+          <thead className="text-gray-500 uppercase bg-gray-100/50">
             <tr>
               <th className="px-4 py-3">Sales ID</th>
               <th className="px-4 py-3">Executive</th>
@@ -39,8 +39,8 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
           </thead>
           <tbody>
             {sales.map((row, i) => (
-              <tr key={i} className="border-b border-gray-700 hover:bg-gray-700/30">
-                <td className="px-4 py-3 font-medium text-gray-300">SAL-{String(row.id).padStart(5, '0')}</td>
+              <tr key={i} className="border-b border-gray-200 hover:bg-gray-100/30">
+                <td className="px-4 py-3 font-medium text-gray-600">SAL-{String(row.id).padStart(5, '0')}</td>
                 <td className="px-4 py-3">{row.rep || 'Arjun Kumar'}</td>
                 <td className="px-4 py-3">{row.customer || 'Walk-in'}</td>
                 <td className="px-4 py-3">{row.product}</td>
@@ -51,9 +51,9 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
                   <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status || 'Paid')}`}>{row.status || 'Paid'}</span>
                 </td>
                 <td className="px-4 py-3 flex space-x-2">
-                  <button onClick={() => handleView(row.id)} className="text-gray-400 hover:text-blue-400 transition"><Eye size={14} /></button>
-                  <button onClick={() => handleEdit(row.id)} className="text-gray-400 hover:text-green-400 transition"><Edit size={14} /></button>
-                  <button onClick={() => onDelete(row.id)} className="text-gray-400 hover:text-red-400 transition"><Trash2 size={14} /></button>
+                  <button onClick={() => handleView(row.id)} className="text-gray-500 hover:text-emerald-600 transition"><Eye size={14} /></button>
+                  <button onClick={() => handleEdit(row.id)} className="text-gray-500 hover:text-green-400 transition"><Edit size={14} /></button>
+                  <button onClick={() => onDelete(row.id)} className="text-gray-500 hover:text-red-400 transition"><Trash2 size={14} /></button>
                 </td>
               </tr>
             ))}
@@ -70,3 +70,6 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
 };
 
 export default DailySalesTable;
+
+
+

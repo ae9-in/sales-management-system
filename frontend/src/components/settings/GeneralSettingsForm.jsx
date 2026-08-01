@@ -27,18 +27,18 @@ const GeneralSettingsForm = () => {
   };
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-700 pb-3">General Settings</h3>
+    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">General Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Globe size={14} /> Language
           </label>
           <select 
             value={lang} 
             onChange={(e) => setLang(e.target.value)}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>English (US)</option>
             <option>Hindi</option>
@@ -47,13 +47,13 @@ const GeneralSettingsForm = () => {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Calendar size={14} /> Date Format
           </label>
           <select 
             value={dateFormat} 
             onChange={(e) => setDateFormat(e.target.value)}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>DD MMM YYYY</option>
             <option>YYYY-MM-DD</option>
@@ -62,13 +62,13 @@ const GeneralSettingsForm = () => {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Clock size={14} /> Time Zone
           </label>
           <select 
             value={timezone} 
             onChange={(e) => setTimezone(e.target.value)}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>(GMT +05:30) Asia/Kolkata</option>
             <option>(GMT +00:00) UTC</option>
@@ -77,13 +77,13 @@ const GeneralSettingsForm = () => {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <DollarSign size={14} /> Currency
           </label>
           <select 
             value={currency} 
             onChange={(e) => setCurrency(e.target.value)}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>INR (₹) - Indian Rupee</option>
             <option>USD ($) - US Dollar</option>
@@ -92,10 +92,10 @@ const GeneralSettingsForm = () => {
         </div>
       </div>
 
-      <div className="flex justify-end border-t border-gray-700 pt-4">
+      <div className="flex justify-end border-t border-gray-200 pt-4">
         <button 
           onClick={handleSave}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-lg shadow-blue-500/20"
+          className="bg-emerald-600 hover:bg-emerald-700 text-gray-900 text-xs font-semibold px-4 py-2 rounded-lg transition shadow-lg shadow-emerald-500/20"
         >
           Save Changes
         </button>
@@ -105,3 +105,5 @@ const GeneralSettingsForm = () => {
 };
 
 export default GeneralSettingsForm;
+
+

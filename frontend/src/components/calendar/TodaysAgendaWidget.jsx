@@ -19,28 +19,28 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
       time: timeStr,
       title: s.product,
       subtitle: s.customer || 'Walk-in',
-      color: s.status === 'Paid' ? 'bg-blue-500' : 'bg-red-500'
+      color: s.status === 'Paid' ? 'bg-emerald-500' : 'bg-red-500'
     };
   }).slice(0, 3);
 
   const hasData = list.length > 0;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
       <div className="flex justify-between items-center mb-6">
-          <h3 className="font-semibold text-gray-100 text-sm">Today's Agenda</h3>
-          <span className="text-blue-400 text-xs font-semibold">{format(new Date(), "dd MMMM yyyy")}</span>
+          <h3 className="font-semibold text-gray-900 text-sm">Today's Agenda</h3>
+          <span className="text-emerald-600 text-xs font-semibold">{format(new Date(), "dd MMMM yyyy")}</span>
       </div>
       
       {hasData ? (
-        <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[60px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gray-700 mb-6">
+        <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[60px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gray-100 mb-6">
             {list.map((evt, i) => (
                 <div key={i} className="relative flex items-center justify-between md:justify-normal group">
-                    <div className="flex items-center justify-center w-3 h-3 rounded-full border-2 border-gray-800 absolute left-[60px] bg-gray-900 z-10">
+                    <div className="flex items-center justify-center w-3 h-3 rounded-full border-2 border-gray-800 absolute left-[60px] bg-white z-10">
                         <div className={`w-1.5 h-1.5 rounded-full ${evt.color}`}></div>
                     </div>
                     
-                    <div className="w-[50px] text-right text-xs font-medium text-gray-400 shrink-0">
+                    <div className="w-[50px] text-right text-xs font-medium text-gray-500 shrink-0">
                         {evt.time}
                     </div>
 
@@ -61,3 +61,4 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
 };
 
 export default TodaysAgendaWidget;
+

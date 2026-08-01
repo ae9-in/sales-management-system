@@ -94,12 +94,12 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center min-h-screen text-gray-100 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+    <div className="flex flex-col justify-center min-h-screen text-gray-900 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <main className="flex flex-col items-center justify-center w-full max-w-6xl p-6 mx-auto">
 
 
         <div className="relative z-10 w-full max-w-md p-12 transition-all duration-300 bg-black rounded-lg shadow-xl opacity-90 backdrop-blur-sm hover:shadow-2xl">
-          <h1 className="mb-8 text-3xl font-bold text-center text-white">
+          <h1 className="mb-8 text-3xl font-bold text-center text-gray-900">
             {isAdminMode ? "Admin Portal" : "Welcome Back!"}
           </h1>
 
@@ -114,9 +114,9 @@ const Login = () => {
                   onKeyDown={(e) => handleKeyPress(e, field)}
                   autoComplete={field === "email" ? "email" : "current-password"}
                   required
-                  className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
                 />
-                <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData[field] ? "text-xs -translate-y-3" : ""}`}>
+                <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData[field] ? "text-xs -translate-y-3" : ""}`}>
                   {field === "email" ? "Email Address" : "Password"}
                 </label>
               </div>
@@ -126,7 +126,7 @@ const Login = () => {
               type="button"
               onClick={handleLogin}
               disabled={state.isSubmitting}
-              className={`w-full px-4 py-3 mt-2 font-semibold text-white bg-red-600 rounded transition-all duration-300 hover:bg-red-700 ${state.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`w-full px-4 py-3 mt-2 font-semibold text-gray-900 bg-red-600 rounded transition-all duration-300 hover:bg-red-700 ${state.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {state.isSubmitting ? "Signing in..." : "Sign In"}
             </button>
@@ -136,7 +136,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setState(prev => ({ ...prev, showHelpModal: true }))}
-              className="text-white text-xs transition-colors duration-300 hover:text-red-400 hover:underline focus:outline-none"
+              className="text-gray-900 text-xs transition-colors duration-300 hover:text-red-400 hover:underline focus:outline-none"
             >
               Need Help?
             </button>
@@ -180,4 +180,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
 

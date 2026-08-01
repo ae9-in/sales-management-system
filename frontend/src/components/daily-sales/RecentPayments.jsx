@@ -15,18 +15,18 @@ const RecentPayments = ({ sales = [] }) => {
   })).slice(0, 5);
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl flex flex-col h-full">
-      <h3 className="font-semibold text-gray-100 text-sm mb-4">Recent Payments</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl flex flex-col h-full">
+      <h3 className="font-semibold text-gray-900 text-sm mb-4">Recent Payments</h3>
       <div className="flex-1 overflow-auto space-y-4 mt-2 pr-1 no-scrollbar">
         {payments.map((item, i) => (
           <div 
             key={i} 
             onClick={() => handleRowClick(item.customer)}
-            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-700/30 p-1 rounded transition"
+            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-100/30 p-1 rounded transition"
           >
-            <div className="flex items-center text-gray-400 gap-2">
-              <CreditCard size={14} className="text-blue-400" />
-              <span className="font-medium text-gray-300">{item.customer}</span>
+            <div className="flex items-center text-gray-500 gap-2">
+              <CreditCard size={14} className="text-emerald-600" />
+              <span className="font-medium text-gray-600">{item.customer}</span>
             </div>
             <div className="text-right">
               <span className="text-gray-200 font-bold block">{item.amount}</span>
@@ -43,3 +43,6 @@ const RecentPayments = ({ sales = [] }) => {
 };
 
 export default RecentPayments;
+
+
+

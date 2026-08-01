@@ -84,20 +84,20 @@ const UserManagement = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 text-center text-gray-400 py-12">
-        <div className="w-8 h-8 border-4 border-gray-700 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 text-center text-gray-500 py-12">
+        <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
         Loading users...
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-3">
+    <div className="bg-white border border-gray-200 rounded-xl p-6">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-200 pb-3">
         <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2">
-          <Users size={16} className="text-blue-400" /> User Management
+          <Users size={16} className="text-emerald-600" /> User Management
         </h3>
-        <span className="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-semibold">
+        <span className="text-[10px] bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded font-semibold">
           {users.length} Users Registered
         </span>
       </div>
@@ -105,7 +105,7 @@ const UserManagement = () => {
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="border-b border-gray-700 text-gray-400 font-medium">
+            <tr className="border-b border-gray-200 text-gray-500 font-medium">
               <th className="py-3 px-2">Username</th>
               <th className="py-3 px-2">Email</th>
               <th className="py-3 px-2 text-center">Role</th>
@@ -117,17 +117,17 @@ const UserManagement = () => {
             {users.map((u) => {
               const isSelf = u.id === currentUser.id;
               return (
-                <tr key={u.id} className={`hover:bg-gray-700/20 ${isSelf ? "bg-blue-500/5" : ""}`}>
+                <tr key={u.id} className={`hover:bg-gray-100/20 ${isSelf ? "bg-emerald-500/5" : ""}`}>
                   <td className="py-3 px-2 font-semibold text-gray-200">
-                    {u.username} {isSelf && <span className="text-[9px] text-blue-400 font-normal ml-1.5">(You)</span>}
+                    {u.username} {isSelf && <span className="text-[9px] text-emerald-600 font-normal ml-1.5">(You)</span>}
                   </td>
-                  <td className="py-3 px-2 text-gray-400">{u.email}</td>
+                  <td className="py-3 px-2 text-gray-500">{u.email}</td>
                   <td className="py-3 px-2 text-center">
                     <span
                       className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-semibold ${
                         u.role === "admin"
                           ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
-                          : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                          : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                       }`}
                     >
                       {u.role.toUpperCase()}
@@ -202,3 +202,5 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
+
+

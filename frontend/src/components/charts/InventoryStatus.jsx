@@ -5,12 +5,12 @@ import CustomTooltip from "../common/CustomTooltip";
 import { formatNumber, formatLargeNumber } from "../../utils/formatters";
 
 const InventoryTable = ({ data }) => (
-    <div className="w-full p-4 overflow-auto border rounded-lg bg-gradient-to-br from-gray-800/30 to-gray-900/30 border-gray-700/30 max-h-72 backdrop-blur-sm">
-        <h3 className="mb-3 text-lg font-medium text-gray-300">Current Stock</h3>
+    <div className="w-full p-4 overflow-auto border rounded-lg bg-gradient-to-br from-gray-800/30 to-white/30 border-gray-200/30 max-h-72 backdrop-blur-sm">
+        <h3 className="mb-3 text-lg font-medium text-gray-600">Current Stock</h3>
         <div className="overflow-x-auto">
-            <table className="w-full text-white border-collapse shadow-md min-w-[600px]">
+            <table className="w-full text-gray-900 border-collapse shadow-md min-w-[600px]">
                 <thead>
-                    <tr className="text-gray-300 bg-gray-800/50">
+                    <tr className="text-gray-600 bg-white/50">
                         <th className="p-3 text-left">Item</th>
                         <th className="p-3 text-left">Current Stock</th>
                         <th className="p-3 text-left">Reorder Level</th>
@@ -25,7 +25,7 @@ const InventoryTable = ({ data }) => (
                                 ? { class: "bg-yellow-900 text-yellow-200", text: "Medium Stock" }
                                 : { class: "bg-green-900 text-green-200", text: "Sufficient" };
                         return (
-                            <tr key={item.id} className="transition-colors border-b border-gray-700/50 hover:bg-gray-800/50">
+                            <tr key={item.id} className="transition-colors border-b border-gray-200/50 hover:bg-white/50">
                                 <td className="p-3">{item.name}</td>
                                 <td className="p-3">{formatNumber(item.currentStock)}</td>
                                 <td className="p-3">{formatNumber(item.reorderLevel)}</td>
@@ -85,3 +85,4 @@ const InventoryStatus = ({ inventory }) => {
 };
 
 export default InventoryStatus; 
+

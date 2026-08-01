@@ -33,7 +33,7 @@ const Sidebar = lazy(() => import("./components/layout/Sidebar"));
 // Thin spinner used only for sidebar (tiny lazy load)
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center w-full h-full min-h-[40px]">
-    <div className="w-6 h-6 border-[3px] border-gray-700 rounded-full animate-spin border-t-red-500" />
+    <div className="w-6 h-6 border-[3px] border-gray-200 rounded-full animate-spin border-t-emerald-500" />
   </div>
 );
 
@@ -141,10 +141,10 @@ const AppContent = () => {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gray-900">
+    <div className="min-h-screen overflow-hidden bg-gray-50">
       <Suspense fallback={<SkeletonPageFallback />}>
         {isLoginPage ? (
-          <div className="h-screen text-gray-100">
+          <div className="h-screen text-gray-900">
             {location.pathname === "/signup" ? <SignUp /> : <Login />}
           </div>
         ) : (
@@ -164,7 +164,7 @@ const ProtectedLayout = () => {
         <Sidebar updateSidebarState={setSidebarWidth} />
       </Suspense>
       <div
-        className={`flex-1 overflow-auto transition-all duration-300 p-3 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 ${
+        className={`flex-1 overflow-auto transition-all duration-300 p-3 bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 ${
           sidebarWidth === "w-64" ? "ml-64" : "ml-16"
         }`}
       >

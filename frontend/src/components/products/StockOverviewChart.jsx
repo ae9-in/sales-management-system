@@ -29,3 +29,4 @@ const StockOverviewChart = () => (
 );
 
 export default StockOverviewChart;
+

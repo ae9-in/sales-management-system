@@ -165,7 +165,7 @@ const PageWrapper = ({ type, title, additionalFields = {}, onDataUpdate = () => 
   };
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 animate-fadeIn">
+    <div className="flex flex-col min-h-screen text-gray-900 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 animate-fadeIn">
       <main className="container flex flex-col w-full p-6 mx-auto max-w-7xl">
 
         <HeaderWithActions

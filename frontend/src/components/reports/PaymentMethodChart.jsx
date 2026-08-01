@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
-const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#8b5cf6'];
+const COLORS = ['#10b981', '#10b981', '#f59e0b', '#34d399'];
 
 const PaymentMethodChart = ({ sales = [] }) => {
   const activeSales = sales.filter(s => s.status !== 'Pending');
@@ -27,8 +27,8 @@ const PaymentMethodChart = ({ sales = [] }) => {
   const displayData = data;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6 h-[250px] flex flex-col relative">
-      <h3 className="font-semibold text-gray-100 mb-2 text-sm">Sales by Payment Method</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6 h-[250px] flex flex-col relative">
+      <h3 className="font-semibold text-gray-900 mb-2 text-sm">Sales by Payment Method</h3>
       {displayData.length === 0 ? (
         <div className="flex-1 flex items-center justify-center text-xs text-gray-500">
           No payment method sales data available.
@@ -54,15 +54,15 @@ const PaymentMethodChart = ({ sales = [] }) => {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute top-1/2 left-[30%] transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-            <p className="font-bold text-white text-[11px]">₹{totalRevenue.toLocaleString()}</p>
-            <p className="text-[9px] text-gray-400">Total Revenue</p>
+            <p className="font-bold text-gray-900 text-[11px]">₹{totalRevenue.toLocaleString()}</p>
+            <p className="text-[9px] text-gray-500">Total Revenue</p>
           </div>
           <div className="absolute top-1/2 right-0 transform -translate-y-1/2 space-y-3">
               {displayData.map(item => (
                   <div key={item.name} className="flex items-start gap-2">
                       <div className="w-2.5 h-2.5 rounded-full mt-1.5" style={{backgroundColor: item.color}}></div>
                       <div>
-                          <p className="text-xs text-gray-300 font-semibold">{item.name}</p>
+                          <p className="text-xs text-gray-600 font-semibold">{item.name}</p>
                           <p className="text-[10px] text-gray-500">{item.display}</p>
                       </div>
                   </div>
@@ -75,3 +75,6 @@ const PaymentMethodChart = ({ sales = [] }) => {
 };
 
 export default PaymentMethodChart;
+
+
+

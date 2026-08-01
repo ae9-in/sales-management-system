@@ -27,12 +27,12 @@ const FollowUpsList = ({ sales = [] }) => {
   }).slice(0, 5);
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-100 text-sm">Upcoming Follow-ups</h3>
+        <h3 className="font-semibold text-gray-900 text-sm">Upcoming Follow-ups</h3>
         <button 
           onClick={() => navigate('/calendar')}
-          className="text-blue-400 text-xs hover:underline"
+          className="text-emerald-600 text-xs hover:underline"
         >
           View All
         </button>
@@ -42,13 +42,13 @@ const FollowUpsList = ({ sales = [] }) => {
           <div 
             key={i} 
             onClick={() => handleRowClick(item.customer)}
-            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-700/30 p-1 rounded transition"
+            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-100/30 p-1 rounded transition"
           >
-            <div className="flex items-center text-gray-400 w-16">
+            <div className="flex items-center text-gray-500 w-16">
               <Calendar size={12} className="mr-1" />
               <span>{item.date}</span>
             </div>
-            <span className="text-gray-300 flex-1 truncate font-medium">{item.customer}</span>
+            <span className="text-gray-600 flex-1 truncate font-medium">{item.customer}</span>
             <span className="text-gray-500 w-24 truncate text-right">{item.rep}</span>
           </div>
         ))}
@@ -61,3 +61,6 @@ const FollowUpsList = ({ sales = [] }) => {
 };
 
 export default FollowUpsList;
+
+
+

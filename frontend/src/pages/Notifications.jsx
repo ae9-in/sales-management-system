@@ -147,14 +147,14 @@ const Notifications = () => {
   if (loading) return <SkeletonPageFallback />;
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
         
         {/* Header */}
         <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Notifications</h1>
-            <p className="text-gray-400 text-sm">Stay updated with important alerts and activities</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Notifications</h1>
+            <p className="text-gray-500 text-sm">Stay updated with important alerts and activities</p>
           </div>
           <div className="flex flex-wrap gap-3 items-center relative">
             {clearStatus && (
@@ -164,24 +164,24 @@ const Notifications = () => {
             )}
             <button 
               onClick={handleMarkAllRead}
-              className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition"
             >
               <CheckSquare className="w-4 h-4 mr-2" /> Mark all as read
             </button>
             <div className="relative">
               <button 
                 onClick={() => setShowConfirmClear(!showConfirmClear)}
-                className="bg-gray-800 border border-gray-700 text-red-400 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-red-500/10 transition"
+                className="bg-white border border-gray-200 text-red-400 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-red-500/10 transition"
               >
                 Clear all
               </button>
               {showConfirmClear && (
-                <div className="absolute right-0 top-full mt-2 z-50 bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-xl w-48 text-xs">
-                  <p className="text-gray-300 mb-2 font-medium text-center">Clear all notifications?</p>
+                <div className="absolute right-0 top-full mt-2 z-50 bg-white border border-gray-200 rounded-lg p-3 shadow-xl w-48 text-xs">
+                  <p className="text-gray-600 mb-2 font-medium text-center">Clear all notifications?</p>
                   <div className="flex gap-2 justify-center">
                     <button 
                       onClick={() => setShowConfirmClear(false)}
-                      className="px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-gray-300"
+                      className="px-2 py-1 bg-gray-100 hover:bg-gray-600 rounded text-gray-600"
                     >
                       Cancel
                     </button>
@@ -190,7 +190,7 @@ const Notifications = () => {
                         handleClearAll();
                         setShowConfirmClear(false);
                       }}
-                      className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-white font-semibold"
+                      className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-gray-900 font-semibold"
                     >
                       Confirm
                     </button>
@@ -233,3 +233,4 @@ const Notifications = () => {
 };
 
 export default Notifications;
+

@@ -11,14 +11,14 @@ const HelpModal = ({ onClose }) => {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md p-8 bg-gray-900 border border-gray-700 shadow-2xl rounded-xl opacity-95 backdrop-blur-sm"
+        className="w-full max-w-md p-8 bg-white border border-gray-200 shadow-2xl rounded-xl opacity-95 backdrop-blur-sm"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-white">Contact Developers</h3>
+          <h3 className="text-2xl font-bold text-gray-900">Contact Developers</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 transition-colors duration-300 hover:text-white focus:outline-none"
+            className="text-gray-500 transition-colors duration-300 hover:text-gray-900 focus:outline-none"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -30,12 +30,12 @@ const HelpModal = ({ onClose }) => {
           {DEVELOPERS.map((dev, index) => (
             <div
               key={index}
-              className="p-4 transition-all duration-300 bg-gray-800 rounded-lg hover:bg-gray-700"
+              className="p-4 transition-all duration-300 bg-white rounded-lg hover:bg-gray-100"
             >
-              <p className="font-medium text-white">{dev.name}</p>
+              <p className="font-medium text-gray-900">{dev.name}</p>
               <a
                 href={`mailto:${dev.email}`}
-                className="text-sm text-blue-400 transition-colors duration-300 hover:text-blue-300"
+                className="text-sm text-emerald-600 transition-colors duration-300 hover:text-emerald-500"
               >
                 {dev.email}
               </a>
@@ -45,7 +45,7 @@ const HelpModal = ({ onClose }) => {
 
         <button
           onClick={onClose}
-          className="w-full px-6 py-2 mt-6 text-white transition-colors duration-300 bg-red-600 rounded-lg hover:bg-red-700"
+          className="w-full px-6 py-2 mt-6 text-gray-900 transition-colors duration-300 bg-red-600 rounded-lg hover:bg-red-700"
         >
           Close
         </button>

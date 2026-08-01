@@ -13,7 +13,7 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
   const getStatusColor = (status) => {
     if (status === 'Paid') return 'bg-green-500/20 text-green-400';
     if (status === 'Pending') return 'bg-orange-500/20 text-orange-400';
-    return 'bg-blue-500/20 text-blue-400';
+    return 'bg-emerald-500/20 text-emerald-600';
   };
 
   // Filter sales matching selectedDate
@@ -40,12 +40,12 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
   }).slice(0, 5);
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-100 text-sm">Recent Sales (Today)</h3>
+        <h3 className="font-semibold text-gray-900 text-sm">Recent Sales (Today)</h3>
         <button 
           onClick={() => navigate('/sales')}
-          className="text-blue-400 text-xs hover:underline"
+          className="text-emerald-600 text-xs hover:underline"
         >
           View All
         </button>
@@ -55,11 +55,11 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
           <div 
             key={i} 
             onClick={() => handleRowClick(sale.customer)}
-            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-700/30 p-1.5 rounded transition"
+            className="flex items-center justify-between text-xs cursor-pointer hover:bg-gray-100/30 p-1.5 rounded transition"
           >
             <span className="text-gray-500 w-16">{sale.time}</span>
-            <span className="text-gray-300 flex-1 truncate">{sale.customer}</span>
-            <span className="text-gray-400 w-24 truncate hidden sm:block">{sale.rep}</span>
+            <span className="text-gray-600 flex-1 truncate">{sale.customer}</span>
+            <span className="text-gray-500 w-24 truncate hidden sm:block">{sale.rep}</span>
             <span className="text-gray-200 w-16 text-right font-medium">{sale.amount}</span>
             <span className={`w-16 text-center rounded text-[10px] py-0.5 ml-2 ${getStatusColor(sale.status)}`}>{sale.status}</span>
           </div>
@@ -73,3 +73,6 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
 };
 
 export default RecentSalesList;
+
+
+

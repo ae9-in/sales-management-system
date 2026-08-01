@@ -28,8 +28,8 @@ const SalesByDayChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="col-span-1 lg:col-span-4 p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col justify-between">
-      <h3 className="font-semibold text-gray-100 text-sm mb-4">Sales by Day</h3>
+    <div className="col-span-1 lg:col-span-4 p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col justify-between">
+      <h3 className="font-semibold text-gray-900 text-sm mb-4">Sales by Day</h3>
       <div className="flex-1 w-full">
         {hasData ? (
           <ResponsiveContainer width="100%" height="100%">
@@ -37,7 +37,7 @@ const SalesByDayChart = ({ sales = [] }) => {
               <XAxis dataKey="day" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
               <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
-              <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={15} />
+              <Bar dataKey="value" fill="#059669" radius={[4, 4, 0, 0]} barSize={15} />
             </BarChart>
           </ResponsiveContainer>
         ) : (
@@ -51,3 +51,6 @@ const SalesByDayChart = ({ sales = [] }) => {
 };
 
 export default SalesByDayChart;
+
+
+

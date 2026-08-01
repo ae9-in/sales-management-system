@@ -2,14 +2,14 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 const data = [
-  { name: 'Paid', value: 65, color: '#3b82f6' },
+  { name: 'Paid', value: 65, color: '#059669' },
   { name: 'Pending', value: 25, color: '#f59e0b' },
   { name: 'Partial', value: 10, color: '#10b981' },
 ];
 
 const PaymentStatusChart = () => (
-  <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px]">
-    <h3 className="font-semibold text-gray-100 mb-4">Sales by Payment Status</h3>
+  <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px]">
+    <h3 className="font-semibold text-gray-900 mb-4">Sales by Payment Status</h3>
     <div className="h-[220px]">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
@@ -35,3 +35,6 @@ const PaymentStatusChart = () => (
 );
 
 export default PaymentStatusChart;
+
+
+

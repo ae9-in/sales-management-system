@@ -22,10 +22,10 @@ const ExecutiveRecentSales = ({ executiveName, sales = [] }) => {
       <h4 className="font-semibold text-gray-200 text-xs mb-3">Recent Transactions</h4>
       <div className="space-y-3">
         {list.map((item, i) => (
-          <div key={i} className="flex justify-between items-center text-[10px] p-2 bg-gray-900/40 rounded border border-gray-700/30">
-            <span className="text-gray-400">{item.date}</span>
+          <div key={i} className="flex justify-between items-center text-[10px] p-2 bg-white/40 rounded border border-gray-200/30">
+            <span className="text-gray-500">{item.date}</span>
             <span className="text-gray-200 font-medium truncate w-24 block text-center">{item.customer}</span>
-            <span className="text-blue-400 font-semibold">{item.amount}</span>
+            <span className="text-emerald-600 font-semibold">{item.amount}</span>
           </div>
         ))}
         {list.length === 0 && (
@@ -37,3 +37,4 @@ const ExecutiveRecentSales = ({ executiveName, sales = [] }) => {
 };
 
 export default ExecutiveRecentSales;
+

@@ -127,26 +127,26 @@ const Reports = () => {
   if (loading) return <SkeletonPageFallback />;
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
         
         {/* Header */}
         <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Reports</h1>
-            <p className="text-gray-400 text-sm">Analyze your sales data and generate insightful reports</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Reports</h1>
+            <p className="text-gray-500 text-sm">Analyze your sales data and generate insightful reports</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={handleExport}
-              className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition"
             >
               <Upload className="w-4 h-4 mr-2" /> Export
             </button>
             <button 
               onClick={() => setShowFilters(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+              className="bg-emerald-600 text-gray-900 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
             >
               <Filter className="w-4 h-4 mr-1" /> Filters
             </button>
@@ -221,3 +221,4 @@ const Reports = () => {
 };
 
 export default Reports;
+

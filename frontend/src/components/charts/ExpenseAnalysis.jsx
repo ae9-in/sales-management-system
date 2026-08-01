@@ -4,7 +4,7 @@ import ChartContainer from "./ChartContainer";
 import CustomTooltip from "../common/CustomTooltip";
 import { formatCurrency, formatLargeCurrency } from "../../utils/formatters";
 
-const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16"];
+const COLORS = ["#059669", "#10b981", "#f59e0b", "#ef4444", "#34d399", "#ec4899", "#06b6d4", "#84cc16"];
 
 const ExpenseDistribution = ({ data }) => (
     <ChartContainer title="Expense Distribution">
@@ -31,7 +31,7 @@ const ExpenseDistribution = ({ data }) => (
                         if (!active || !payload?.length) return null;
                         const data = payload[0];
                         return (
-                            <div className="p-3 border rounded-lg shadow-lg border-gray-800/40 bg-gray-800/80 backdrop-blur-sm">
+                            <div className="p-3 border rounded-lg shadow-lg border-gray-800/40 bg-white/80 backdrop-blur-sm">
                                 <p className="text-sm" style={{ color: data.color }}>
                                     {data.name}: {formatCurrency(data.value)}
                                 </p>
@@ -126,3 +126,4 @@ const ExpenseAnalysis = ({ expenses, stats }) => {
 };
 
 export default ExpenseAnalysis; 
+

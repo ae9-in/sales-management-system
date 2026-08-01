@@ -17,8 +17,8 @@ const PaymentMethodBars = ({ sales = [] }) => {
   const hasData = chartData.length > 0;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[230px] flex flex-col mb-6">
-      <h3 className="font-semibold text-gray-100 text-sm mb-4">Payment Methods Overview</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[230px] flex flex-col mb-6">
+      <h3 className="font-semibold text-gray-900 text-sm mb-4">Payment Methods Overview</h3>
       <div className="flex-1 w-full">
         {hasData ? (
           <ResponsiveContainer width="100%" height="100%">
@@ -26,7 +26,7 @@ const PaymentMethodBars = ({ sales = [] }) => {
               <XAxis dataKey="name" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
               <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
-              <Bar dataKey="value" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={15} />
+              <Bar dataKey="value" fill="#34d399" radius={[4, 4, 0, 0]} barSize={15} />
             </BarChart>
           </ResponsiveContainer>
         ) : (
@@ -40,3 +40,6 @@ const PaymentMethodBars = ({ sales = [] }) => {
 };
 
 export default PaymentMethodBars;
+
+
+

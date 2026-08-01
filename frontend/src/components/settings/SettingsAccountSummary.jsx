@@ -17,31 +17,31 @@ const SettingsAccountSummary = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6 font-sans">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Account Summary</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6 font-sans">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Account Summary</h3>
       
       <div className="space-y-3 text-xs mb-6">
         <div className="flex justify-between items-center">
-            <span className="text-gray-400">Your Role</span>
-            <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-400 font-semibold">{displayRole}</span>
+            <span className="text-gray-500">Your Role</span>
+            <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-600 font-semibold">{displayRole}</span>
         </div>
         <div className="flex justify-between">
-            <span className="text-gray-400">Username</span>
+            <span className="text-gray-500">Username</span>
             <span className="font-medium text-gray-200">{displayUsername}</span>
         </div>
         <div className="flex justify-between">
-            <span className="text-gray-400">Member Since</span>
+            <span className="text-gray-500">Member Since</span>
             <span className="font-medium text-gray-200">15 Jan 2024</span>
         </div>
         <div className="flex justify-between">
-            <span className="text-gray-400">Last Login</span>
+            <span className="text-gray-500">Last Login</span>
             <span className="font-medium text-gray-200">{format(new Date(), "dd MMM yyyy, hh:mm a")}</span>
         </div>
       </div>
 
       <button 
         onClick={handleLogout}
-        className="w-full flex items-center justify-center gap-2 border border-red-500/50 hover:border-red-500 bg-transparent text-red-400 hover:text-white py-2 rounded-lg text-xs font-semibold transition hover:bg-red-500/10 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 border border-red-500/50 hover:border-red-500 bg-transparent text-red-400 hover:text-gray-900 py-2 rounded-lg text-xs font-semibold transition hover:bg-red-500/10 cursor-pointer"
       >
           <LogOut size={14} /> Logout
       </button>
@@ -50,3 +50,5 @@ const SettingsAccountSummary = () => {
 };
 
 export default SettingsAccountSummary;
+
+

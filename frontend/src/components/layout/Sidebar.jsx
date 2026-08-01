@@ -5,10 +5,11 @@ import { useAuth } from "../../hooks/useAuth";
 import { Link, useLocation } from "react-router-dom";
 import {Home, Package, BarChart2, Users, IndianRupee, ChartArea, Menu, ChevronLeft, Calendar, Bell, Settings} from "lucide-react";
 
-// Color mappings for icon highlights
+// Color mappings for icon highlights - light theme
 const COLOR_MAP = {
-  blue: "text-blue-400", green: "text-green-400", purple: "text-purple-400",
-  orange: "text-orange-400", teal: "text-teal-400", cyan: "text-cyan-400",
+  blue: "text-emerald-600", green: "text-emerald-500", purple: "text-teal-500",
+  orange: "text-green-600", teal: "text-emerald-600", cyan: "text-emerald-700",
+  gray: "text-gray-500",
 };
 
 // Navigation menu configuration
@@ -33,13 +34,13 @@ const NavItem = memo(({ item, isActive, isExpanded }) => {
       to={path}
       title={!isExpanded ? label : ""}
       className={`
-        flex items-center justify-between px-4 py-3 text-gray-300 transition-all duration-300 
-        hover:bg-gradient-to-r hover:from-gray-800/50 hover:to-gray-700/50 hover:text-white group relative overflow-hidden
-        ${isActive ? "bg-gradient-to-r from-gray-800/50 to-gray-700/50 text-white border-l-4 border-blue-500" : ""}
+        flex items-center justify-between px-4 py-3 text-gray-600 transition-all duration-300 
+        hover:bg-emerald-50 hover:text-emerald-700 group relative overflow-hidden
+        ${isActive ? "bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold" : "border-l-4 border-transparent"}
       `}
     >
       {/* Hover shimmer effect for nav item */}
-      <div className="absolute inset-0 transition-all duration-1000 ease-in-out transform -translate-x-full opacity-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent group-hover:translate-x-full group-hover:opacity-100" />
+      <div className="absolute inset-0 transition-all duration-1000 ease-in-out transform -translate-x-full opacity-0 bg-gradient-to-r from-transparent via-emerald-400/10 to-transparent group-hover:translate-x-full group-hover:opacity-100" />
       
       <div className="flex items-center z-10 relative">
         {/* Nav icon */}
@@ -47,7 +48,7 @@ const NavItem = memo(({ item, isActive, isExpanded }) => {
           size={20}
           className={`
             transition-all duration-300 relative z-10 
-            ${COLOR_MAP[color] || "text-gray-300"} 
+            ${isActive ? "text-emerald-600" : (COLOR_MAP[color] || "text-gray-500")} 
             ${!isExpanded ? "mx-auto scale-100 group-hover:scale-110" : "mr-3 group-hover:translate-x-1"}
           `}
         />
@@ -61,7 +62,7 @@ const NavItem = memo(({ item, isActive, isExpanded }) => {
 
       {/* Render optional Badge */}
       {badge > 0 && isExpanded && (
-        <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative">
+        <span className="bg-emerald-500 text-gray-900 text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative">
           {badge}
         </span>
       )}
@@ -137,16 +138,16 @@ const Sidebar = ({ updateSidebarState }) => {
 
   return (
     <aside
-      className={`fixed h-full bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.3)] z-20 transition-all duration-300 ease-in-out flex flex-col justify-between
+      className={`fixed h-full bg-white border-r border-gray-200 shadow-sm z-20 transition-all duration-300 ease-in-out flex flex-col justify-between
         ${isExpanded ? "w-64" : "w-16"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/*Sidebar Top Logo & Toggle Button */}
-      <div className="relative flex items-center justify-between p-4 overflow-hidden border-b border-gray-700/50 shrink-0">
+      <div className="relative flex items-center justify-between p-4 overflow-hidden border-b border-gray-100 shrink-0">
         {/* Brand Title */}
         <div className={`overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out ${isExpanded ? "w-40 opacity-100" : "w-0 opacity-0"}`}>
-          <h2 className="text-xl font-bold text-white truncate" title={businessName}>
+          <h2 className="text-xl font-bold text-emerald-700 truncate" title={businessName}>
             {(() => {
               if (!businessName) return "";
               const parts = businessName.split(' ');
@@ -161,7 +162,7 @@ const Sidebar = ({ updateSidebarState }) => {
         {/* Toggle Sidebar Button */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center justify-center w-10 h-10 text-gray-300 transition-all duration-300 rounded-full"
+          className="flex items-center justify-center w-10 h-10 text-gray-500 transition-all duration-300 rounded-full hover:text-emerald-600 hover:bg-emerald-50"
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}>
             
           {isCollapsed && !isHovered ? (
@@ -173,7 +174,7 @@ const Sidebar = ({ updateSidebarState }) => {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 flex flex-col gap-1 mt-6 overflow-y-auto no-scrollbar">
+      <nav className="flex-1 flex flex-col gap-1 mt-4 overflow-y-auto no-scrollbar">
         {items.map((item) => (
           <NavItem
             key={item.path}
@@ -185,10 +186,10 @@ const Sidebar = ({ updateSidebarState }) => {
       </nav>
 
       {/* Logout Button */}
-      <div className="w-full px-2 pb-4 mt-auto shrink-0">
+      <div className="w-full px-2 pb-4 mt-auto shrink-0 border-t border-gray-100 pt-2">
         <button
           onClick={logout}
-          className="flex items-center w-full px-4 py-3 text-red-400 hover:text-red-300 transition-all duration-300 hover:bg-red-500/10 rounded-lg group relative overflow-hidden cursor-pointer"
+          className="flex items-center w-full px-4 py-3 text-red-500 hover:text-red-600 transition-all duration-300 hover:bg-red-50 rounded-lg group relative overflow-hidden cursor-pointer"
           title={!isExpanded ? "Logout" : ""}
         >
           <LogOut size={20} className={!isExpanded ? "mx-auto" : "mr-3"} />
@@ -202,3 +203,4 @@ const Sidebar = ({ updateSidebarState }) => {
 };
 
 export default memo(Sidebar);
+

@@ -3,15 +3,15 @@ import { TrendingUp, TrendingDown, Target, IndianRupee } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 
 const InsightCard = ({ title, name, amount, subtext, icon: Icon, color, colorClass, chartData = [] }) => (
-  <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl flex items-center justify-between">
+  <div className="p-4 bg-white border border-gray-200 rounded-xl flex items-center justify-between">
     <div className="flex gap-3">
       <div className={`p-2 rounded-lg h-fit ${colorClass}`}>
         <Icon className="w-5 h-5" />
       </div>
       <div>
-        <p className="text-xs text-gray-400 mb-1">{title}</p>
+        <p className="text-xs text-gray-500 mb-1">{title}</p>
         <h4 className="text-sm font-bold text-gray-200 truncate w-32">{name}</h4>
-        <p className="text-xs font-semibold text-white">{amount}</p>
+        <p className="text-xs font-semibold text-gray-900">{amount}</p>
         <p className="text-[10px] text-gray-500">{subtext}</p>
       </div>
     </div>
@@ -83,7 +83,7 @@ const ExecutiveInsights = ({ sales = [], employees = [] }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 font-sans">
       <InsightCard title="Top Performer" name={topName} amount={`₹${topAmount.toLocaleString()}`} subtext={`${topSalesCount} Sales`} icon={TrendingUp} color="#10b981" colorClass="bg-green-500/20 text-green-400" chartData={topTrend} />
       <InsightCard title="Lowest Sales" name={lowName} amount={`₹${lowAmount.toLocaleString()}`} subtext={`${lowSalesCount} Sales`} icon={TrendingDown} color="#f59e0b" colorClass="bg-orange-500/20 text-orange-400" chartData={lowTrend} />
-      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#3b82f6" colorClass="bg-blue-500/20 text-blue-400" chartData={conversionTrend} />
+      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#3b82f6" colorClass="bg-emerald-500/20 text-emerald-600" chartData={conversionTrend} />
       <InsightCard title="Avg. Revenue / Executive" name={`₹${avgRev.toLocaleString()}`} amount="" subtext="Per Executive" icon={IndianRupee} color="#8b5cf6" colorClass="bg-purple-500/20 text-purple-400" chartData={allTrend} />
     </div>
   );

@@ -26,10 +26,10 @@ const SalesOverviewChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col relative">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col relative">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-100 text-sm">Sales Overview</h3>
-        <select className="bg-gray-700 border border-gray-600 text-xs text-gray-300 rounded px-2 py-1"><option>Daily</option></select>
+        <h3 className="font-semibold text-gray-900 text-sm">Sales Overview</h3>
+        <select className="bg-gray-100 border border-gray-200 text-xs text-gray-600 rounded px-2 py-1"><option>Daily</option></select>
       </div>
       <div className="flex-1 w-full">
         {hasData ? (
@@ -40,7 +40,7 @@ const SalesOverviewChart = ({ sales = [] }) => {
               <YAxis yAxisId="right" orientation="right" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
               <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#9ca3af', top: '-10px' }}/>
-              <Line yAxisId="left" type="monotone" dataKey="revenue" name="Revenue (₹)" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              <Line yAxisId="left" type="monotone" dataKey="revenue" name="Revenue (₹)" stroke="#059669" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
               <Line yAxisId="right" type="monotone" dataKey="orders" name="Orders" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -55,3 +55,6 @@ const SalesOverviewChart = ({ sales = [] }) => {
 };
 
 export default SalesOverviewChart;
+
+
+

@@ -16,9 +16,9 @@ const TopProductsChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col relative">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col relative">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-100 text-sm">Top Products</h3>
+        <h3 className="font-semibold text-gray-900 text-sm">Top Products</h3>
       </div>
       <div className="flex-1 w-full">
         {hasData ? (
@@ -27,7 +27,7 @@ const TopProductsChart = ({ sales = [] }) => {
               <XAxis type="number" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis dataKey="name" type="category" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} width={120} />
               <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px' }} />
-              <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={12} />
+              <Bar dataKey="value" fill="#059669" radius={[0, 4, 4, 0]} barSize={12} />
             </BarChart>
           </ResponsiveContainer>
         ) : (
@@ -41,3 +41,6 @@ const TopProductsChart = ({ sales = [] }) => {
 };
 
 export default TopProductsChart;
+
+
+

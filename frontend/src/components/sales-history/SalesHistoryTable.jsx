@@ -6,7 +6,7 @@ import { parseISO, format } from 'date-fns';
 const getStatusColor = (status) => {
   if (status === 'Paid') return 'bg-green-500/20 text-green-400';
   if (status === 'Pending') return 'bg-orange-500/20 text-orange-400';
-  return 'bg-blue-500/20 text-blue-400';
+  return 'bg-emerald-500/20 text-emerald-600';
 };
 
 const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
@@ -50,22 +50,22 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
   });
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl">
+    <div className="p-4 bg-white border border-gray-200 rounded-xl">
       <div className="flex flex-wrap gap-3 mb-6 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
           <input 
             type="text" 
             placeholder="Search transactions..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-blue-500" 
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
           />
         </div>
         <select 
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
-          className="bg-gray-700 border border-gray-600 text-sm text-gray-300 rounded-lg outline-none px-3 py-2 cursor-pointer"
+          className="bg-gray-100 border border-gray-200 text-sm text-gray-600 rounded-lg outline-none px-3 py-2 cursor-pointer"
         >
           <option value="All">All Status</option>
           <option value="Paid">Paid</option>
@@ -74,15 +74,15 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
         </select>
         <button 
           onClick={() => { setSearchTerm(''); setSelectedStatus('All'); }}
-          className="bg-gray-700 border border-gray-600 text-gray-300 px-3 py-2 rounded-lg text-sm flex items-center hover:bg-gray-650"
+          className="bg-gray-100 border border-gray-200 text-gray-600 px-3 py-2 rounded-lg text-sm flex items-center hover:bg-gray-650"
         >
           Reset
         </button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left text-gray-400">
-          <thead className="text-gray-500 uppercase bg-gray-700/50">
+        <table className="w-full text-xs text-left text-gray-500">
+          <thead className="text-gray-500 uppercase bg-gray-100/50">
             <tr>
               <th className="px-4 py-3">Sales ID</th>
               <th className="px-4 py-3">Date</th>
@@ -96,8 +96,8 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
           </thead>
           <tbody>
             {filteredData.map((row, i) => (
-              <tr key={i} className="border-b border-gray-700 hover:bg-gray-700/30">
-                <td className="px-4 py-3 font-medium text-gray-300">SAL-{String(row.id).padStart(5, '0')}</td>
+              <tr key={i} className="border-b border-gray-200 hover:bg-gray-100/30">
+                <td className="px-4 py-3 font-medium text-gray-600">SAL-{String(row.id).padStart(5, '0')}</td>
                 <td className="px-4 py-3">{row.date}</td>
                 <td className="px-4 py-3">{row.rep}</td>
                 <td className="px-4 py-3">{row.customer}</td>
@@ -107,9 +107,9 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
                   <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status)}`}>{row.status}</span>
                 </td>
                 <td className="px-4 py-3 flex space-x-2">
-                  <button onClick={() => handleView(row.id)} className="text-gray-400 hover:text-blue-400 transition"><Eye size={14} /></button>
-                  <button onClick={() => handleEdit(row.id)} className="text-gray-400 hover:text-green-400 transition"><Edit size={14} /></button>
-                  <button onClick={() => onDelete(row.id)} className="text-gray-400 hover:text-red-400 transition"><Trash2 size={14} /></button>
+                  <button onClick={() => handleView(row.id)} className="text-gray-500 hover:text-emerald-600 transition"><Eye size={14} /></button>
+                  <button onClick={() => handleEdit(row.id)} className="text-gray-500 hover:text-green-400 transition"><Edit size={14} /></button>
+                  <button onClick={() => onDelete(row.id)} className="text-gray-500 hover:text-red-400 transition"><Trash2 size={14} /></button>
                 </td>
               </tr>
             ))}
@@ -126,3 +126,6 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
 };
 
 export default SalesHistoryTable;
+
+
+

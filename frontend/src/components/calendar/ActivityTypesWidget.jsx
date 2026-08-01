@@ -7,17 +7,17 @@ const ActivityTypesWidget = ({ sales = [] }) => {
   const paymentsCount = sales.length;
 
   const types = [
-    { icon: CalIcon, name: 'Meetings', count: meetingsCount, color: 'text-blue-400 bg-blue-500/10 border-blue-500/30' },
+    { icon: CalIcon, name: 'Meetings', count: meetingsCount, color: 'text-emerald-600 bg-emerald-500/10 border-emerald-500/30' },
     { icon: PhoneCall, name: 'Follow-ups', count: followUpsCount, color: 'text-green-400 bg-green-500/10 border-green-500/30' },
     { icon: Presentation, name: 'Demos / Proposals', count: 0, color: 'text-orange-400 bg-orange-500/10 border-orange-500/30' },
     { icon: FileText, name: 'Quotations', count: 0, color: 'text-purple-400 bg-purple-500/10 border-purple-500/30' },
     { icon: CreditCard, name: 'Payments', count: paymentsCount, color: 'text-red-400 bg-red-500/10 border-red-500/30' },
-    { icon: LayoutGrid, name: 'Other Activities', count: 0, color: 'text-gray-400 bg-gray-500/10 border-gray-500/30' },
+    { icon: LayoutGrid, name: 'Other Activities', count: 0, color: 'text-gray-500 bg-gray-500/10 border-gray-500/30' },
   ];
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Activity Types</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Activity Types</h3>
       <div className="space-y-3">
         {types.map((t, i) => (
           <div key={i} className="flex justify-between items-center text-sm">
@@ -25,7 +25,7 @@ const ActivityTypesWidget = ({ sales = [] }) => {
                   <div className={`p-1.5 border rounded-lg ${t.color}`}>
                       <t.icon size={16} />
                   </div>
-                  <span className="text-gray-300">{t.name}</span>
+                  <span className="text-gray-600">{t.name}</span>
               </div>
               <span className="text-gray-500 font-semibold">{t.count}</span>
           </div>
@@ -36,3 +36,4 @@ const ActivityTypesWidget = ({ sales = [] }) => {
 };
 
 export default ActivityTypesWidget;
+

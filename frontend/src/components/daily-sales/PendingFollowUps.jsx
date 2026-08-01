@@ -6,8 +6,8 @@ const PendingFollowUps = ({ sales = [] }) => {
   const pendingSales = sales.filter(s => s.status === 'Pending' || s.status === 'Partial').slice(0, 3);
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-full flex flex-col">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Pending Follow-ups</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-full flex flex-col">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Pending Follow-ups</h3>
       <div className="flex-1 space-y-4">
         {pendingSales.map((s, i) => {
           let dateStr = 'Tomorrow';
@@ -33,9 +33,12 @@ const PendingFollowUps = ({ sales = [] }) => {
           <div className="text-center text-xs py-8 text-gray-500">No pending follow-ups.</div>
         )}
       </div>
-      <button className="text-blue-400 text-xs mt-4 hover:underline text-center w-full">View All Follow-ups</button>
+      <button className="text-emerald-600 text-xs mt-4 hover:underline text-center w-full">View All Follow-ups</button>
     </div>
   );
 };
 
 export default PendingFollowUps;
+
+
+

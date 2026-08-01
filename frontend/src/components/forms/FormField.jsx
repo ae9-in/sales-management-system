@@ -13,7 +13,7 @@ const FormField = ({
   disabled = false,
 }) => {
   const baseClasses =
-    "w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100";
+    "w-full rounded-lg border px-4 py-2 focus:border-emerald-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100";
   const errorClasses = error ? "border-red-500" : "border-gray-300";
 
   const renderField = () => {
@@ -77,3 +77,4 @@ const FormField = ({
 };
 
 export default FormField;
+

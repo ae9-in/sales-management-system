@@ -138,21 +138,21 @@ const DownloadReportsWidget = ({ sales = [] }) => {
   ];
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6">
-      <h3 className="font-semibold text-gray-100 mb-1 text-sm">Download Reports</h3>
-      <p className="text-[10px] text-gray-400 mb-4">Download your reports in different formats</p>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+      <h3 className="font-semibold text-gray-900 mb-1 text-sm">Download Reports</h3>
+      <p className="text-[10px] text-gray-500 mb-4">Download your reports in different formats</p>
       
       <div className="grid grid-cols-2 gap-3">
         {buttons.map((b, i) => (
           <button 
             key={i} 
             onClick={b.onClick}
-            className="flex items-center gap-3 p-3 bg-gray-700/50 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-gray-500 transition text-left"
+            className="flex items-center gap-3 p-3 bg-gray-100/50 border border-gray-200 rounded-lg hover:bg-gray-100 hover:border-gray-500 transition text-left"
           >
             <b.icon className={`w-5 h-5 ${b.color}`} />
             <div>
               <div className="text-sm font-semibold text-gray-200">{b.title}</div>
-              <div className="text-[9px] text-gray-400">{b.subtext}</div>
+              <div className="text-[9px] text-gray-500">{b.subtext}</div>
             </div>
           </button>
         ))}
@@ -162,3 +162,6 @@ const DownloadReportsWidget = ({ sales = [] }) => {
 };
 
 export default DownloadReportsWidget;
+
+
+

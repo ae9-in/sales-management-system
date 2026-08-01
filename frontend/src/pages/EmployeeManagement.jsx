@@ -123,14 +123,14 @@ const EmployeeManagement = () => {
   const filteredSales = filterDataByDate(sales, activeDateRange, "date");
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
         
         {/* Header */}
         <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Sales Executives</h1>
-            <p className="text-gray-400 text-sm">Manage and track your sales team performance.</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Sales Executives</h1>
+            <p className="text-gray-500 text-sm">Manage and track your sales team performance.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
@@ -144,7 +144,7 @@ const EmployeeManagement = () => {
                 setArea("");
                 setShowModal(true);
               }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+              className="bg-emerald-600 text-gray-900 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
             >
               <Plus className="w-4 h-4 mr-1" /> Add Executive
             </button>
@@ -187,67 +187,67 @@ const EmployeeManagement = () => {
       {/* Add/Edit Executive Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
-            <h3 className="text-lg font-bold text-white mb-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
               {editingEmployee ? "Edit Sales Executive" : "Register Sales Executive"}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4 text-sm">
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Full Name</label>
+                <label className="block text-gray-500 mb-1 text-xs">Full Name</label>
                 <input 
                   type="text" 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   placeholder="e.g. Vikram Yadav" 
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Designation / Position</label>
+                <label className="block text-gray-500 mb-1 text-xs">Designation / Position</label>
                 <input 
                   type="text" 
                   value={position} 
                   onChange={(e) => setPosition(e.target.value)} 
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Base Salary (₹)</label>
+                <label className="block text-gray-500 mb-1 text-xs">Base Salary (₹)</label>
                 <input 
                   type="number" 
                   value={salary} 
                   onChange={(e) => setSalary(e.target.value)} 
                   placeholder="e.g. 18000"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Mobile Number</label>
+                <label className="block text-gray-500 mb-1 text-xs">Mobile Number</label>
                 <input 
                   type="text" 
                   value={phone} 
                   onChange={(e) => setPhone(e.target.value)} 
                   placeholder="e.g. 9876543210"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Area / Region</label>
+                <label className="block text-gray-500 mb-1 text-xs">Area / Region</label>
                 <input 
                   type="text" 
                   value={area} 
                   onChange={(e) => setArea(e.target.value)} 
                   placeholder="e.g. Hyderabad"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -259,13 +259,13 @@ const EmployeeManagement = () => {
                     setShowModal(false);
                     setEditingEmployee(null);
                   }}
-                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-700 transition"
+                  className="px-4 py-2 border border-gray-200 text-gray-600 rounded hover:bg-gray-100 transition"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+                  className="px-4 py-2 bg-emerald-600 text-gray-900 rounded hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
                 >
                   {editingEmployee ? "Save Changes" : "Register"}
                 </button>
@@ -281,3 +281,4 @@ const EmployeeManagement = () => {
 };
 
 export default EmployeeManagement;
+

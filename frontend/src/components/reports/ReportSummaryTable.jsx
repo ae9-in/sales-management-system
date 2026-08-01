@@ -58,19 +58,19 @@ const ReportSummaryTable = ({ sales = [] }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6 flex-1">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Report Summary</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6 flex-1">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Report Summary</h3>
       
-      <div className="flex text-xs border-b border-gray-700 mb-4">
-          <button className="py-2 px-4 font-semibold text-blue-400 border-b-2 border-blue-400">Sales Report</button>
-          <button className="py-2 px-4 text-gray-400 hover:text-gray-200">Top Products</button>
-          <button className="py-2 px-4 text-gray-400 hover:text-gray-200">Top Customers</button>
-          <button className="py-2 px-4 text-gray-400 hover:text-gray-200">Top Sales Executives</button>
+      <div className="flex text-xs border-b border-gray-200 mb-4">
+          <button className="py-2 px-4 font-semibold text-emerald-600 border-b-2 border-blue-400">Sales Report</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Products</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Customers</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Sales Executives</button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left text-gray-400">
-          <thead className="text-gray-500 border-b border-gray-700/50">
+        <table className="w-full text-xs text-left text-gray-500">
+          <thead className="text-gray-500 border-b border-gray-200/50">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Total Sales (₹)</th>
@@ -84,8 +84,8 @@ const ReportSummaryTable = ({ sales = [] }) => {
           </thead>
           <tbody>
             {displayData.map((row, i) => (
-              <tr key={i} className="border-b border-gray-700/30 hover:bg-gray-700/30">
-                <td className="px-4 py-4 font-medium text-gray-300">{row.date}</td>
+              <tr key={i} className="border-b border-gray-200/30 hover:bg-gray-100/30">
+                <td className="px-4 py-4 font-medium text-gray-600">{row.date}</td>
                 <td className="px-4 py-4 text-gray-200">{row.sales}</td>
                 <td className="px-4 py-4">{row.orders}</td>
                 <td className="px-4 py-4">{row.customers}</td>
@@ -93,7 +93,7 @@ const ReportSummaryTable = ({ sales = [] }) => {
                 <td className="px-4 py-4 text-orange-400">{row.pending}</td>
                 <td className="px-4 py-4">{row.discount}</td>
                 <td className="px-4 py-4 text-center">
-                  <button onClick={() => handleView(row)} className="text-gray-400 hover:text-blue-400"><Eye size={14} /></button>
+                  <button onClick={() => handleView(row)} className="text-gray-500 hover:text-emerald-600"><Eye size={14} /></button>
                 </td>
               </tr>
             ))}
@@ -106,12 +106,12 @@ const ReportSummaryTable = ({ sales = [] }) => {
         </table>
       </div>
       
-      <div className="flex items-center justify-between mt-6 text-xs text-gray-400">
+      <div className="flex items-center justify-between mt-6 text-xs text-gray-500">
         <span>Showing 1 to {displayData.length} of {tableData.length} entries</span>
         <div className="flex gap-1 items-center">
-          <button className="px-2 py-1 rounded border border-gray-600 bg-gray-700 hover:bg-gray-600">&lt;</button>
-          <button className="px-2 py-1 rounded bg-blue-600 text-white">1</button>
-          <button className="px-2 py-1 rounded border border-gray-600 bg-gray-700 hover:bg-gray-600">&gt;</button>
+          <button className="px-2 py-1 rounded border border-gray-200 bg-gray-100 hover:bg-gray-600">&lt;</button>
+          <button className="px-2 py-1 rounded bg-emerald-600 text-gray-900">1</button>
+          <button className="px-2 py-1 rounded border border-gray-200 bg-gray-100 hover:bg-gray-600">&gt;</button>
         </div>
       </div>
     </div>
@@ -119,3 +119,6 @@ const ReportSummaryTable = ({ sales = [] }) => {
 };
 
 export default ReportSummaryTable;
+
+
+

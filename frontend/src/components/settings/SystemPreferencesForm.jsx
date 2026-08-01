@@ -3,7 +3,7 @@ import { Bell, ShieldAlert, Sliders, Moon } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 const ToggleSwitch = ({ label, description, checked, onChange, icon: Icon, colorClass }) => (
-  <div className="flex items-center justify-between py-3 border-b border-gray-700/50 last:border-b-0">
+  <div className="flex items-center justify-between py-3 border-b border-gray-200/50 last:border-b-0">
     <div className="flex gap-4 items-start">
         <div className={`p-2 rounded-lg ${colorClass} mt-0.5`}>
             <Icon size={16} />
@@ -15,7 +15,7 @@ const ToggleSwitch = ({ label, description, checked, onChange, icon: Icon, color
     </div>
     <label className="relative inline-flex items-center cursor-pointer">
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only peer" />
-      <div className="w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+      <div className="w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
     </label>
   </div>
 );
@@ -45,8 +45,8 @@ const SystemPreferencesForm = () => {
   };
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-4 border-b border-gray-700 pb-3">System Preferences</h3>
+    <div className="bg-white border border-gray-200 rounded-xl p-6">
+      <h3 className="text-sm font-semibold text-gray-200 mb-4 border-b border-gray-200 pb-3">System Preferences</h3>
       <div className="space-y-1">
         <ToggleSwitch
           label="Enable Daily Sales Reminders"
@@ -54,7 +54,7 @@ const SystemPreferencesForm = () => {
           checked={prefs.reminders}
           onChange={() => handleToggle('reminders')}
           icon={Sliders}
-          colorClass="bg-blue-500/10 text-blue-400"
+          colorClass="bg-emerald-500/10 text-emerald-600"
         />
         <ToggleSwitch
           label="Email Notifications"
@@ -86,3 +86,5 @@ const SystemPreferencesForm = () => {
 };
 
 export default SystemPreferencesForm;
+
+

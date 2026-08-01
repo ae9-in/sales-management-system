@@ -14,7 +14,7 @@ const TopSellingProducts = () => (
       <div key={i} className="flex justify-between items-center text-xs">
         <div className="flex gap-3 w-2/3">
             <span className="text-gray-500 font-bold">{i + 1}</span>
-            <span className="text-gray-300 truncate">{product.name}</span>
+            <span className="text-gray-600 truncate">{product.name}</span>
         </div>
         <span className="text-gray-200 font-semibold">{product.sold}</span>
       </div>
@@ -23,3 +23,4 @@ const TopSellingProducts = () => (
 );
 
 export default TopSellingProducts;
+

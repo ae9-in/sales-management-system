@@ -1,4 +1,4 @@
-/* frontend/src/index.css - Global styles */
+/* frontend/src/styles/index.css - Global styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,15 +9,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-800;
+  @apply bg-gray-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-600 rounded-full;
+  @apply bg-emerald-300 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500;
+  @apply bg-emerald-400;
 }
 
 input::-webkit-outer-spin-button,

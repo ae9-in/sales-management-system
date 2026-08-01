@@ -56,10 +56,10 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center min-h-screen text-gray-100 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+    <div className="flex flex-col justify-center min-h-screen text-gray-900 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <main className="flex flex-col items-center justify-center w-full max-w-6xl p-6 mx-auto">
         <div className="relative z-10 w-full max-w-md p-10 transition-all duration-300 bg-black rounded-lg shadow-xl opacity-90 backdrop-blur-sm hover:shadow-2xl">
-          <h1 className="mb-6 text-3xl font-bold text-center text-white">Create Account</h1>
+          <h1 className="mb-6 text-3xl font-bold text-center text-gray-900">Create Account</h1>
 
           <form onSubmit={handleSignUp} className="space-y-4">
             {/* Username Input */}
@@ -70,9 +70,9 @@ const SignUp = () => {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
-              <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData.username ? "text-xs -translate-y-3" : ""}`}>
+              <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData.username ? "text-xs -translate-y-3" : ""}`}>
                 Username
               </label>
             </div>
@@ -85,9 +85,9 @@ const SignUp = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
-              <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData.email ? "text-xs -translate-y-3" : ""}`}>
+              <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData.email ? "text-xs -translate-y-3" : ""}`}>
                 Email Address
               </label>
             </div>
@@ -100,9 +100,9 @@ const SignUp = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
-              <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData.password ? "text-xs -translate-y-3" : ""}`}>
+              <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData.password ? "text-xs -translate-y-3" : ""}`}>
                 Password
               </label>
             </div>
@@ -115,9 +115,9 @@ const SignUp = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 text-white transition-all duration-300 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
-              <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData.confirmPassword ? "text-xs -translate-y-3" : ""}`}>
+              <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData.confirmPassword ? "text-xs -translate-y-3" : ""}`}>
                 Confirm Password
               </label>
             </div>
@@ -125,13 +125,13 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full px-4 py-3 mt-2 font-semibold text-white bg-red-600 rounded transition-all duration-300 hover:bg-red-700 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`w-full px-4 py-3 mt-2 font-semibold text-gray-900 bg-red-600 rounded transition-all duration-300 hover:bg-red-700 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {isSubmitting ? "Registering..." : "Sign Up"}
             </button>
           </form>
 
-          <div className="mt-6 text-center text-xs text-gray-400">
+          <div className="mt-6 text-center text-xs text-gray-500">
             Already have an account?{" "}
             <button
               type="button"
@@ -149,3 +149,5 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+

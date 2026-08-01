@@ -33,19 +33,19 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
   }));
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl flex-1 flex flex-col min-h-[300px]">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Top Sales Executives (Today)</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl flex-1 flex flex-col min-h-[300px]">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Top Sales Executives (Today)</h3>
       <div className="flex-1 flex flex-col justify-around">
         {execs.map((exec, i) => (
           <div key={i} className="flex items-center gap-3">
             <span className="text-xs font-bold text-gray-500 w-4">{i + 1}</span>
             <div className="flex-1">
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-300 font-semibold">{exec.name}</span>
+                <span className="text-gray-600 font-semibold">{exec.name}</span>
                 <span className="text-gray-200 font-bold">{exec.amount}</span>
               </div>
-              <div className="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-blue-500 h-full rounded-full" style={{ width: `${exec.percentage}%` }}></div>
+              <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${exec.percentage}%` }}></div>
               </div>
             </div>
           </div>
@@ -59,3 +59,6 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
 };
 
 export default TopExecutivesProgress;
+
+
+

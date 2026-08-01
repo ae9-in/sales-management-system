@@ -112,14 +112,14 @@ const InventoryManagement = () => {
   const filteredInventory = filterDataByDate(inventory, activeDateRange, "date");
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
         
         {/* Header */}
         <div className="mb-6 flex flex-wrap justify-between items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Products / Services</h1>
-            <p className="text-gray-400 text-sm">Manage all your products and services</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Products / Services</h1>
+            <p className="text-gray-500 text-sm">Manage all your products and services</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
@@ -132,7 +132,7 @@ const InventoryManagement = () => {
                 setEditingProduct(null);
                 setShowModal(true);
               }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+              className="bg-emerald-600 text-gray-900 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
             >
               <Plus className="w-4 h-4 mr-1" /> Add Product
             </button>
@@ -172,56 +172,56 @@ const InventoryManagement = () => {
       {/* Add/Edit Product Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn overflow-y-auto p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative my-auto">
-            <h3 className="text-lg font-bold text-white mb-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative my-auto">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
               {editingProduct ? "Edit Product / Service" : "Add Product / Service"}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4 text-sm">
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Product Name</label>
+                <label className="block text-gray-500 mb-1 text-xs">Product Name</label>
                 <input 
                   type="text" 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   placeholder="e.g. Cloud Hosting Plan" 
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Current Stock / Availability Limit</label>
+                <label className="block text-gray-500 mb-1 text-xs">Current Stock / Availability Limit</label>
                 <input 
                   type="number" 
                   value={stock} 
                   onChange={(e) => setStock(e.target.value)} 
                   placeholder="e.g. 50"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Reorder Level (Min Limit)</label>
+                <label className="block text-gray-500 mb-1 text-xs">Reorder Level (Min Limit)</label>
                 <input 
                   type="number" 
                   value={reorder} 
                   onChange={(e) => setReorder(e.target.value)} 
                   placeholder="e.g. 10"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Unit Price (₹)</label>
+                <label className="block text-gray-500 mb-1 text-xs">Unit Price (₹)</label>
                 <input 
                   type="number" 
                   value={price} 
                   onChange={(e) => setPrice(e.target.value)} 
                   placeholder="e.g. 100"
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -233,13 +233,13 @@ const InventoryManagement = () => {
                     setShowModal(false);
                     setEditingProduct(null);
                   }}
-                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-700 transition"
+                  className="px-4 py-2 border border-gray-200 text-gray-600 rounded hover:bg-gray-100 transition"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+                  className="px-4 py-2 bg-emerald-600 text-gray-900 rounded hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
                 >
                   {editingProduct ? "Save Changes" : "Add Product"}
                 </button>
@@ -255,3 +255,4 @@ const InventoryManagement = () => {
 };
 
 export default InventoryManagement;
+

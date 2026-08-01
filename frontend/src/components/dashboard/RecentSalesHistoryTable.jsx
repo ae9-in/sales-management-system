@@ -7,7 +7,7 @@ import { exportToCSV } from "../common/ExportToCSV.jsx";
 const getStatusColor = (status) => {
   if (status === 'Paid') return 'bg-green-500/20 text-green-400';
   if (status === 'Pending') return 'bg-orange-500/20 text-orange-400';
-  return 'bg-blue-500/20 text-blue-400';
+  return 'bg-emerald-500/20 text-emerald-600';
 };
 
 const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, onDelete, selectedDate = format(new Date(), "yyyy-MM-dd") }) => {
@@ -73,14 +73,14 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
   });
 
   return (
-    <div className="col-span-1 lg:col-span-8 p-4 bg-gray-800 border border-gray-700 rounded-xl">
+    <div className="col-span-1 lg:col-span-8 p-4 bg-white border border-gray-200 rounded-xl">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
-        <h3 className="font-semibold text-gray-100">Recent Sales History</h3>
+        <h3 className="font-semibold text-gray-900">Recent Sales History</h3>
         <div className="flex gap-2">
           <select 
             value={selectedRep}
             onChange={(e) => setSelectedRep(e.target.value)}
-            className="bg-gray-700 text-xs text-gray-300 border-none rounded outline-none p-1.5 cursor-pointer select-none"
+            className="bg-gray-100 text-xs text-gray-600 border-none rounded outline-none p-1.5 cursor-pointer select-none"
           >
             <option value="All">All Executives</option>
             {employees.map(emp => (
@@ -90,7 +90,7 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
           <select 
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-gray-700 text-xs text-gray-300 border-none rounded outline-none p-1.5 cursor-pointer select-none"
+            className="bg-gray-100 text-xs text-gray-600 border-none rounded outline-none p-1.5 cursor-pointer select-none"
           >
             <option value="All">All Status</option>
             <option value="Paid">Paid</option>
@@ -99,15 +99,15 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
           </select>
           <button 
             onClick={handleExport}
-            className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded hover:bg-blue-700 transition"
+            className="bg-emerald-600 text-gray-900 text-xs px-3 py-1.5 rounded hover:bg-emerald-700 transition"
           >
             Export
           </button>
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left text-gray-400 font-sans">
-          <thead className="text-gray-500 uppercase bg-gray-700/50">
+        <table className="w-full text-xs text-left text-gray-500 font-sans">
+          <thead className="text-gray-500 uppercase bg-gray-100/50">
             <tr>
               <th className="px-4 py-3">Sales ID</th>
               <th className="px-4 py-3">Date</th>
@@ -121,8 +121,8 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
           </thead>
           <tbody>
             {filteredData.map((row, i) => (
-              <tr key={i} className="border-b border-gray-700 hover:bg-gray-700/30">
-                <td className="px-4 py-3 font-medium text-gray-300">SAL-{String(row.id).padStart(5, '0')}</td>
+              <tr key={i} className="border-b border-gray-200 hover:bg-gray-100/30">
+                <td className="px-4 py-3 font-medium text-gray-600">SAL-{String(row.id).padStart(5, '0')}</td>
                 <td className="px-4 py-3">{row.date}</td>
                 <td className="px-4 py-3">{row.rep}</td>
                 <td className="px-4 py-3">{row.customer}</td>
@@ -132,9 +132,9 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
                   <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status)}`}>{row.status}</span>
                 </td>
                 <td className="px-4 py-3 flex space-x-2">
-                  <button onClick={() => handleView(row.id)} className="text-gray-400 hover:text-blue-400 transition"><Eye size={14} /></button>
-                  <button onClick={() => handleEdit(row.id)} className="text-gray-400 hover:text-green-400 transition"><Edit size={14} /></button>
-                  <button onClick={() => onDelete(row.id)} className="text-gray-400 hover:text-red-400 transition"><Trash2 size={14} /></button>
+                  <button onClick={() => handleView(row.id)} className="text-gray-500 hover:text-emerald-600 transition"><Eye size={14} /></button>
+                  <button onClick={() => handleEdit(row.id)} className="text-gray-500 hover:text-green-400 transition"><Edit size={14} /></button>
+                  <button onClick={() => onDelete(row.id)} className="text-gray-500 hover:text-red-400 transition"><Trash2 size={14} /></button>
                 </td>
               </tr>
             ))}
@@ -151,3 +151,6 @@ const RecentSalesHistoryTable = ({ sales = [], employees = [], onView, onEdit, o
 };
 
 export default RecentSalesHistoryTable;
+
+
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+const COLORS = ['#059669', '#10b981', '#f59e0b', '#34d399'];
 
 const PaymentMethodsChart = ({ sales = [] }) => {
   // Aggregate totals by payment method
@@ -19,8 +19,8 @@ const PaymentMethodsChart = ({ sales = [] }) => {
   const hasData = data.length > 0;
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[230px] flex flex-col relative justify-between">
-      <h3 className="font-semibold text-gray-100 text-sm mb-2">Payment Methods</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[230px] flex flex-col relative justify-between">
+      <h3 className="font-semibold text-gray-900 text-sm mb-2">Payment Methods</h3>
       {hasData ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="w-[150px] h-[150px]">
@@ -43,7 +43,7 @@ const PaymentMethodsChart = ({ sales = [] }) => {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex flex-col gap-1.5 text-xs text-gray-400 pl-4">
+          <div className="flex flex-col gap-1.5 text-xs text-gray-500 pl-4">
             {data.map((entry, index) => (
               <div key={index} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
@@ -62,3 +62,6 @@ const PaymentMethodsChart = ({ sales = [] }) => {
 };
 
 export default PaymentMethodsChart;
+
+
+

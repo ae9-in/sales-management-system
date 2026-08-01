@@ -11,23 +11,23 @@ input[type=number] {
 
 @keyframes colorGlow {
     0% {
-        text-shadow: 0 0 10px #60A5FA, 0 0 20px #60A5FA, 0 0 30px #60A5FA;
+        text-shadow: 0 0 10px #059669, 0 0 20px #059669, 0 0 30px #059669;
     }
 
     25% {
-        text-shadow: 0 0 10px #34D399, 0 0 20px #34D399, 0 0 30px #34D399;
+        text-shadow: 0 0 10px #10b981, 0 0 20px #10b981, 0 0 30px #10b981;
     }
 
     50% {
-        text-shadow: 0 0 10px #A78BFA, 0 0 20px #A78BFA, 0 0 30px #A78BFA;
+        text-shadow: 0 0 10px #34d399, 0 0 20px #34d399, 0 0 30px #34d399;
     }
 
     75% {
-        text-shadow: 0 0 10px #F472B6, 0 0 20px #F472B6, 0 0 30px #F472B6;
+        text-shadow: 0 0 10px #6ee7b7, 0 0 20px #6ee7b7, 0 0 30px #6ee7b7;
     }
 
     100% {
-        text-shadow: 0 0 10px #60A5FA, 0 0 20px #60A5FA, 0 0 30px #60A5FA;
+        text-shadow: 0 0 10px #059669, 0 0 20px #059669, 0 0 30px #059669;
     }
 }
 
@@ -54,14 +54,14 @@ input[type=number] {
     animation: gradientFlow 3s linear infinite;
 }
 
-/* Skeleton shimmer */
+/* Skeleton shimmer - light theme */
 @keyframes shimmer {
     0% { background-position: -600px 0; }
     100% { background-position: 600px 0; }
 }
 
 .skeleton {
-    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
     background-size: 600px 100%;
     animation: shimmer 1.6s infinite linear;
     border-radius: 0.5rem;

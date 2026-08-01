@@ -30,12 +30,12 @@ const BusinessSettingsForm = () => {
   };
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-700 pb-3">Business Settings</h3>
+    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">Business Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Building2 size={14} /> Business Name
           </label>
           <input
@@ -43,12 +43,12 @@ const BusinessSettingsForm = () => {
             name="businessName"
             value={formData.businessName}
             onChange={handleChange}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Mail size={14} /> Business Email
           </label>
           <input
@@ -56,12 +56,12 @@ const BusinessSettingsForm = () => {
             name="businessEmail"
             value={formData.businessEmail}
             onChange={handleChange}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <Phone size={14} /> Business Phone
           </label>
           <input
@@ -69,12 +69,12 @@ const BusinessSettingsForm = () => {
             name="businessPhone"
             value={formData.businessPhone}
             onChange={handleChange}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 font-medium mb-2 flex items-center gap-2">
+          <label className="text-xs text-gray-500 font-medium mb-2 flex items-center gap-2">
             <MapPin size={14} /> Business Address
           </label>
           <textarea
@@ -82,15 +82,15 @@ const BusinessSettingsForm = () => {
             rows="2"
             value={formData.businessAddress}
             onChange={handleChange}
-            className="w-full bg-gray-700 text-sm text-gray-200 border border-gray-600 rounded-lg px-3 py-2 outline-none focus:border-blue-500 resize-none"
+            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500 resize-none"
           />
         </div>
       </div>
 
-      <div className="flex justify-end border-t border-gray-700 pt-4">
+      <div className="flex justify-end border-t border-gray-200 pt-4">
         <button 
           onClick={handleSave}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-lg shadow-blue-500/20"
+          className="bg-emerald-600 hover:bg-emerald-700 text-gray-900 text-xs font-semibold px-4 py-2 rounded-lg transition shadow-lg shadow-emerald-500/20"
         >
           Save Changes
         </button>
@@ -100,3 +100,5 @@ const BusinessSettingsForm = () => {
 };
 
 export default BusinessSettingsForm;
+
+

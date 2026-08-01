@@ -23,27 +23,27 @@ const DashboardSummary = ({ sales = [], selectedDate = format(new Date(), "yyyy-
     .reduce((sum, s) => sum + (s.total || 0), 0);
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl h-[300px] flex flex-col">
-      <h3 className="font-semibold text-gray-100 text-sm mb-4">Today's Summary</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl h-[300px] flex flex-col">
+      <h3 className="font-semibold text-gray-900 text-sm mb-4">Today's Summary</h3>
       <div className="flex-1 flex flex-col justify-around">
         <div className="flex justify-between items-center text-xs">
-          <span className="text-gray-400">Total Sales</span>
-          <span className="text-gray-100 font-bold">₹{totalSalesVal.toLocaleString()}</span>
+          <span className="text-gray-500">Total Sales</span>
+          <span className="text-gray-900 font-bold">₹{totalSalesVal.toLocaleString()}</span>
         </div>
         <div className="flex justify-between items-center text-xs">
-          <span className="text-gray-400">Total Transactions</span>
-          <span className="text-gray-100 font-bold">{filteredSales.length}</span>
+          <span className="text-gray-500">Total Transactions</span>
+          <span className="text-gray-900 font-bold">{filteredSales.length}</span>
         </div>
         <div className="flex justify-between items-center text-xs">
-          <span className="text-gray-400">Average Order Value</span>
-          <span className="text-gray-100 font-bold">₹{avgOrderVal.toLocaleString()}</span>
+          <span className="text-gray-500">Average Order Value</span>
+          <span className="text-gray-900 font-bold">₹{avgOrderVal.toLocaleString()}</span>
         </div>
         <div className="flex justify-between items-center text-xs">
-          <span className="text-gray-400">New Customers</span>
-          <span className="text-gray-100 font-bold">{uniqueCustomers}</span>
+          <span className="text-gray-500">New Customers</span>
+          <span className="text-gray-900 font-bold">{uniqueCustomers}</span>
         </div>
-        <div className="flex justify-between items-center text-xs border-t border-gray-700 pt-3">
-          <span className="text-gray-400">Pending Payments</span>
+        <div className="flex justify-between items-center text-xs border-t border-gray-200 pt-3">
+          <span className="text-gray-500">Pending Payments</span>
           <span className="text-red-400 font-bold">₹{pendingPayments.toLocaleString()}</span>
         </div>
       </div>
@@ -52,3 +52,6 @@ const DashboardSummary = ({ sales = [], selectedDate = format(new Date(), "yyyy-
 };
 
 export default DashboardSummary;
+
+
+

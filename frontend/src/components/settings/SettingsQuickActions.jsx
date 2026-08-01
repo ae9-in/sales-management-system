@@ -63,20 +63,20 @@ const SettingsQuickActions = ({ onNavigate }) => {
   };
 
   const actions = [
-    { icon: Key, title: 'Change Password', subtext: 'Update your account password', color: 'text-blue-400 bg-blue-500/10' },
-    { icon: CloudLightning, title: 'Backup Data', subtext: 'Download database backups', color: 'text-blue-400 bg-blue-500/10' },
+    { icon: Key, title: 'Change Password', subtext: 'Update your account password', color: 'text-emerald-600 bg-emerald-500/10' },
+    { icon: CloudLightning, title: 'Backup Data', subtext: 'Download database backups', color: 'text-emerald-600 bg-emerald-500/10' },
     { icon: FileDown, title: 'Import Data', subtext: 'Restore JSON backup', color: 'text-orange-400 bg-orange-500/10' },
   ];
 
   return (
-    <div className="p-4 bg-gray-800 border border-gray-700 rounded-xl mb-6">
-      <h3 className="font-semibold text-gray-100 mb-4 text-sm">Quick Actions</h3>
+    <div className="p-4 bg-white border border-gray-200 rounded-xl mb-6">
+      <h3 className="font-semibold text-gray-900 mb-4 text-sm">Quick Actions</h3>
       <div className="space-y-2">
         {actions.map((act, i) => (
           <div 
             key={i} 
             onClick={() => handleAction(act.title)}
-            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700/50 cursor-pointer border border-transparent hover:border-gray-600 transition"
+            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100/50 cursor-pointer border border-transparent hover:border-gray-200 transition"
           >
               <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-lg ${act.color}`}>
@@ -96,3 +96,5 @@ const SettingsQuickActions = ({ onNavigate }) => {
 };
 
 export default SettingsQuickActions;
+
+

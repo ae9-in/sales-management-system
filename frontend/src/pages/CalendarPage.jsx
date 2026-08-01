@@ -128,22 +128,22 @@ const CalendarPage = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn">
+    <div className="flex flex-col min-h-screen text-gray-900 transition-all duration-200 bg-white animate-fadeIn">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto flex flex-col">
         
         {/* Header */}
         <div className="mb-6 flex flex-wrap justify-between items-end gap-4 shrink-0">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Calendar</h1>
-            <p className="text-gray-400 text-sm">View and manage your sales activities, meetings and follow-ups</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Calendar</h1>
+            <p className="text-gray-500 text-sm">View and manage your sales activities, meetings and follow-ups</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <div className="flex gap-1">
-                <button onClick={handleToday} className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 transition">Today</button>
-                <div className="flex bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
-                    <button onClick={handlePrevDay} className="px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-700 border-r border-gray-700 transition"><ChevronLeft size={18} /></button>
-                    <button onClick={handleNextDay} className="px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-700 transition"><ChevronRight size={18} /></button>
+                <button onClick={handleToday} className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100 transition">Today</button>
+                <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <button onClick={handlePrevDay} className="px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 border-r border-gray-200 transition"><ChevronLeft size={18} /></button>
+                    <button onClick={handleNextDay} className="px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition"><ChevronRight size={18} /></button>
                 </div>
             </div>
             <button 
@@ -156,7 +156,7 @@ const CalendarPage = () => {
                 setRep(employees[0]?.name || "Arjun Kumar");
                 setShowModal(true);
               }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+              className="bg-emerald-600 text-gray-900 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
             >
               <Plus className="w-4 h-4 mr-1" /> Add Activity
             </button>
@@ -190,29 +190,29 @@ const CalendarPage = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
-            <h3 className="text-lg font-bold text-white mb-4">Add Activity</h3>
+          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Add Activity</h3>
             
             <form onSubmit={handleAddActivity} className="space-y-4 text-sm">
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Customer Name</label>
+                <label className="block text-gray-500 mb-1 text-xs">Customer Name</label>
                 <input 
                   type="text" 
                   value={customer} 
                   onChange={(e) => setCustomer(e.target.value)} 
                   placeholder="e.g. Rajesh Enterprises" 
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 mb-1 text-xs">Sales Executive</label>
+                  <label className="block text-gray-500 mb-1 text-xs">Sales Executive</label>
                   <select 
                     value={rep} 
                     onChange={(e) => setRep(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   >
                     {employees.map((emp) => (
                       <option key={emp.id} value={emp.name}>{emp.name}</option>
@@ -220,11 +220,11 @@ const CalendarPage = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 text-xs">Product / Service</label>
+                  <label className="block text-gray-500 mb-1 text-xs">Product / Service</label>
                   <select 
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   >
                     {inventory.map((inv) => (
                       <option key={inv.id} value={inv.name}>{inv.name}</option>
@@ -235,36 +235,36 @@ const CalendarPage = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 mb-1 text-xs">Quantity</label>
+                  <label className="block text-gray-500 mb-1 text-xs">Quantity</label>
                   <input 
                     type="number" 
                     value={quantity} 
                     onChange={(e) => setQuantity(e.target.value)} 
                     placeholder="e.g. 2"
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 text-xs">Unit Price (₹)</label>
+                  <label className="block text-gray-500 mb-1 text-xs">Unit Price (₹)</label>
                   <input 
                     type="number" 
                     value={price} 
                     onChange={(e) => setPrice(e.target.value)} 
                     placeholder="e.g. 15000"
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-gray-400 mb-1 text-xs">Scheduled Date</label>
+                <label className="block text-gray-500 mb-1 text-xs">Scheduled Date</label>
                 <input 
                   type="date" 
                   value={date} 
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-200 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -273,13 +273,13 @@ const CalendarPage = () => {
                 <button 
                   type="button" 
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-700 transition"
+                  className="px-4 py-2 border border-gray-200 text-gray-600 rounded hover:bg-gray-100 transition"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+                  className="px-4 py-2 bg-emerald-600 text-gray-900 rounded hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
                 >
                   Schedule
                 </button>
@@ -295,3 +295,4 @@ const CalendarPage = () => {
 };
 
 export default CalendarPage;
+

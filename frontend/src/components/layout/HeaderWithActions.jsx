@@ -24,7 +24,7 @@ const HeaderWithActions = ({
   return (
     <div className="px-4 py-4 mb-4 bg-transparent rounded-lg sm:px-6 sm:py-5 sm:mb-6 sm:rounded-xl">
       <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="flex items-center text-xl font-bold text-white sm:text-2xl md:text-3xl" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
+        <h1 className="flex items-center text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
           {icon && <span className="mr-2 sm:mr-3">{icon}</span>}
           {title}
         </h1>
@@ -33,7 +33,7 @@ const HeaderWithActions = ({
             <button
               key={key}
               onClick={handlers[handler]}
-              className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white
+              className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-gray-900
                 ${styles.bgColor} ${styles.hoverBgColor} ${styles.hoverShadowColor} ${styles.focusRingColor}
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900
                 rounded-lg shadow-md transition-all duration-200 ease-in-out

@@ -64,24 +64,24 @@ const StatsCard = ({ title, value, icon: Icon, color = "blue", footer, getFooter
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-300">{title}</span>
+            <span className="text-sm text-gray-600">{title}</span>
             {numericValue && (
               <button
                 onMouseEnter={()=>setTooltip(true)}
                 onMouseLeave={()=>setTooltip(false)}
-                className="relative w-6 h-6 text-gray-400 hover:text-white"
+                className="relative w-6 h-6 text-gray-500 hover:text-gray-900"
               >
                 <Info size={16}/>
                 {tooltip && (
-                  <div className="absolute right-0 z-50 p-2 mt-2 text-sm text-white bg-gray-800 border border-gray-700 rounded-lg shadow-xl top-full min-w-max">
+                  <div className="absolute right-0 z-50 p-2 mt-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xl top-full min-w-max">
                     {getIndianNumberInWords(numericValue, isCurrency, isQuantity)}
                   </div>
                 )}
               </button>
             )}
           </div>
-          <div className="mt-1 text-2xl font-bold text-white">{value}</div>
-          {displayFooter && <div className="mt-1 text-sm text-gray-300">{displayFooter}</div>}
+          <div className="mt-1 text-2xl font-bold text-gray-900">{value}</div>
+          {displayFooter && <div className="mt-1 text-sm text-gray-600">{displayFooter}</div>}
         </div>
       </div>
     </div>

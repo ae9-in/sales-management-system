@@ -18,7 +18,7 @@ const calendarBaseDays = [
 
 const getEventStyles = (type) => {
   switch(type) {
-    case 'meeting': return 'bg-blue-500/10 border-l-2 border-blue-500 text-blue-400';
+    case 'meeting': return 'bg-emerald-500/10 border-l-2 border-emerald-500 text-emerald-600';
     case 'followup': return 'bg-green-500/10 border-l-2 border-green-500 text-green-400';
     default: return 'bg-purple-500/10 border-l-2 border-purple-500 text-purple-400';
   }
@@ -52,36 +52,36 @@ const MainCalendarGrid = ({
   const allEventsList = [...sales].sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl flex flex-col overflow-hidden h-full min-h-[500px]">
+    <div className="bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden h-full min-h-[500px]">
       {/* Calendar Header Controls */}
-      <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-800/80">
-        <div className="flex bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+      <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-white/80">
+        <div className="flex bg-white rounded-lg overflow-hidden border border-gray-200">
           <button 
             onClick={() => setView('month')}
-            className={`px-4 py-1.5 text-sm font-semibold transition ${view === 'month' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}
+            className={`px-4 py-1.5 text-sm font-semibold transition ${view === 'month' ? 'bg-emerald-600 text-gray-900' : 'text-gray-500 hover:bg-white'}`}
           >
             Month
           </button>
           <button 
             onClick={() => setView('week')}
-            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-700 ${view === 'week' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}
+            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-200 ${view === 'week' ? 'bg-emerald-600 text-gray-900' : 'text-gray-500 hover:bg-white'}`}
           >
             Week
           </button>
           <button 
             onClick={() => setView('day')}
-            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-700 ${view === 'day' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}
+            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-200 ${view === 'day' ? 'bg-emerald-600 text-gray-900' : 'text-gray-500 hover:bg-white'}`}
           >
             Day
           </button>
           <button 
             onClick={() => setView('list')}
-            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-700 ${view === 'list' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}
+            className={`px-4 py-1.5 text-sm font-semibold transition border-l border-gray-200 ${view === 'list' ? 'bg-emerald-600 text-gray-900' : 'text-gray-500 hover:bg-white'}`}
           >
             List
           </button>
         </div>
-        <h2 className="text-lg font-bold text-gray-100">
+        <h2 className="text-lg font-bold text-gray-900">
           {view === 'day' ? `July ${selectedDay}, 2026` : view === 'week' ? 'July 2026 (Week View)' : 'July 2026'}
         </h2>
         <div className="w-[100px]"></div>
@@ -90,12 +90,12 @@ const MainCalendarGrid = ({
       {/* Grid rendering based on view */}
       {view === 'month' && (
         <>
-          <div className="grid grid-cols-7 border-b border-gray-700 bg-gray-900/50">
+          <div className="grid grid-cols-7 border-b border-gray-200 bg-white/50">
             {daysOfWeek.map(day => (
-              <div key={day} className="py-2 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider">{day}</div>
+              <div key={day} className="py-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{day}</div>
             ))}
           </div>
-          <div className="flex-1 grid grid-rows-5 grid-cols-7 bg-gray-700 gap-[1px]">
+          <div className="flex-1 grid grid-rows-5 grid-cols-7 bg-gray-100 gap-[1px]">
             {calendarBaseDays.map((week, wIdx) => 
               week.map((day, dIdx) => {
                 const matches = dbEvents.filter(evt => day.isCurrentMonth && evt.day === day.date);
@@ -104,10 +104,10 @@ const MainCalendarGrid = ({
                   <div 
                     key={`${wIdx}-${dIdx}`} 
                     onClick={() => day.isCurrentMonth && setSelectedDay(day.date)}
-                    className={`bg-gray-800 p-2 min-h-[60px] flex flex-col cursor-pointer transition hover:bg-gray-750 ${day.isCurrentMonth ? '' : 'bg-gray-800/50'} ${isSelected ? 'ring-2 ring-blue-500/50' : ''}`}
+                    className={`bg-white p-2 min-h-[60px] flex flex-col cursor-pointer transition hover:bg-gray-750 ${day.isCurrentMonth ? '' : 'bg-white/50'} ${isSelected ? 'ring-2 ring-blue-500/50' : ''}`}
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full ${isSelected ? 'bg-blue-600 text-white font-bold' : day.isCurrentMonth ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <span className={`text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full ${isSelected ? 'bg-emerald-600 text-gray-900 font-bold' : day.isCurrentMonth ? 'text-gray-600' : 'text-gray-600'}`}>
                         {day.date}
                       </span>
                     </div>
@@ -118,7 +118,7 @@ const MainCalendarGrid = ({
                         </div>
                       ))}
                       {matches.length > 2 && (
-                        <div className="text-[8px] text-blue-400 font-semibold mt-0.5">+{matches.length - 2} more</div>
+                        <div className="text-[8px] text-emerald-600 font-semibold mt-0.5">+{matches.length - 2} more</div>
                       )}
                     </div>
                   </div>
@@ -131,12 +131,12 @@ const MainCalendarGrid = ({
 
       {view === 'week' && (
         <>
-          <div className="grid grid-cols-7 border-b border-gray-700 bg-gray-900/50">
+          <div className="grid grid-cols-7 border-b border-gray-200 bg-white/50">
             {daysOfWeek.map(day => (
-              <div key={day} className="py-2 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider">{day}</div>
+              <div key={day} className="py-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{day}</div>
             ))}
           </div>
-          <div className="flex-1 grid grid-cols-7 bg-gray-700 gap-[1px]">
+          <div className="flex-1 grid grid-cols-7 bg-gray-100 gap-[1px]">
             {activeWeek.map((day, dIdx) => {
               const matches = dbEvents.filter(evt => day.isCurrentMonth && evt.day === day.date);
               const isSelected = day.isCurrentMonth && day.date === selectedDay;
@@ -144,10 +144,10 @@ const MainCalendarGrid = ({
                 <div 
                   key={dIdx} 
                   onClick={() => day.isCurrentMonth && setSelectedDay(day.date)}
-                  className={`bg-gray-800 p-3 min-h-[300px] flex flex-col cursor-pointer transition hover:bg-gray-750 ${day.isCurrentMonth ? '' : 'bg-gray-800/50'} ${isSelected ? 'ring-2 ring-blue-500/50' : ''}`}
+                  className={`bg-white p-3 min-h-[300px] flex flex-col cursor-pointer transition hover:bg-gray-750 ${day.isCurrentMonth ? '' : 'bg-white/50'} ${isSelected ? 'ring-2 ring-blue-500/50' : ''}`}
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className={`text-sm font-semibold w-7 h-7 flex items-center justify-center rounded-full ${isSelected ? 'bg-blue-600 text-white font-bold' : day.isCurrentMonth ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <span className={`text-sm font-semibold w-7 h-7 flex items-center justify-center rounded-full ${isSelected ? 'bg-emerald-600 text-gray-900 font-bold' : day.isCurrentMonth ? 'text-gray-600' : 'text-gray-600'}`}>
                       {day.date}
                     </span>
                   </div>
@@ -169,8 +169,8 @@ const MainCalendarGrid = ({
 
       {view === 'day' && (
         <div className="flex-1 p-6 bg-gray-850 overflow-y-auto">
-          <h3 className="text-base font-bold text-gray-100 mb-4 flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
             Scheduled Activities for July {selectedDay}, 2026
           </h3>
           {dayEvents.length === 0 ? (
@@ -178,15 +178,15 @@ const MainCalendarGrid = ({
           ) : (
             <div className="space-y-3">
               {dayEvents.map((evt, idx) => (
-                <div key={evt.id || idx} className="p-4 bg-gray-800 border border-gray-750 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div key={evt.id || idx} className="p-4 bg-white border border-gray-750 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-xs text-blue-400">10:00 AM</span>
+                      <span className="font-bold text-xs text-emerald-600">10:00 AM</span>
                       <span className="text-gray-600 text-xs">|</span>
                       <span className="font-semibold text-gray-200">{evt.customer || 'Walk-in'}</span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">
-                      Product: <span className="text-gray-300 font-medium">{evt.product}</span> ({evt.quantity} units @ ₹{evt.price.toLocaleString()})
+                    <p className="text-xs text-gray-500 mt-2">
+                      Product: <span className="text-gray-600 font-medium">{evt.product}</span> ({evt.quantity} units @ ₹{evt.price.toLocaleString()})
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5">Representative: {evt.rep}</p>
                   </div>
@@ -205,7 +205,7 @@ const MainCalendarGrid = ({
 
       {view === 'list' && (
         <div className="flex-1 p-6 bg-gray-850 overflow-y-auto">
-          <h3 className="text-base font-bold text-gray-100 mb-4 flex items-center gap-2">
+          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
             Scheduled Transactions & Events
           </h3>
@@ -214,9 +214,9 @@ const MainCalendarGrid = ({
           ) : (
             <div className="space-y-3">
               {allEventsList.map((evt, idx) => (
-                <div key={evt.id || idx} className="p-3 bg-gray-800 border border-gray-755 rounded-lg flex items-center justify-between">
+                <div key={evt.id || idx} className="p-3 bg-white border border-gray-755 rounded-lg flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-bold text-blue-400">
+                    <p className="text-xs font-bold text-emerald-600">
                       {evt.date ? new Date(evt.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}
                     </p>
                     <p className="text-sm font-semibold text-gray-200 mt-0.5">{evt.customer || 'Walk-in'}</p>
@@ -233,10 +233,10 @@ const MainCalendarGrid = ({
       )}
 
       {/* Legend */}
-      <div className="p-4 border-t border-gray-700 bg-gray-800 flex justify-between items-center text-xs">
+      <div className="p-4 border-t border-gray-200 bg-white flex justify-between items-center text-xs">
         <div className="flex gap-4">
-          <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2.5 h-2.5 rounded bg-blue-500"></div> Meetings (Paid)</div>
-          <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2.5 h-2.5 rounded bg-green-500"></div> Follow-ups (Pending)</div>
+          <div className="flex items-center gap-1.5 text-gray-500"><div className="w-2.5 h-2.5 rounded bg-emerald-500"></div> Meetings (Paid)</div>
+          <div className="flex items-center gap-1.5 text-gray-500"><div className="w-2.5 h-2.5 rounded bg-green-500"></div> Follow-ups (Pending)</div>
         </div>
       </div>
     </div>
@@ -244,3 +244,4 @@ const MainCalendarGrid = ({
 };
 
 export default MainCalendarGrid;
+

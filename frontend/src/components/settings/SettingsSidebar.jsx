@@ -14,15 +14,15 @@ const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
   ];
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 w-full flex flex-col gap-1">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 w-full flex flex-col gap-1">
       {menuItems.map((item, i) => (
         <button
           key={i}
           onClick={() => setActiveMenu(item.label)}
           className={`flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold transition w-full text-left ${
             activeMenu === item.label
-              ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50 border border-transparent'
+              ? 'bg-emerald-600/10 text-emerald-600 border border-emerald-500/20'
+              : 'text-gray-500 hover:text-gray-200 hover:bg-gray-100/50 border border-transparent'
           }`}
         >
           <item.icon size={16} />
@@ -34,3 +34,5 @@ const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
 };
 
 export default SettingsSidebar;
+
+
