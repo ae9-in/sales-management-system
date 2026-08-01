@@ -5,6 +5,8 @@ import { toastConfig } from "../utils/toastConfig";
 import { Calendar, Download, Plus } from "lucide-react";
 import { fetchInventory } from "../services/api";
 import api from "../services/api";
+import DateFilter from "../components/forms/DateFilter";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 import ProductsStats from "../components/products/ProductsStats";
 import ProductsTable from "../components/products/ProductsTable";
@@ -22,6 +24,16 @@ const InventoryManagement = () => {
   const [stock, setStock] = useState("");
   const [reorder, setReorder] = useState("");
   const [price, setPrice] = useState("");
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
 
   const loadData = useCallback(async () => {
     try {
@@ -96,6 +108,9 @@ const InventoryManagement = () => {
 
   if (loading) return <SkeletonPageFallback />;
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const filteredInventory = filterDataByDate(inventory, activeDateRange, "date");
+
   return (
     <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
@@ -107,9 +122,7 @@ const InventoryManagement = () => {
             <p className="text-gray-400 text-sm">Manage all your products and services</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={() => {
                 setName("");
@@ -127,14 +140,14 @@ const InventoryManagement = () => {
         </div>
 
         {/* Stats Row */}
-        <ProductsStats inventory={inventory} />
+        <ProductsStats inventory={filteredInventory} />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
           {/* Left Column */}
           <div className="col-span-1 xl:col-span-9 flex flex-col">
             <ProductsTable 
-              inventory={inventory} 
+              inventory={filteredInventory} 
               onSelect={(prod) => setSelectedProduct(prod)}
               onEdit={(prod) => {
                 setEditingProduct(prod);

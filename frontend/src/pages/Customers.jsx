@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Download, Plus } from "lucide-react";
+import { Calendar, Upload, Plus } from "lucide-react";
 import { startOfMonth, format } from "date-fns";
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
 import api from "../services/api";
@@ -10,6 +10,8 @@ import CustomersStats from "../components/customers/CustomersStats";
 import CustomersTable from "../components/customers/CustomersTable";
 import CustomerProfilePanel from "../components/customers/CustomerProfilePanel";
 import { SkeletonPageFallback } from "../components/common/Skeleton";
+import DateFilter from "../components/forms/DateFilter";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 const Customers = () => {
   const [sales, setSales] = useState([]);
@@ -18,6 +20,16 @@ const Customers = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
 
   // Form states
   const [customerName, setCustomerName] = useState("");
@@ -93,8 +105,11 @@ const Customers = () => {
 
   if (loading) return <SkeletonPageFallback />;
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const filteredSales = filterDataByDate(sales, activeDateRange, "date");
+
   // Derive live customer records from `/api/sales` history
-  const customerMap = sales.reduce((acc, sale) => {
+  const customerMap = filteredSales.reduce((acc, sale) => {
     const rawName = sale.customer || 'Walk-in';
     const normalizedKey = rawName.trim().toLowerCase();
     if (!acc[normalizedKey]) {
@@ -141,14 +156,12 @@ const Customers = () => {
             <p className="text-gray-400 text-sm">Manage all your customers and their purchase history</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={handleExport}
               className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
             >
-              <Download className="w-4 h-4 mr-2" /> Export
+              <Upload className="w-4 h-4 mr-2" /> Export
             </button>
             <button 
               onClick={() => {

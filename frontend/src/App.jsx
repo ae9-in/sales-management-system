@@ -13,6 +13,7 @@ import { SkeletonPageFallback } from "./components/common/Skeleton.jsx";
 // Import styles directly
 import "./styles/App.css";
 import "./styles/toast.css";
+import "react-toastify/dist/ReactToastify.css";
 
 // Lazy load components
 const Dashboard = lazy(() => import("./pages/Dashboard"));

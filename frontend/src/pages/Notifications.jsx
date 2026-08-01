@@ -14,6 +14,8 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [activeTab, setActiveTab] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [showConfirmClear, setShowConfirmClear] = useState(false);
+  const [clearStatus, setClearStatus] = useState("");
 
   useEffect(() => {
     const loadNotifications = async () => {
@@ -138,7 +140,8 @@ const Notifications = () => {
       }
     });
     localStorage.setItem("hidden_notification_ids", JSON.stringify(hiddenIds));
-    toast.warning("Cleared all notifications.");
+    setClearStatus("Cleared all notifications.");
+    setTimeout(() => setClearStatus(""), 3000);
   };
 
   if (loading) return <SkeletonPageFallback />;
@@ -153,19 +156,48 @@ const Notifications = () => {
             <h1 className="text-3xl font-bold text-white mb-1">Notifications</h1>
             <p className="text-gray-400 text-sm">Stay updated with important alerts and activities</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 items-center relative">
+            {clearStatus && (
+              <span className="text-xs text-orange-400 bg-orange-400/10 px-2 py-1 rounded border border-orange-400/20 animate-fadeIn mr-2">
+                {clearStatus}
+              </span>
+            )}
             <button 
               onClick={handleMarkAllRead}
               className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
             >
               <CheckSquare className="w-4 h-4 mr-2" /> Mark all as read
             </button>
-            <button 
-              onClick={handleClearAll}
-              className="bg-gray-800 border border-gray-700 text-red-400 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-red-500/10 transition"
-            >
-              Clear all
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setShowConfirmClear(!showConfirmClear)}
+                className="bg-gray-800 border border-gray-700 text-red-400 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-red-500/10 transition"
+              >
+                Clear all
+              </button>
+              {showConfirmClear && (
+                <div className="absolute right-0 top-full mt-2 z-50 bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-xl w-48 text-xs">
+                  <p className="text-gray-300 mb-2 font-medium text-center">Clear all notifications?</p>
+                  <div className="flex gap-2 justify-center">
+                    <button 
+                      onClick={() => setShowConfirmClear(false)}
+                      className="px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-gray-300"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={() => {
+                        handleClearAll();
+                        setShowConfirmClear(false);
+                      }}
+                      className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-white font-semibold"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

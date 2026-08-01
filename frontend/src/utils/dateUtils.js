@@ -1,4 +1,5 @@
 // frontend/src/utils/dateUtils.js - Date utility functions
+import { format } from "date-fns";
 
 export const DATE_RANGES = {
     today: "Today",
@@ -38,7 +39,7 @@ export const getDateRange = (range, customRange = null) => {
 
 export const filterDataByDate = (data, dateRange, dateField = "date") => {
     if (!Array.isArray(data)) return [];
-    if (!dateRange.startDate || !dateRange.endDate) return data;
+    if (!dateRange || !dateRange.startDate || !dateRange.endDate) return data;
 
     return data.filter(item => {
         const itemDate = new Date(item[dateField]);
@@ -49,5 +50,5 @@ export const filterDataByDate = (data, dateRange, dateField = "date") => {
 
 export const formatDateRange = (startDate, endDate) => {
     if (!startDate || !endDate) return "Select a date range";
-    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
+    return `${format(new Date(startDate), "dd MMM yyyy")} - ${format(new Date(endDate), "dd MMM yyyy")}`;
 }; 

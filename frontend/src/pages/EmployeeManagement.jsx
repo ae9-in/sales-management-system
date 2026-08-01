@@ -5,6 +5,8 @@ import { toastConfig } from "../utils/toastConfig";
 import { Calendar, Download, Plus } from "lucide-react";
 import { fetchEmployees, fetchSales } from "../services/api";
 import api from "../services/api";
+import DateFilter from "../components/forms/DateFilter";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 import ExecutivesStats from "../components/sales-executives/ExecutivesStats";
 import ExecutivesTable from "../components/sales-executives/ExecutivesTable";
@@ -19,6 +21,16 @@ const EmployeeManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedExecutive, setSelectedExecutive] = useState(null);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
 
   // Form states
   const [name, setName] = useState("");
@@ -106,6 +118,10 @@ const EmployeeManagement = () => {
 
   if (loading) return <SkeletonPageFallback />;
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const filteredEmployees = filterDataByDate(employees, activeDateRange, "date");
+  const filteredSales = filterDataByDate(sales, activeDateRange, "date");
+
   return (
     <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
@@ -117,9 +133,7 @@ const EmployeeManagement = () => {
             <p className="text-gray-400 text-sm">Manage and track your sales team performance.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={() => {
                 setEditingEmployee(null);
@@ -138,15 +152,15 @@ const EmployeeManagement = () => {
         </div>
 
         {/* Stats Row */}
-        <ExecutivesStats employees={employees} sales={sales} />
+        <ExecutivesStats employees={filteredEmployees} sales={filteredSales} />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
           {/* Left Column */}
           <div className="col-span-1 xl:col-span-9 flex flex-col">
             <ExecutivesTable 
-              employees={employees} 
-              sales={sales} 
+              employees={filteredEmployees} 
+              sales={filteredSales} 
               onSelect={setSelectedExecutive} 
               onEdit={(emp) => {
                 setEditingEmployee(emp);
@@ -159,12 +173,12 @@ const EmployeeManagement = () => {
               }}
               onDelete={handleDelete}
             />
-            <ExecutiveInsights sales={sales} employees={employees} />
+            <ExecutiveInsights sales={filteredSales} employees={filteredEmployees} />
           </div>
 
           {/* Right Column */}
           <div className="col-span-1 xl:col-span-3 flex flex-col">
-            <ExecutiveProfilePanel executive={selectedExecutive} sales={sales} />
+            <ExecutiveProfilePanel executive={selectedExecutive} sales={filteredSales} />
           </div>
         </div>
 

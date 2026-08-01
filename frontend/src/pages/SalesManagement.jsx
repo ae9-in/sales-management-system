@@ -5,6 +5,8 @@ import { toastConfig } from "../utils/toastConfig";
 import { Calendar, Download, Filter, Plus } from "lucide-react";
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
 import api from "../services/api";
+import DateFilter from "../components/forms/DateFilter";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 import SalesHistoryStats from "../components/sales-history/SalesHistoryStats";
 import SalesHistoryTable from "../components/sales-history/SalesHistoryTable";
@@ -37,6 +39,16 @@ const SalesManagement = () => {
   const [status, setStatus] = useState("Paid");
   const [method, setMethod] = useState("UPI");
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
 
   const loadData = useCallback(async () => {
     try {
@@ -121,6 +133,9 @@ const SalesManagement = () => {
 
   if (loading) return <SkeletonPageFallback />;
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const filteredSales = filterDataByDate(sales, activeDateRange, "date");
+
   return (
     <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
       <main className="flex-1 w-full max-w-screen-2xl p-4 md:p-6 mx-auto overflow-auto">
@@ -132,9 +147,7 @@ const SalesManagement = () => {
             <p className="text-gray-400 text-sm">View and manage all your sales transactions.</p>
           </div>
           <div className="flex gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={() => {
                 if (inventory.length === 0) {
@@ -160,14 +173,14 @@ const SalesManagement = () => {
         </div>
 
         {/* Stats Row */}
-        <SalesHistoryStats sales={sales} />
+        <SalesHistoryStats sales={filteredSales} />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
           {/* Left Column */}
           <div className="col-span-1 lg:col-span-8 flex flex-col">
             <SalesHistoryTable 
-              sales={sales} 
+              sales={filteredSales} 
               onView={(sale) => setViewingSale(sale)}
               onEdit={(sale) => {
                 setEditingSale(sale);
@@ -187,9 +200,9 @@ const SalesManagement = () => {
 
           {/* Right Column */}
           <div className="col-span-1 lg:col-span-4 flex flex-col">
-            <SalesSummaryChart sales={sales} />
-            <PaymentMethodBars sales={sales} />
-            <TopExecutivesList sales={sales} employees={employees} />
+            <SalesSummaryChart sales={filteredSales} />
+            <PaymentMethodBars sales={filteredSales} />
+            <TopExecutivesList sales={filteredSales} employees={employees} />
           </div>
         </div>
 

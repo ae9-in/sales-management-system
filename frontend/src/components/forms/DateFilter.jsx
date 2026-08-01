@@ -2,7 +2,7 @@
 
 import { Calendar } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { DATE_RANGES, formatDateRange } from "../../utils/dateUtils";
+import { DATE_RANGES, getDateRange, formatDateRange } from "../../utils/dateUtils";
 
 const DateFilter = ({ dateFilter, setDateFilter }) => {
   const popupRef = useRef(null);
@@ -16,6 +16,7 @@ const DateFilter = ({ dateFilter, setDateFilter }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setDateFilter]);
 
+  const activeRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
   const { startDate, endDate } = dateFilter.customRange;
   const today = new Date().toISOString().split('T')[0];
 
@@ -69,9 +70,9 @@ const DateFilter = ({ dateFilter, setDateFilter }) => {
         >
           <Calendar className="w-5 h-5" />
           <span className="text-sm">
-            {dateFilter.isCustom
-              ? formatDateRange(startDate, endDate)
-              : "Select a date range"}
+            {dateFilter.range === "all"
+              ? "All time"
+              : formatDateRange(activeRange.startDate, activeRange.endDate)}
           </span>
         </button>
       </div>

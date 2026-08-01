@@ -14,6 +14,7 @@ import UserManagement from "../components/settings/UserManagement";
 
 const Settings = () => {
   const [activeMenu, setActiveMenu] = useState("General");
+  const [showHelpTooltip, setShowHelpTooltip] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen text-gray-100 transition-all duration-200 bg-gray-900 animate-fadeIn overflow-hidden">
@@ -25,13 +26,20 @@ const Settings = () => {
             <h1 className="text-3xl font-bold text-white mb-1">Settings</h1>
             <p className="text-gray-400 text-sm">Manage your account, preferences and system settings</p>
           </div>
-          <div>
+          <div className="relative">
             <button 
               onClick={() => toast.info("Help: All settings and configurations are persisted in your local browser storage.")}
+              onMouseEnter={() => setShowHelpTooltip(true)}
+              onMouseLeave={() => setShowHelpTooltip(false)}
               className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
             >
               <HelpCircle className="w-4 h-4 mr-2" /> Help
             </button>
+            {showHelpTooltip && (
+              <div className="absolute right-0 z-50 p-3 mt-2 text-xs text-gray-200 bg-gray-800 border border-gray-700 rounded-lg shadow-xl top-full w-64 backdrop-blur-sm animate-fadeIn">
+                All settings and configurations are persisted in your local browser storage.
+              </div>
+            )}
           </div>
         </div>
 

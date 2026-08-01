@@ -2,10 +2,13 @@ import { format, startOfMonth } from "date-fns";
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Download, Filter } from "lucide-react";
+import { Calendar, Upload, Filter } from "lucide-react";
 import { fetchSales, fetchExpenses } from "../services/api";
 import api from "../services/api";
 import { exportToCSV } from "../components/common/ExportToCSV.jsx";
+import DateFilter from "../components/forms/DateFilter";
+import Filters from "../components/forms/Filters";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 import ReportsStats from "../components/reports/ReportsStats";
 import SalesOverviewChart from "../components/reports/SalesOverviewChart";
@@ -22,6 +25,26 @@ const Reports = () => {
   const [expenses, setExpenses] = useState([]);
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
+  const [filters, setFilters] = useState({
+    product: "All",
+    quantityMin: "",
+    quantityMax: "",
+    priceMin: "",
+    priceMax: "",
+    dateFrom: "",
+    dateTo: "",
+  });
 
   const loadData = useCallback(async () => {
     try {
@@ -45,6 +68,47 @@ const Reports = () => {
     loadData();
   }, [loadData]);
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const salesFilteredByDate = filterDataByDate(sales, activeDateRange, "date");
+
+  const getFilteredSales = () => {
+    return salesFilteredByDate.filter(sale => {
+      // Product filter
+      if (filters.product && filters.product !== "All" && sale.product !== filters.product) {
+        return false;
+      }
+      // Quantity filter
+      if (filters.quantityMin && sale.quantity < parseFloat(filters.quantityMin)) {
+        return false;
+      }
+      if (filters.quantityMax && sale.quantity > parseFloat(filters.quantityMax)) {
+        return false;
+      }
+      // Price filter
+      if (filters.priceMin && sale.price < parseFloat(filters.priceMin)) {
+        return false;
+      }
+      if (filters.priceMax && sale.price > parseFloat(filters.priceMax)) {
+        return false;
+      }
+      // Date From filter
+      if (filters.dateFrom) {
+        const fromDate = new Date(filters.dateFrom);
+        fromDate.setHours(0, 0, 0, 0);
+        if (new Date(sale.date) < fromDate) return false;
+      }
+      // Date To filter
+      if (filters.dateTo) {
+        const toDate = new Date(filters.dateTo);
+        toDate.setHours(23, 59, 59, 999);
+        if (new Date(sale.date) > toDate) return false;
+      }
+      return true;
+    });
+  };
+
+  const filteredSalesForDisplay = getFilteredSales();
+
   const handleExport = () => {
     const salesHeaders = [
       { key: 'product', label: 'Product' },
@@ -57,7 +121,7 @@ const Reports = () => {
       { key: 'method', label: 'Method' },
       { key: 'date', label: 'Date' }
     ];
-    exportToCSV(sales, salesHeaders, "sales_transactions_report");
+    exportToCSV(filteredSalesForDisplay, salesHeaders, "sales_transactions_report");
   };
 
   if (loading) return <SkeletonPageFallback />;
@@ -73,23 +137,24 @@ const Reports = () => {
             <p className="text-gray-400 text-sm">Analyze your sales data and generate insightful reports</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <Calendar className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
               onClick={handleExport}
               className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition"
             >
-              <Download className="w-4 h-4 mr-2" /> Export
+              <Upload className="w-4 h-4 mr-2" /> Export
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20">
+            <button 
+              onClick={() => setShowFilters(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
+            >
               <Filter className="w-4 h-4 mr-1" /> Filters
             </button>
           </div>
         </div>
 
         {/* Top Stats Row */}
-        <ReportsStats sales={sales} />
+        <ReportsStats sales={filteredSalesForDisplay} />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
@@ -97,25 +162,59 @@ const Reports = () => {
           {/* Left Column (Main Data) */}
           <div className="col-span-1 xl:col-span-9 flex flex-col">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <SalesOverviewChart sales={sales} />
-                <SalesByCategoryChart sales={sales} />
+                <SalesOverviewChart sales={filteredSalesForDisplay} />
+                <SalesByCategoryChart sales={filteredSalesForDisplay} />
             </div>
             
-            <SecondaryStats sales={sales} />
+            <SecondaryStats sales={filteredSalesForDisplay} />
             
-            <ReportSummaryTable sales={sales} />
+            <ReportSummaryTable sales={filteredSalesForDisplay} />
           </div>
 
           {/* Right Column */}
           <div className="col-span-1 xl:col-span-3 flex flex-col">
             <ReportShortcuts />
-            <PaymentMethodChart sales={sales} />
-            <DownloadReportsWidget sales={sales} />
+            <PaymentMethodChart sales={filteredSalesForDisplay} />
+            <DownloadReportsWidget sales={filteredSalesForDisplay} />
           </div>
 
         </div>
 
       </main>
+
+      <Filters 
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        filters={filters}
+        handleFilterChange={(e) => {
+          const { name, value } = e.target;
+          setFilters(prev => ({ ...prev, [name]: value }));
+        }}
+        resetFilters={() => {
+          setFilters({
+            product: "All",
+            quantityMin: "",
+            quantityMax: "",
+            priceMin: "",
+            priceMax: "",
+            dateFrom: "",
+            dateTo: "",
+          });
+          toast.info("Filters reset");
+        }}
+        applyFilters={() => {
+          toast.success("Filters applied!");
+        }}
+        fields={[
+          { name: "product", label: "Product", type: "select", options: ["All", ...new Set(sales.map(s => s.product))] },
+          { name: "quantity", label: "Quantity Range", type: "range" },
+          { name: "price", label: "Price Range", type: "range" },
+          { name: "dateFrom", label: "From Date", type: "date" },
+          { name: "dateTo", label: "To Date", type: "date" },
+        ]}
+        title="Filter Reports"
+      />
+
       <ToastContainer {...toastConfig} />
     </div>
   );

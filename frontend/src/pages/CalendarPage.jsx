@@ -5,6 +5,8 @@ import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus } from "lucid
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
 import api from "../services/api";
 import { parseISO, format, startOfMonth } from "date-fns";
+import DateFilter from "../components/forms/DateFilter";
+import { getDateRange, filterDataByDate } from "../utils/dateUtils";
 
 import MainCalendarGrid from "../components/calendar/MainCalendarGrid";
 import MiniCalendarWidget from "../components/calendar/MiniCalendarWidget";
@@ -20,6 +22,16 @@ const CalendarPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDay, setSelectedDay] = useState(19); // Today is 19th July 2026
   const [calendarView, setCalendarView] = useState("month");
+  const [dateFilter, setDateFilter] = useState({
+    range: "month",
+    isCustom: false,
+    isDirty: false,
+    pickerOpen: false,
+    customRange: {
+      startDate: startOfMonth(new Date()),
+      endDate: new Date()
+    }
+  });
 
   const handlePrevDay = () => {
     setSelectedDay(prev => Math.max(1, prev - 1));
@@ -97,8 +109,11 @@ const CalendarPage = () => {
 
   if (loading) return <SkeletonPageFallback />;
 
+  const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
+  const filteredSales = filterDataByDate(sales, activeDateRange, "date");
+
   // Map database sales as calendar events
-  const calendarEvents = sales.map(s => {
+  const calendarEvents = filteredSales.map(s => {
     let dayNum = 15;
     try {
       dayNum = parseInt(format(parseISO(s.date), 'd'), 10);
@@ -123,9 +138,7 @@ const CalendarPage = () => {
             <p className="text-gray-400 text-sm">View and manage your sales activities, meetings and follow-ups</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-700 transition">
-              <CalendarIcon className="w-4 h-4 mr-2" /> {format(startOfMonth(new Date()), "dd MMM yyyy")} - {format(new Date(), "dd MMM yyyy")}
-            </button>
+            <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <div className="flex gap-1">
                 <button onClick={handleToday} className="bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 transition">Today</button>
                 <div className="flex bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
@@ -156,7 +169,7 @@ const CalendarPage = () => {
           <div className="col-span-1 xl:col-span-9 flex flex-col">
             <MainCalendarGrid 
               dbEvents={calendarEvents} 
-              sales={sales}
+              sales={filteredSales}
               selectedDay={selectedDay}
               setSelectedDay={setSelectedDay}
               view={calendarView}
@@ -167,8 +180,8 @@ const CalendarPage = () => {
           {/* Right Column */}
           <div className="col-span-1 xl:col-span-3 flex flex-col overflow-y-auto no-scrollbar">
             <MiniCalendarWidget selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-            <ActivityTypesWidget sales={sales} />
-            <TodaysAgendaWidget sales={sales} />
+            <ActivityTypesWidget sales={filteredSales} />
+            <TodaysAgendaWidget sales={filteredSales} />
           </div>
         </div>
 

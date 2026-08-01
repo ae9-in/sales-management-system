@@ -100,3 +100,7 @@ list_users.js
 clean_users.js
 scratch_*.js
 
+# Vercel deployment folder
+.vercel/
+
+
