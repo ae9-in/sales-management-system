@@ -21,7 +21,7 @@ const PendingFollowUps = ({ sales = [] }) => {
               <div className="flex gap-3">
                 <Clock className="text-orange-400 w-5 h-5 mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm text-gray-200">{s.customer || 'Walk-in'} - {s.status} Payment</p>
+                  <p className="text-sm text-gray-800">{s.customer || 'Walk-in'} - {s.status} Payment</p>
                   <p className="text-xs text-gray-500">{s.rep} ({s.product})</p>
                 </div>
               </div>
@@ -39,6 +39,7 @@ const PendingFollowUps = ({ sales = [] }) => {
 };
 
 export default PendingFollowUps;
+
 
 
 

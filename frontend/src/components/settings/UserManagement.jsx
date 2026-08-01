@@ -94,7 +94,7 @@ const UserManagement = () => {
   return (
     <div className="glass-card-elevated p-6">
       <div className="flex justify-between items-center mb-6 border-b border-gray-200 pb-3">
-        <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
           <Users size={16} className="text-emerald-600" /> User Management
         </h3>
         <span className="text-[10px] bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded font-semibold">
@@ -118,7 +118,7 @@ const UserManagement = () => {
               const isSelf = u.id === currentUser.id;
               return (
                 <tr key={u.id} className={`hover:bg-gray-100/20 ${isSelf ? "bg-emerald-500/5" : ""}`}>
-                  <td className="py-3 px-2 font-semibold text-gray-200">
+                  <td className="py-3 px-2 font-semibold text-gray-800">
                     {u.username} {isSelf && <span className="text-[9px] text-emerald-600 font-normal ml-1.5">(You)</span>}
                   </td>
                   <td className="py-3 px-2 text-gray-500">{u.email}</td>
@@ -202,6 +202,7 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
+
 
 
 

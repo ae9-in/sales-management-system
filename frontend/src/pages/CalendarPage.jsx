@@ -201,7 +201,7 @@ const CalendarPage = () => {
                   value={customer} 
                   onChange={(e) => setCustomer(e.target.value)} 
                   placeholder="e.g. Rajesh Enterprises" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -212,7 +212,7 @@ const CalendarPage = () => {
                   <select 
                     value={rep} 
                     onChange={(e) => setRep(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {employees.map((emp) => (
                       <option key={emp.id} value={emp.name}>{emp.name}</option>
@@ -224,7 +224,7 @@ const CalendarPage = () => {
                   <select 
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {inventory.map((inv) => (
                       <option key={inv.id} value={inv.name}>{inv.name}</option>
@@ -241,7 +241,7 @@ const CalendarPage = () => {
                     value={quantity} 
                     onChange={(e) => setQuantity(e.target.value)} 
                     placeholder="e.g. 2"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -252,7 +252,7 @@ const CalendarPage = () => {
                     value={price} 
                     onChange={(e) => setPrice(e.target.value)} 
                     placeholder="e.g. 15000"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -264,7 +264,7 @@ const CalendarPage = () => {
                   type="date" 
                   value={date} 
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -295,5 +295,6 @@ const CalendarPage = () => {
 };
 
 export default CalendarPage;
+
 
 

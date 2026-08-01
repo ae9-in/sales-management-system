@@ -9,7 +9,7 @@ const ToggleSwitch = ({ label, description, checked, onChange, icon: Icon, color
             <Icon size={16} />
         </div>
         <div>
-            <h4 className="text-xs font-semibold text-gray-200">{label}</h4>
+            <h4 className="text-xs font-semibold text-gray-800">{label}</h4>
             <p className="text-[10px] text-gray-500">{description}</p>
         </div>
     </div>
@@ -46,7 +46,7 @@ const SystemPreferencesForm = () => {
 
   return (
     <div className="glass-card-elevated p-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-4 border-b border-gray-200 pb-3">System Preferences</h3>
+      <h3 className="text-sm font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-3">System Preferences</h3>
       <div className="space-y-1">
         <ToggleSwitch
           label="Enable Daily Sales Reminders"
@@ -86,6 +86,7 @@ const SystemPreferencesForm = () => {
 };
 
 export default SystemPreferencesForm;
+
 
 
 

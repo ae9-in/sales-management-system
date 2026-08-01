@@ -271,3 +271,4 @@ const PageWrapper = ({ type, title, additionalFields = {}, onDataUpdate = () => 
 export default PageWrapper;
 
 
+

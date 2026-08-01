@@ -36,7 +36,7 @@ const Settings = () => {
               <HelpCircle className="w-4 h-4 mr-2" /> Help
             </button>
             {showHelpTooltip && (
-              <div className="absolute right-0 z-50 p-3 mt-2 text-xs text-gray-200 bg-white border border-gray-200 rounded-lg shadow-xl top-full w-64 backdrop-blur-sm animate-fadeIn">
+              <div className="absolute right-0 z-50 p-3 mt-2 text-xs text-gray-800 bg-white border border-gray-200 rounded-lg shadow-xl top-full w-64 backdrop-blur-sm animate-fadeIn">
                 All settings and configurations are persisted in your local browser storage.
               </div>
             )}
@@ -61,15 +61,15 @@ const Settings = () => {
             )}
             {activeMenu === "Security" && (
               <div className="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">Security & Password</h3>
+                <h3 className="text-sm font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3">Security & Password</h3>
                 <div className="space-y-4 text-xs">
                   <div>
                     <label className="block text-gray-500 mb-1">Current Password</label>
-                    <input type="password" placeholder="••••••••" className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500" disabled />
+                    <input type="password" placeholder="••••••••" className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500" disabled />
                   </div>
                   <div>
                     <label className="block text-gray-500 mb-1">New Password</label>
-                    <input type="password" placeholder="••••••••" className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500" disabled />
+                    <input type="password" placeholder="••••••••" className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500" disabled />
                   </div>
                   <button 
                     onClick={() => toast.warning("Authentication is environment-variable based. To update the admin password, please modify ADMIN_PASSWORD_HASH in the backend .env configuration.")}
@@ -107,5 +107,6 @@ const Settings = () => {
 };
 
 export default Settings;
+
 
 

@@ -42,7 +42,7 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
             <div className="flex-1">
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-gray-600 font-semibold">{exec.name}</span>
-                <span className="text-gray-200 font-bold">{exec.amount}</span>
+                <span className="text-gray-800 font-bold">{exec.amount}</span>
               </div>
               <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
                 <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${exec.percentage}%` }}></div>
@@ -59,6 +59,7 @@ const TopExecutivesProgress = ({ sales = [], employees = [] }) => {
 };
 
 export default TopExecutivesProgress;
+
 
 
 

@@ -103,4 +103,5 @@ scratch_*.js
 # Vercel deployment folder
 .vercel/
 
-
+# Prettier cache
+.prettiercache

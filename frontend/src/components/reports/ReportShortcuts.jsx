@@ -21,7 +21,7 @@ const ReportShortcuts = () => (
                     <s.icon className="w-4 h-4" />
                 </div>
                 <div>
-                    <h4 className="text-sm font-medium text-gray-200">{s.title}</h4>
+                    <h4 className="text-sm font-medium text-gray-800">{s.title}</h4>
                     <p className="text-[10px] text-gray-500">{s.subtext}</p>
                 </div>
             </div>
@@ -34,6 +34,7 @@ const ReportShortcuts = () => (
 );
 
 export default ReportShortcuts;
+
 
 
 

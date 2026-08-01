@@ -83,7 +83,7 @@ const SettingsQuickActions = ({ onNavigate }) => {
                       <act.icon className="w-4 h-4" />
                   </div>
                   <div>
-                      <h4 className="text-xs font-semibold text-gray-200">{act.title}</h4>
+                      <h4 className="text-xs font-semibold text-gray-800">{act.title}</h4>
                       <p className="text-[9px] text-gray-500">{act.subtext}</p>
                   </div>
               </div>
@@ -96,6 +96,7 @@ const SettingsQuickActions = ({ onNavigate }) => {
 };
 
 export default SettingsQuickActions;
+
 
 
 

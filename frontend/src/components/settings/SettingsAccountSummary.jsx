@@ -27,15 +27,15 @@ const SettingsAccountSummary = () => {
         </div>
         <div className="flex justify-between">
             <span className="text-gray-500">Username</span>
-            <span className="font-medium text-gray-200">{displayUsername}</span>
+            <span className="font-medium text-gray-800">{displayUsername}</span>
         </div>
         <div className="flex justify-between">
             <span className="text-gray-500">Member Since</span>
-            <span className="font-medium text-gray-200">15 Jan 2024</span>
+            <span className="font-medium text-gray-800">15 Jan 2024</span>
         </div>
         <div className="flex justify-between">
             <span className="text-gray-500">Last Login</span>
-            <span className="font-medium text-gray-200">{format(new Date(), "dd MMM yyyy, hh:mm a")}</span>
+            <span className="font-medium text-gray-800">{format(new Date(), "dd MMM yyyy, hh:mm a")}</span>
         </div>
       </div>
 
@@ -50,6 +50,7 @@ const SettingsAccountSummary = () => {
 };
 
 export default SettingsAccountSummary;
+
 
 
 

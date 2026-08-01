@@ -59,7 +59,7 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
             placeholder="Search transactions..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
           />
         </div>
         <select 
@@ -102,7 +102,7 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
                 <td className="px-4 py-3">{row.rep}</td>
                 <td className="px-4 py-3">{row.customer}</td>
                 <td className="px-4 py-3">{row.product}</td>
-                <td className="px-4 py-3 font-semibold text-gray-200">{row.amount}</td>
+                <td className="px-4 py-3 font-semibold text-gray-800">{row.amount}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status)}`}>{row.status}</span>
                 </td>
@@ -126,6 +126,7 @@ const SalesHistoryTable = ({ sales = [], onView, onEdit, onDelete }) => {
 };
 
 export default SalesHistoryTable;
+
 
 
 

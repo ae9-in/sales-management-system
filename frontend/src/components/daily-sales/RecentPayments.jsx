@@ -29,7 +29,7 @@ const RecentPayments = ({ sales = [] }) => {
               <span className="font-medium text-gray-600">{item.customer}</span>
             </div>
             <div className="text-right">
-              <span className="text-gray-200 font-bold block">{item.amount}</span>
+              <span className="text-gray-800 font-bold block">{item.amount}</span>
               <span className="text-[10px] text-gray-500">{item.method}</span>
             </div>
           </div>
@@ -43,6 +43,7 @@ const RecentPayments = ({ sales = [] }) => {
 };
 
 export default RecentPayments;
+
 
 
 

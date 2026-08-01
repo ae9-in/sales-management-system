@@ -28,7 +28,7 @@ const GeneralSettingsForm = () => {
 
   return (
     <div className="glass-card-elevated p-6 mb-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">General Settings</h3>
+      <h3 className="text-sm font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3">General Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
@@ -38,7 +38,7 @@ const GeneralSettingsForm = () => {
           <select 
             value={lang} 
             onChange={(e) => setLang(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>English (US)</option>
             <option>Hindi</option>
@@ -53,7 +53,7 @@ const GeneralSettingsForm = () => {
           <select 
             value={dateFormat} 
             onChange={(e) => setDateFormat(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>DD MMM YYYY</option>
             <option>YYYY-MM-DD</option>
@@ -68,7 +68,7 @@ const GeneralSettingsForm = () => {
           <select 
             value={timezone} 
             onChange={(e) => setTimezone(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>(GMT +05:30) Asia/Kolkata</option>
             <option>(GMT +00:00) UTC</option>
@@ -83,7 +83,7 @@ const GeneralSettingsForm = () => {
           <select 
             value={currency} 
             onChange={(e) => setCurrency(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           >
             <option>INR (₹) - Indian Rupee</option>
             <option>USD ($) - US Dollar</option>
@@ -105,6 +105,7 @@ const GeneralSettingsForm = () => {
 };
 
 export default GeneralSettingsForm;
+
 
 
 

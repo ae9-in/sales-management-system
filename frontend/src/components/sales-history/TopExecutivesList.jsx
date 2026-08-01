@@ -27,7 +27,7 @@ const TopExecutivesList = ({ sales = [], employees = [] }) => {
                 <span className="font-bold text-gray-500 w-4">{i + 1}</span>
                 <span className="text-gray-600 font-medium">{item.name}</span>
               </div>
-              <span className="text-gray-200 font-semibold">₹{item.amount.toLocaleString()}</span>
+              <span className="text-gray-800 font-semibold">₹{item.amount.toLocaleString()}</span>
             </div>
           ))}
         </div>
@@ -37,6 +37,7 @@ const TopExecutivesList = ({ sales = [], employees = [] }) => {
 };
 
 export default TopExecutivesList;
+
 
 
 

@@ -14,7 +14,7 @@ const AddModalForm = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center animate-modalFadeIn">
       <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm animate-modalFadeIn" />
-      <div className="relative w-full max-w-md p-6 bg-gradient-to-br from-gray-800 via-gray-50 to-white rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3),0_0_10px_rgba(255,255,255,0.1)] border border-gray-200/50 animate-modalSlideIn">
+      <div className="relative w-full max-w-md p-6 bg-gradient-to-br from-white via-emerald-50/30 to-white rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3),0_0_10px_rgba(255,255,255,0.1)] border border-gray-200/50 animate-modalSlideIn">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">{title}</h2>
           <button onClick={onCancel} className="text-gray-500 transition-transform duration-200 hover:text-gray-900 focus:outline-none hover:rotate-90" aria-label="Close">
@@ -89,6 +89,7 @@ const AddModalForm = ({
 };
 
 export default AddModalForm;
+
 
 
 

@@ -46,7 +46,7 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
                 <td className="px-4 py-3">{row.product}</td>
                 <td className="px-4 py-3">{row.quantity}</td>
                 <td className="px-4 py-3">₹{row.price.toLocaleString()}</td>
-                <td className="px-4 py-3 font-semibold text-gray-200">₹{row.total.toLocaleString()}</td>
+                <td className="px-4 py-3 font-semibold text-gray-800">₹{row.total.toLocaleString()}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status || 'Paid')}`}>{row.status || 'Paid'}</span>
                 </td>
@@ -70,6 +70,7 @@ const DailySalesTable = ({ sales = [], onView, onEdit, onDelete }) => {
 };
 
 export default DailySalesTable;
+
 
 
 

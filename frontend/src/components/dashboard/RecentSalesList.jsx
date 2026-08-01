@@ -60,7 +60,7 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
             <span className="text-gray-500 w-16">{sale.time}</span>
             <span className="text-gray-600 flex-1 truncate">{sale.customer}</span>
             <span className="text-gray-500 w-24 truncate hidden sm:block">{sale.rep}</span>
-            <span className="text-gray-200 w-16 text-right font-medium">{sale.amount}</span>
+            <span className="text-gray-800 w-16 text-right font-medium">{sale.amount}</span>
             <span className={`w-16 text-center rounded text-[10px] py-0.5 ml-2 ${getStatusColor(sale.status)}`}>{sale.status}</span>
           </div>
         ))}
@@ -73,6 +73,7 @@ const RecentSalesList = ({ sales = [], selectedDate = format(new Date(), "yyyy-M
 };
 
 export default RecentSalesList;
+
 
 
 

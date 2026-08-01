@@ -19,7 +19,7 @@ const ProductsTable = ({ inventory = [], onSelect, onEdit, onDelete }) => {
             placeholder="Search products..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
           />
         </div>
         <button 
@@ -82,6 +82,7 @@ const ProductsTable = ({ inventory = [], onSelect, onEdit, onDelete }) => {
 };
 
 export default ProductsTable;
+
 
 
 

@@ -151,7 +151,7 @@ const DownloadReportsWidget = ({ sales = [] }) => {
           >
             <b.icon className={`w-5 h-5 ${b.color}`} />
             <div>
-              <div className="text-sm font-semibold text-gray-200">{b.title}</div>
+              <div className="text-sm font-semibold text-gray-800">{b.title}</div>
               <div className="text-[9px] text-gray-500">{b.subtext}</div>
             </div>
           </button>
@@ -162,6 +162,7 @@ const DownloadReportsWidget = ({ sales = [] }) => {
 };
 
 export default DownloadReportsWidget;
+
 
 
 

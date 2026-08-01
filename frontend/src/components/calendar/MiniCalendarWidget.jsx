@@ -19,7 +19,7 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
       
       <div className="flex justify-between items-center mb-4">
           <button className="p-1 text-gray-500 hover:text-gray-900"><ChevronLeft size={16} /></button>
-          <span className="text-sm font-semibold text-gray-200">July 2026</span>
+          <span className="text-sm font-semibold text-gray-800">July 2026</span>
           <button className="p-1 text-gray-500 hover:text-gray-900"><ChevronRight size={16} /></button>
       </div>
 
@@ -56,6 +56,7 @@ const MiniCalendarWidget = ({ selectedDay = 19, setSelectedDay }) => {
 };
 
 export default MiniCalendarWidget;
+
 
 
 

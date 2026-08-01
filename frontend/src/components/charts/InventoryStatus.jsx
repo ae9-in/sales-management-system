@@ -5,7 +5,7 @@ import CustomTooltip from "../common/CustomTooltip";
 import { formatNumber, formatLargeNumber } from "../../utils/formatters";
 
 const InventoryTable = ({ data }) => (
-    <div className="w-full p-4 overflow-auto border rounded-lg bg-gradient-to-br from-gray-800/30 to-white/30 border-gray-200/30 max-h-72 backdrop-blur-sm">
+    <div className="w-full p-4 overflow-auto border rounded-lg bg-gradient-to-br from-emerald-50/30 to-white/30 border-gray-200/30 max-h-72 backdrop-blur-sm">
         <h3 className="mb-3 text-lg font-medium text-gray-600">Current Stock</h3>
         <div className="overflow-x-auto">
             <table className="w-full text-gray-900 border-collapse shadow-md min-w-[600px]">
@@ -85,6 +85,7 @@ const InventoryStatus = ({ inventory }) => {
 };
 
 export default InventoryStatus; 
+
 
 
 

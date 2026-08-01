@@ -51,7 +51,7 @@ const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
         </div>
         <div>
           <span className="text-[10px] text-gray-500 block">Total Revenue</span>
-          <span className="text-sm font-bold text-gray-200">₹{totalRev.toLocaleString()}</span>
+          <span className="text-sm font-bold text-gray-800">₹{totalRev.toLocaleString()}</span>
         </div>
       </div>
 
@@ -61,6 +61,7 @@ const ExecutiveProfilePanel = ({ executive, sales = [] }) => {
 };
 
 export default ExecutiveProfilePanel;
+
 
 
 

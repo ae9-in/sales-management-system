@@ -185,7 +185,7 @@ const InventoryManagement = () => {
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   placeholder="e.g. Cloud Hosting Plan" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -197,7 +197,7 @@ const InventoryManagement = () => {
                   value={stock} 
                   onChange={(e) => setStock(e.target.value)} 
                   placeholder="e.g. 50"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -209,7 +209,7 @@ const InventoryManagement = () => {
                   value={reorder} 
                   onChange={(e) => setReorder(e.target.value)} 
                   placeholder="e.g. 10"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -221,7 +221,7 @@ const InventoryManagement = () => {
                   value={price} 
                   onChange={(e) => setPrice(e.target.value)} 
                   placeholder="e.g. 100"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -255,5 +255,6 @@ const InventoryManagement = () => {
 };
 
 export default InventoryManagement;
+
 
 

@@ -31,7 +31,7 @@ const BusinessSettingsForm = () => {
 
   return (
     <div className="glass-card-elevated p-6 mb-6">
-      <h3 className="text-sm font-semibold text-gray-200 mb-6 border-b border-gray-200 pb-3">Business Settings</h3>
+      <h3 className="text-sm font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3">Business Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
@@ -43,7 +43,7 @@ const BusinessSettingsForm = () => {
             name="businessName"
             value={formData.businessName}
             onChange={handleChange}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
@@ -56,7 +56,7 @@ const BusinessSettingsForm = () => {
             name="businessEmail"
             value={formData.businessEmail}
             onChange={handleChange}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
@@ -69,7 +69,7 @@ const BusinessSettingsForm = () => {
             name="businessPhone"
             value={formData.businessPhone}
             onChange={handleChange}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500"
           />
         </div>
 
@@ -82,7 +82,7 @@ const BusinessSettingsForm = () => {
             rows="2"
             value={formData.businessAddress}
             onChange={handleChange}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500 resize-none"
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-emerald-500 resize-none"
           />
         </div>
       </div>
@@ -100,6 +100,7 @@ const BusinessSettingsForm = () => {
 };
 
 export default BusinessSettingsForm;
+
 
 
 

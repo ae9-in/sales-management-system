@@ -28,15 +28,15 @@ const ProductProfilePanel = ({ product }) => {
       <div className="space-y-3 text-xs text-gray-600">
         <div className="flex justify-between">
           <span className="text-gray-500">Current Stock</span>
-          <span className="font-semibold text-gray-200">{product.currentStock} Units</span>
+          <span className="font-semibold text-gray-800">{product.currentStock} Units</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-500">Reorder Level</span>
-          <span className="font-semibold text-gray-200">{product.reorderLevel} Units</span>
+          <span className="font-semibold text-gray-800">{product.reorderLevel} Units</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-500">Unit Price</span>
-          <span className="font-semibold text-gray-200">₹{(product.price || 0).toLocaleString()}</span>
+          <span className="font-semibold text-gray-800">₹{(product.price || 0).toLocaleString()}</span>
         </div>
       </div>
 
@@ -51,6 +51,7 @@ const ProductProfilePanel = ({ product }) => {
 };
 
 export default ProductProfilePanel;
+
 
 
 

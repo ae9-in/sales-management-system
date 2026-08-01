@@ -43,12 +43,12 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
         </div>
         <div>
           <span className="text-[10px] text-gray-500 block">Total Spend</span>
-          <span className="text-sm font-bold text-gray-200">₹{totalSpend.toLocaleString()}</span>
+          <span className="text-sm font-bold text-gray-800">₹{totalSpend.toLocaleString()}</span>
         </div>
       </div>
 
       <div>
-        <h4 className="font-semibold text-gray-200 text-xs mb-3">Order History</h4>
+        <h4 className="font-semibold text-gray-800 text-xs mb-3">Order History</h4>
         <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1 no-scrollbar">
           {customerSales.map((item, i) => {
             let dateStr = '20 Jul';
@@ -70,6 +70,7 @@ const CustomerProfilePanel = ({ customerName, sales = [] }) => {
 };
 
 export default CustomerProfilePanel;
+
 
 
 

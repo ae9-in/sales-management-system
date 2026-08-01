@@ -45,7 +45,7 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
                     </div>
 
                     <div className="w-[calc(100%-70px)] pl-4 text-left">
-                        <h4 className="text-sm font-semibold text-gray-200 truncate">{evt.title}</h4>
+                        <h4 className="text-sm font-semibold text-gray-800 truncate">{evt.title}</h4>
                         <p className="text-[10px] text-gray-500">{evt.subtitle}</p>
                     </div>
                 </div>
@@ -61,6 +61,7 @@ const TodaysAgendaWidget = ({ sales = [] }) => {
 };
 
 export default TodaysAgendaWidget;
+
 
 
 

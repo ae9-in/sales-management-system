@@ -8,7 +8,7 @@ const Card = ({ title, amount, subtext, icon: Icon, colorClass }) => (
     </div>
     <div>
       <p className="text-xs text-gray-500 mb-0.5">{title}</p>
-      <h3 className="text-lg font-bold text-gray-200">{amount}</h3>
+      <h3 className="text-lg font-bold text-gray-800">{amount}</h3>
       <p className="text-[10px] text-gray-500">{subtext}</p>
     </div>
   </div>
@@ -35,6 +35,7 @@ const SecondaryStats = ({ sales = [] }) => {
 };
 
 export default SecondaryStats;
+
 
 
 

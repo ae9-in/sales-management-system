@@ -38,7 +38,7 @@ const ExecutivesTable = ({ employees = [], sales = [], onSelect, onEdit, onDelet
             placeholder="Search executives..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
           />
         </div>
         <button 
@@ -84,8 +84,8 @@ const ExecutivesTable = ({ employees = [], sales = [], onSelect, onEdit, onDelet
                   <td className="px-4 py-3 text-gray-600">SE-{String(row.id).padStart(4, '0')}</td>
                   <td className="px-4 py-3">{row.phone || '9876543210'}</td>
                   <td className="px-4 py-3">{row.area || 'Bangalore'}</td>
-                  <td className="px-4 py-3 font-semibold text-gray-200">{stats.salesCount}</td>
-                  <td className="px-4 py-3 font-semibold text-gray-200">{stats.revenue}</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{stats.salesCount}</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{stats.revenue}</td>
                   <td className="px-4 py-3">{stats.avg}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-1 rounded text-[10px] ${getStatusColor(row.status || 'Active')}`}>{row.status || 'Active'}</span>
@@ -108,6 +108,7 @@ const ExecutivesTable = ({ employees = [], sales = [], onSelect, onEdit, onDelet
 };
 
 export default ExecutivesTable;
+
 
 
 

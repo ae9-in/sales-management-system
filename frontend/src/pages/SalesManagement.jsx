@@ -224,7 +224,7 @@ const SalesManagement = () => {
                   value={customer} 
                   onChange={(e) => setCustomer(e.target.value)} 
                   placeholder="e.g. Rajesh Enterprises" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -235,7 +235,7 @@ const SalesManagement = () => {
                   <select 
                     value={rep} 
                     onChange={(e) => setRep(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {employees.map((emp) => (
                       <option key={emp.id} value={emp.name}>{emp.name}</option>
@@ -247,7 +247,7 @@ const SalesManagement = () => {
                   <select 
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {inventory.map((inv) => (
                       <option key={inv.id} value={inv.name}>{inv.name}</option>
@@ -264,7 +264,7 @@ const SalesManagement = () => {
                     value={quantity} 
                     onChange={(e) => setQuantity(e.target.value)} 
                     placeholder="e.g. 2"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -275,7 +275,7 @@ const SalesManagement = () => {
                     value={price} 
                     onChange={(e) => setPrice(e.target.value)} 
                     placeholder="e.g. 15000"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -287,7 +287,7 @@ const SalesManagement = () => {
                   <select 
                     value={status} 
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     <option value="Paid">Paid</option>
                     <option value="Pending">Pending</option>
@@ -299,7 +299,7 @@ const SalesManagement = () => {
                   <select 
                     value={method} 
                     onChange={(e) => setMethod(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     <option value="UPI">UPI</option>
                     <option value="Cash">Cash</option>
@@ -315,7 +315,7 @@ const SalesManagement = () => {
                   type="date" 
                   value={date} 
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -352,27 +352,27 @@ const SalesManagement = () => {
             <div className="space-y-4 text-xs text-gray-600">
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Transaction ID</span>
-                <span className="text-gray-200 font-semibold">SAL-{String(viewingSale.id).padStart(5, '0')}</span>
+                <span className="text-gray-800 font-semibold">SAL-{String(viewingSale.id).padStart(5, '0')}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Customer Name</span>
-                <span className="text-gray-200 font-semibold">{viewingSale.customer || 'Walk-in'}</span>
+                <span className="text-gray-800 font-semibold">{viewingSale.customer || 'Walk-in'}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Sales Executive</span>
-                <span className="text-gray-200 font-semibold">{viewingSale.rep}</span>
+                <span className="text-gray-800 font-semibold">{viewingSale.rep}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Product / Service</span>
-                <span className="text-gray-200 font-semibold">{viewingSale.product}</span>
+                <span className="text-gray-800 font-semibold">{viewingSale.product}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Quantity</span>
-                <span className="text-gray-200 font-semibold">{viewingSale.quantity}</span>
+                <span className="text-gray-800 font-semibold">{viewingSale.quantity}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Unit Price</span>
-                <span className="text-gray-200 font-semibold">₹{(viewingSale.price || 0).toLocaleString()}</span>
+                <span className="text-gray-800 font-semibold">₹{(viewingSale.price || 0).toLocaleString()}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Total Bill</span>
@@ -386,11 +386,11 @@ const SalesManagement = () => {
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Payment Method</span>
-                <span className="text-gray-200 font-semibold">{viewingSale.method}</span>
+                <span className="text-gray-800 font-semibold">{viewingSale.method}</span>
               </div>
               <div className="grid grid-cols-2 border-b border-gray-200/50 pb-2">
                 <span className="text-gray-500">Transaction Date</span>
-                <span className="text-gray-200 font-semibold">
+                <span className="text-gray-800 font-semibold">
                   {viewingSale.date ? format(parseISO(viewingSale.date), 'dd MMM yyyy, hh:mm a') : 'N/A'}
                 </span>
               </div>
@@ -415,5 +415,6 @@ const SalesManagement = () => {
 };
 
 export default SalesManagement;
+
 
 

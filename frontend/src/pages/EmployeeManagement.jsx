@@ -200,7 +200,7 @@ const EmployeeManagement = () => {
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   placeholder="e.g. Vikram Yadav" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -211,7 +211,7 @@ const EmployeeManagement = () => {
                   type="text" 
                   value={position} 
                   onChange={(e) => setPosition(e.target.value)} 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -223,7 +223,7 @@ const EmployeeManagement = () => {
                   value={salary} 
                   onChange={(e) => setSalary(e.target.value)} 
                   placeholder="e.g. 18000"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -235,7 +235,7 @@ const EmployeeManagement = () => {
                   value={phone} 
                   onChange={(e) => setPhone(e.target.value)} 
                   placeholder="e.g. 9876543210"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -247,7 +247,7 @@ const EmployeeManagement = () => {
                   value={area} 
                   onChange={(e) => setArea(e.target.value)} 
                   placeholder="e.g. Hyderabad"
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -281,5 +281,6 @@ const EmployeeManagement = () => {
 };
 
 export default EmployeeManagement;
+
 
 

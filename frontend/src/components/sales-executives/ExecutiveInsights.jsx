@@ -3,19 +3,19 @@ import { TrendingUp, TrendingDown, Target, IndianRupee } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 
 const InsightCard = ({ title, name, amount, subtext, icon: Icon, color, colorClass, chartData = [] }) => (
-  <div className="glass-card-elevated p-5 flex items-center justify-between">
-    <div className="flex gap-3">
-      <div className={`p-2 rounded-lg h-fit ${colorClass}`}>
-        <Icon className="w-5 h-5" />
+  <div className="glass-stat-card p-5 flex items-center justify-between gap-3">
+    <div className="flex gap-3 items-start flex-1 min-w-0">
+      <div className={`p-2.5 rounded-xl h-fit flex-shrink-0 ${colorClass}`}>
+        <Icon className="w-4 h-4" />
       </div>
-      <div>
-        <p className="text-xs text-gray-500 mb-1">{title}</p>
-        <h4 className="text-sm font-bold text-gray-200 truncate w-32">{name}</h4>
-        <p className="text-xs font-semibold text-gray-900">{amount}</p>
-        <p className="text-[10px] text-gray-500">{subtext}</p>
+      <div className="min-w-0">
+        <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5">{title}</p>
+        <h4 className="text-sm font-bold text-gray-800 truncate">{name}</h4>
+        {amount && <p className="text-xs font-semibold text-emerald-700 mt-0.5">{amount}</p>}
+        <p className="text-[10px] text-gray-400 mt-0.5">{subtext}</p>
       </div>
     </div>
-    <div className="w-20 h-10">
+    <div className="w-16 h-10 flex-shrink-0">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData.length > 0 ? chartData : [{ value: 0 }]}>
           <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
@@ -81,15 +81,16 @@ const ExecutiveInsights = ({ sales = [], employees = [] }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 font-sans">
-      <InsightCard title="Top Performer" name={topName} amount={`₹${topAmount.toLocaleString()}`} subtext={`${topSalesCount} Sales`} icon={TrendingUp} color="#10b981" colorClass="bg-green-500/20 text-green-400" chartData={topTrend} />
-      <InsightCard title="Lowest Sales" name={lowName} amount={`₹${lowAmount.toLocaleString()}`} subtext={`${lowSalesCount} Sales`} icon={TrendingDown} color="#f59e0b" colorClass="bg-orange-500/20 text-orange-400" chartData={lowTrend} />
-      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#3b82f6" colorClass="bg-emerald-500/20 text-emerald-600" chartData={conversionTrend} />
-      <InsightCard title="Avg. Revenue / Executive" name={`₹${avgRev.toLocaleString()}`} amount="" subtext="Per Executive" icon={IndianRupee} color="#8b5cf6" colorClass="bg-purple-500/20 text-purple-400" chartData={allTrend} />
+      <InsightCard title="Top Performer" name={topName} amount={`₹${topAmount.toLocaleString()}`} subtext={`${topSalesCount} Sales`} icon={TrendingUp} color="#059669" colorClass="bg-emerald-100 text-emerald-700" chartData={topTrend} />
+      <InsightCard title="Lowest Sales" name={lowName} amount={`₹${lowAmount.toLocaleString()}`} subtext={`${lowSalesCount} Sales`} icon={TrendingDown} color="#f59e0b" colorClass="bg-orange-100 text-orange-600" chartData={lowTrend} />
+      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#10b981" colorClass="bg-teal-100 text-teal-700" chartData={conversionTrend} />
+      <InsightCard title="Avg. Revenue / Executive" name={`₹${avgRev.toLocaleString()}`} amount="" subtext="Per Executive" icon={IndianRupee} color="#8b5cf6" colorClass="bg-violet-100 text-violet-700" chartData={allTrend} />
     </div>
   );
 };
 
 export default ExecutiveInsights;
+
 
 
 

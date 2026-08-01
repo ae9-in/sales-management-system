@@ -19,7 +19,7 @@ const CustomersTable = ({ customersList = [], onSelect }) => {
             placeholder="Search customers..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-100 text-sm text-gray-200 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
+            className="w-full bg-gray-100 text-sm text-gray-800 border border-gray-200 rounded-lg pl-9 pr-4 py-2 outline-none focus:border-emerald-500" 
           />
         </div>
         <button 
@@ -66,7 +66,7 @@ const CustomersTable = ({ customersList = [], onSelect }) => {
                   <td className="px-4 py-3 text-gray-500">—</td>
                   <td className="px-4 py-3">{row.rep}</td>
                   <td className="px-4 py-3 font-semibold text-gray-600">{row.orders}</td>
-                  <td className="px-4 py-3 font-bold text-gray-200">₹{row.spend.toLocaleString()}</td>
+                  <td className="px-4 py-3 font-bold text-gray-800">₹{row.spend.toLocaleString()}</td>
                   <td className="px-4 py-3">{dateStr}</td>
                   <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                     <button onClick={() => onSelect(row.name)} className="text-gray-500 hover:text-emerald-600 transition flex items-center gap-1">
@@ -84,6 +84,7 @@ const CustomersTable = ({ customersList = [], onSelect }) => {
 };
 
 export default CustomersTable;
+
 
 
 

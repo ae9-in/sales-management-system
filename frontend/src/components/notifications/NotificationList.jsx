@@ -54,7 +54,7 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
             className={`py-3 px-4 text-xs font-semibold border-b-2 transition flex items-center gap-2 ${
               activeTab === tab.name
                 ? 'text-emerald-600 border-blue-400'
-                : 'text-gray-500 border-transparent hover:text-gray-200'
+                : 'text-gray-500 border-transparent hover:text-gray-800'
             }`}
           >
             {tab.name}
@@ -85,7 +85,7 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
               
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <h4 className="text-sm font-semibold text-gray-200">{notif.title}</h4>
+                  <h4 className="text-sm font-semibold text-gray-800">{notif.title}</h4>
                   {notif.tag && (
                     <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-red-500/10 text-red-400">
                       {notif.tag}
@@ -99,7 +99,7 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
                       e.stopPropagation();
                       toast.info(`Opening action panel: ${notif.action}`);
                     }}
-                    className="border border-gray-200 bg-transparent hover:bg-gray-100 text-gray-200 text-xs px-3 py-1.5 rounded-lg transition font-medium"
+                    className="border border-gray-200 bg-transparent hover:bg-gray-100 text-gray-800 text-xs px-3 py-1.5 rounded-lg transition font-medium"
                   >
                     {notif.action}
                   </button>
@@ -123,6 +123,7 @@ const NotificationList = ({ notifications = [], activeTab, setActiveTab, onToggl
 };
 
 export default NotificationList;
+
 
 
 

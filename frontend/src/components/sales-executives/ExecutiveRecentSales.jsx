@@ -19,12 +19,12 @@ const ExecutiveRecentSales = ({ executiveName, sales = [] }) => {
 
   return (
     <div className="mt-2">
-      <h4 className="font-semibold text-gray-200 text-xs mb-3">Recent Transactions</h4>
+      <h4 className="font-semibold text-gray-800 text-xs mb-3">Recent Transactions</h4>
       <div className="space-y-3">
         {list.map((item, i) => (
           <div key={i} className="flex justify-between items-center text-[10px] p-2 bg-white/40 rounded border border-gray-200/30">
             <span className="text-gray-500">{item.date}</span>
-            <span className="text-gray-200 font-medium truncate w-24 block text-center">{item.customer}</span>
+            <span className="text-gray-800 font-medium truncate w-24 block text-center">{item.customer}</span>
             <span className="text-emerald-600 font-semibold">{item.amount}</span>
           </div>
         ))}
@@ -37,6 +37,7 @@ const ExecutiveRecentSales = ({ executiveName, sales = [] }) => {
 };
 
 export default ExecutiveRecentSales;
+
 
 
 

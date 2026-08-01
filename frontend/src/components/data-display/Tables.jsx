@@ -19,11 +19,11 @@ const ActiveFilters = ({ activeFilters, onRemoveFilter }) => {
       : key.charAt(0).toUpperCase() + key.slice(1);
 
     return (
-      <span key={key} className="inline-flex items-center px-2 py-1 text-sm text-gray-200 bg-gray-100 rounded-full">
+      <span key={key} className="inline-flex items-center px-2 py-1 text-sm text-gray-800 bg-gray-100 rounded-full">
         {isDate
           ? `${key === "dateFrom" ? "From" : "To"}: ${format(new Date(value), "dd/MM/yyyy")}`
           : `${displayKey}: ${value}`}
-        <button onClick={() => onRemoveFilter(key)} className="ml-1 text-gray-500 hover:text-gray-200">×</button>
+        <button onClick={() => onRemoveFilter(key)} className="ml-1 text-gray-500 hover:text-gray-800">×</button>
       </span>
     );
   };
@@ -101,11 +101,11 @@ const Table = ({
   );
 
   const renderTableHeader = () => (
-    <div className="sticky top-0 z-10 grid border-b-2 border-gray-200 shadow-md bg-gradient-to-r from-gray-800 to-gray-700" style={{ gridTemplateColumns: getGridTemplate() }}>
+    <div className="sticky top-0 z-10 grid border-b-2 border-gray-200 shadow-md bg-gradient-to-r from-emerald-50 to-white" style={{ gridTemplateColumns: getGridTemplate() }}>
       {columns.map(col => (
         <div 
           key={col.key} 
-          className="flex items-center gap-1 px-4 py-3 text-xs font-medium tracking-wider text-gray-200 uppercase cursor-pointer hover:bg-gray-100/50"
+          className="flex items-center gap-1 px-4 py-3 text-xs font-medium tracking-wider text-gray-800 uppercase cursor-pointer hover:bg-gray-100/50"
           onClick={() => handleSort(col.key)}
         >
           {col.label}
@@ -116,7 +116,7 @@ const Table = ({
           )}
         </div>
       ))}
-      <div className="px-4 py-3 text-xs font-medium tracking-wider text-gray-200 uppercase">Actions</div>
+      <div className="px-4 py-3 text-xs font-medium tracking-wider text-gray-800 uppercase">Actions</div>
     </div>
   );
 
@@ -191,6 +191,7 @@ const Table = ({
 };
 
 export default Table;
+
 
 
 

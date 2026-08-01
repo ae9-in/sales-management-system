@@ -21,7 +21,7 @@ const EditModalForm = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center animate-modalFadeIn">
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative w-full max-w-md p-6 border rounded-lg shadow-xl bg-gradient-to-br from-gray-800 to-white border-gray-200/50 animate-modalSlideIn">
+      <div className="relative w-full max-w-md p-6 border rounded-lg shadow-xl bg-gradient-to-br from-white to-emerald-50 border-gray-200/50 animate-modalSlideIn">
         <div className="flex justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">Edit {entityType}</h2>
           <button onClick={() => setShowEditModal(false)} className="text-gray-500 transition-transform hover:text-gray-900 hover:rotate-90">
@@ -112,6 +112,7 @@ const EditModalForm = ({
 };
 
 export default EditModalForm;
+
 
 
 

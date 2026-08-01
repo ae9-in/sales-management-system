@@ -215,7 +215,7 @@ const Customers = () => {
                   value={customerName} 
                   onChange={(e) => setCustomerName(e.target.value)} 
                   placeholder="e.g. Rajesh Enterprises" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   required
                 />
               </div>
@@ -226,7 +226,7 @@ const Customers = () => {
                   <select 
                     value={rep} 
                     onChange={(e) => setRep(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {employees.map((emp) => (
                       <option key={emp.id} value={emp.name}>{emp.name}</option>
@@ -238,7 +238,7 @@ const Customers = () => {
                   <select 
                     value={product} 
                     onChange={(e) => setProduct(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     {inventory.map((inv) => (
                       <option key={inv.id} value={inv.name}>{inv.name}</option>
@@ -255,7 +255,7 @@ const Customers = () => {
                     value={quantity} 
                     onChange={(e) => setQuantity(e.target.value)} 
                     placeholder="e.g. 1"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -266,7 +266,7 @@ const Customers = () => {
                     value={price} 
                     onChange={(e) => setPrice(e.target.value)} 
                     placeholder="e.g. 15000"
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                     required
                   />
                 </div>
@@ -278,7 +278,7 @@ const Customers = () => {
                   <select 
                     value={status} 
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     <option value="Paid">Paid</option>
                     <option value="Pending">Pending</option>
@@ -290,7 +290,7 @@ const Customers = () => {
                   <select 
                     value={method} 
                     onChange={(e) => setMethod(e.target.value)}
-                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-200 outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
                   >
                     <option value="UPI">UPI</option>
                     <option value="Cash">Cash</option>
@@ -326,5 +326,6 @@ const Customers = () => {
 };
 
 export default Customers;
+
 
 

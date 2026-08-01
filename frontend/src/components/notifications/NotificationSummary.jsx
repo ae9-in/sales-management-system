@@ -23,7 +23,7 @@ const NotificationSummary = ({ notifications = [] }) => {
             <span className="text-gray-500 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> Total
             </span>
-            <span className="font-bold text-gray-200">{notifications.length}</span>
+            <span className="font-bold text-gray-800">{notifications.length}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 flex items-center gap-1.5">
@@ -35,7 +35,7 @@ const NotificationSummary = ({ notifications = [] }) => {
             <span className="text-gray-500 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> Read
             </span>
-            <span className="font-bold text-gray-200">{readCount}</span>
+            <span className="font-bold text-gray-800">{readCount}</span>
           </div>
         </div>
       </div>
@@ -44,6 +44,7 @@ const NotificationSummary = ({ notifications = [] }) => {
 };
 
 export default NotificationSummary;
+
 
 
 

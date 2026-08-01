@@ -183,7 +183,7 @@ const MainCalendarGrid = ({
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-xs text-emerald-600">10:00 AM</span>
                       <span className="text-gray-600 text-xs">|</span>
-                      <span className="font-semibold text-gray-200">{evt.customer || 'Walk-in'}</span>
+                      <span className="font-semibold text-gray-800">{evt.customer || 'Walk-in'}</span>
                     </div>
                     <p className="text-xs text-gray-500 mt-2">
                       Product: <span className="text-gray-600 font-medium">{evt.product}</span> ({evt.quantity} units @ ₹{evt.price.toLocaleString()})
@@ -219,7 +219,7 @@ const MainCalendarGrid = ({
                     <p className="text-xs font-bold text-emerald-600">
                       {evt.date ? new Date(evt.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}
                     </p>
-                    <p className="text-sm font-semibold text-gray-200 mt-0.5">{evt.customer || 'Walk-in'}</p>
+                    <p className="text-sm font-semibold text-gray-800 mt-0.5">{evt.customer || 'Walk-in'}</p>
                     <p className="text-xs text-gray-500 mt-0.5">Representative: {evt.rep} | Product: {evt.product}</p>
                   </div>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${evt.status === 'Paid' ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'}`}>
@@ -244,6 +244,7 @@ const MainCalendarGrid = ({
 };
 
 export default MainCalendarGrid;
+
 
 
 

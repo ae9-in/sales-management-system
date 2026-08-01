@@ -63,9 +63,9 @@ const ReportSummaryTable = ({ sales = [] }) => {
       
       <div className="flex text-xs border-b border-gray-200 mb-4">
           <button className="py-2 px-4 font-semibold text-emerald-600 border-b-2 border-blue-400">Sales Report</button>
-          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Products</button>
-          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Customers</button>
-          <button className="py-2 px-4 text-gray-500 hover:text-gray-200">Top Sales Executives</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-800">Top Products</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-800">Top Customers</button>
+          <button className="py-2 px-4 text-gray-500 hover:text-gray-800">Top Sales Executives</button>
       </div>
 
       <div className="overflow-x-auto">
@@ -86,7 +86,7 @@ const ReportSummaryTable = ({ sales = [] }) => {
             {displayData.map((row, i) => (
               <tr key={i} className="border-b border-gray-200/30 hover:bg-gray-100/30">
                 <td className="px-4 py-4 font-medium text-gray-600">{row.date}</td>
-                <td className="px-4 py-4 text-gray-200">{row.sales}</td>
+                <td className="px-4 py-4 text-gray-800">{row.sales}</td>
                 <td className="px-4 py-4">{row.orders}</td>
                 <td className="px-4 py-4">{row.customers}</td>
                 <td className="px-4 py-4 text-green-400">{row.paid}</td>
@@ -119,6 +119,7 @@ const ReportSummaryTable = ({ sales = [] }) => {
 };
 
 export default ReportSummaryTable;
+
 
 
 
