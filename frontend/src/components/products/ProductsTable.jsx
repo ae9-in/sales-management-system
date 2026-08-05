@@ -34,7 +34,7 @@ const ProductsTable = ({ inventory = [], onSelect, onEdit, onDelete }) => {
         <table className="w-full text-xs text-left text-gray-500">
           <thead className="text-gray-500 uppercase bg-gray-100/50">
             <tr>
-              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">ID</th>
               <th className="px-4 py-3">Product / Service Name</th>
               <th className="px-4 py-3">Product ID</th>
               <th className="px-4 py-3">Unit Price</th>

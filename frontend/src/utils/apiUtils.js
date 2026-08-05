@@ -20,6 +20,17 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (res) => res,
   (err) => {
+    if (err.response?.status === 401 || err.response?.status === 403) {
+      localStorage.removeItem(STORAGE_KEYS.TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.USER);
+      toast.error(
+        err.response?.data?.message || "Your session has expired. Please log in again."
+      );
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
+      return Promise.reject(err);
+    }
     toast.error(
       err.code === "ECONNABORTED"
         ? "Request timed out. Please check your connection."

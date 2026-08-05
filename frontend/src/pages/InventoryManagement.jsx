@@ -1,12 +1,40 @@
 import { format, startOfMonth } from "date-fns";
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { createPortal } from "react-dom";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Download, Plus } from "lucide-react";
+import { Calendar, Download, Upload, FileDown, Plus } from "lucide-react";
 import { fetchInventory } from "../services/api";
 import api from "../services/api";
 import DateFilter from "../components/forms/DateFilter";
 import { getDateRange, filterDataByDate } from "../utils/dateUtils";
+import { exportToExcel, downloadTemplate, importFromExcel } from "../utils/excelUtils";
+
+const PRODUCT_HEADERS = [
+  { key: "id", label: "ID" },
+  { key: "name", label: "Product / Service Name" },
+  { key: "prdId", label: "Product ID" },
+  { key: "price", label: "Unit Price" },
+  { key: "currentStock", label: "Stock Level" },
+  { key: "reorderLevel", label: "Reorder Point" },
+  { key: "status", label: "Stock Status" },
+  { key: "action", label: "Action" }
+];
+
+const PRODUCT_HEADERS_MAP = {
+  id: "ID",
+  name: "Product / Service Name",
+  prdId: "Product ID",
+  price: "Unit Price",
+  currentStock: "Stock Level",
+  reorderLevel: "Reorder Point",
+  status: "Stock Status",
+  action: "Action",
+  oldName: "Product Name",
+  oldCurrentStock: "Current Stock",
+  oldReorderLevel: "Reorder Level",
+  oldPrice: "Unit Price (₹)"
+};
 
 import ProductsStats from "../components/products/ProductsStats";
 import ProductsTable from "../components/products/ProductsTable";
@@ -24,6 +52,84 @@ const InventoryManagement = () => {
   const [stock, setStock] = useState("");
   const [reorder, setReorder] = useState("");
   const [price, setPrice] = useState("");
+
+  const handleExportExcel = () => {
+    if (inventory.length === 0) {
+      toast.info("No products data to export.");
+      return;
+    }
+    const listToExport = inventory.map((item, idx) => ({
+      ...item,
+      id: idx + 1,
+      prdId: `PRD-${String(item.id).padStart(4, '0')}`,
+      status: item.currentStock <= item.reorderLevel ? 'Low Stock' : 'In Stock',
+      action: 'View'
+    }));
+    exportToExcel(listToExport, PRODUCT_HEADERS, "products_services_list");
+    toast.success("Products list exported to Excel!");
+  };
+
+  const handleDownloadTemplate = () => {
+    downloadTemplate(PRODUCT_HEADERS, "products_services");
+    toast.info("Excel template downloaded!");
+  };
+
+  const handleImportExcel = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const loadingToast = toast.loading("Parsing Excel file...");
+    try {
+      const rawRows = await importFromExcel(file, PRODUCT_HEADERS_MAP);
+      toast.update(loadingToast, { render: `Found ${rawRows.length} rows. Registering products...`, type: "info", isLoading: true });
+
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const row of rawRows) {
+        const resolvedName = row.name || row.oldName;
+        if (!resolvedName) {
+          failCount++;
+          continue;
+        }
+
+        const rawStock = row.currentStock !== '' ? row.currentStock : row.oldCurrentStock;
+        const rawReorder = row.reorderLevel !== '' ? row.reorderLevel : row.oldReorderLevel;
+        const rawPrice = row.price !== '' ? row.price : row.oldPrice;
+
+        if (rawStock === undefined || rawStock === '' || rawReorder === undefined || rawReorder === '') {
+          failCount++;
+          continue;
+        }
+
+        try {
+          await api.post("/inventory", {
+            name: String(resolvedName).trim(),
+            currentStock: parseFloat(rawStock),
+            reorderLevel: parseFloat(rawReorder),
+            price: parseFloat(rawPrice) || 0,
+            date: new Date().toISOString()
+          });
+          successCount++;
+        } catch (err) {
+          console.error("Failed to import product:", row, err);
+          failCount++;
+        }
+      }
+
+      loadData();
+      if (failCount === 0) {
+        toast.update(loadingToast, { render: `Successfully registered ${successCount} products!`, type: "success", isLoading: false, autoClose: 2500 });
+      } else {
+        toast.update(loadingToast, { render: `Registered ${successCount} products. Failed to register ${failCount} rows.`, type: "warning", isLoading: false, autoClose: 3500 });
+      }
+    } catch (err) {
+      console.error("Excel import error:", err);
+      toast.update(loadingToast, { render: `Import failed: ${err.message || "Invalid file format"}`, type: "error", isLoading: false, autoClose: 3000 });
+    } finally {
+      e.target.value = ""; // Clear file input
+    }
+  };
   const [dateFilter, setDateFilter] = useState({
     range: "month",
     isCustom: false,
@@ -124,6 +230,24 @@ const InventoryManagement = () => {
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
+              onClick={handleDownloadTemplate}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Download Excel Template"
+            >
+              <FileDown className="w-4 h-4 mr-1 text-purple-500" /> Template
+            </button>
+            <label className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition cursor-pointer shadow-md">
+              <Upload className="w-4 h-4 mr-1 text-purple-500" /> Import
+              <input type="file" accept=".xlsx, .xls" onChange={handleImportExcel} className="hidden" />
+            </label>
+            <button 
+              onClick={handleExportExcel}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Export to Excel"
+            >
+              <Download className="w-4 h-4 mr-1 text-purple-500" /> Export
+            </button>
+            <button 
               onClick={() => {
                 setName("");
                 setStock("");
@@ -170,9 +294,9 @@ const InventoryManagement = () => {
       </main>
 
       {/* Add/Edit Product Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn overflow-y-auto p-4">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative my-auto">
+      {showModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               {editingProduct ? "Edit Product / Service" : "Add Product / Service"}
             </h3>
@@ -246,7 +370,8 @@ const InventoryManagement = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <ToastContainer {...toastConfig} />

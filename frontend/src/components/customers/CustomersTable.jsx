@@ -34,9 +34,10 @@ const CustomersTable = ({ customersList = [], onSelect }) => {
         <table className="w-full text-xs text-left text-gray-500">
           <thead className="text-gray-500 uppercase bg-gray-100/50">
             <tr>
-              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">ID</th>
               <th className="px-4 py-3">Customer Name</th>
-              <th className="px-4 py-3">Mobile / Email</th>
+              <th className="px-4 py-3">Mobile</th>
+              <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Sales rep</th>
               <th className="px-4 py-3">Total Orders</th>
               <th className="px-4 py-3">Total Spend</th>
@@ -63,7 +64,8 @@ const CustomersTable = ({ customersList = [], onSelect }) => {
                     </div>
                     <span className="font-medium text-gray-600 whitespace-nowrap">{row.name}</span>
                   </td>
-                  <td className="px-4 py-3 text-gray-500">—</td>
+                  <td className="px-4 py-3 text-gray-500">{row.phone || '—'}</td>
+                  <td className="px-4 py-3 text-gray-500">{row.email || '—'}</td>
                   <td className="px-4 py-3">{row.rep}</td>
                   <td className="px-4 py-3 font-semibold text-gray-600">{row.orders}</td>
                   <td className="px-4 py-3 font-bold text-gray-800">₹{row.spend.toLocaleString()}</td>

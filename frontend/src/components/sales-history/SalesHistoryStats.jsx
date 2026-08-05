@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Award, TrendingUp, ShieldAlert } from 'lucide-react';
+import { ShoppingBag, Award, IndianRupee, ShieldAlert } from 'lucide-react';
 
 const StatCard = ({ title, value, change, isPositive, icon: Icon, color }) => (
   <div className="flex flex-col justify-between glass-card-elevated p-5">
@@ -35,7 +35,7 @@ const SalesHistoryStats = ({ sales = [] }) => {
         value={`₹${totalRev.toLocaleString()}`} 
         change={sales.length > 0 ? "Live" : null} 
         isPositive={true} 
-        icon={TrendingUp} 
+        icon={IndianRupee} 
         color="bg-emerald-500/10 text-emerald-600" 
       />
       <StatCard 

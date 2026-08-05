@@ -4,7 +4,7 @@ import ChartContainer from "./ChartContainer";
 import CustomTooltip from "../common/CustomTooltip";
 import { formatCurrency, formatLargeCurrency } from "../../utils/formatters";
 
-const COLORS = ["#059669", "#10b981", "#f59e0b", "#ef4444", "#34d399", "#ec4899", "#06b6d4", "#84cc16"];
+const COLORS = ["#403D88", "#8B639B", "#AF719D", "#F8B2B2", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16"];
 
 const ExpenseDistribution = ({ data }) => (
     <ChartContainer title="Expense Distribution">

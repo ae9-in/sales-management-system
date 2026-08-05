@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Award, TrendingUp, ShoppingBag } from 'lucide-react';
+import { Users, Award, IndianRupee, ShoppingBag } from 'lucide-react';
 
 const StatCard = ({ title, value, icon: Icon, color }) => (
   <div className="flex flex-col justify-between glass-card-elevated p-5">
@@ -23,7 +23,7 @@ const CustomersStats = ({ customersList = [] }) => {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
       <StatCard title="Total Customers" value={activeCount} icon={Users} color="bg-emerald-500/10 text-emerald-600" />
       <StatCard title="Active Accounts" value={activeCount} icon={Award} color="bg-green-500/10 text-green-400" />
-      <StatCard title="Total Client Sales" value={`₹${totalVal.toLocaleString()}`} icon={TrendingUp} color="bg-yellow-500/10 text-yellow-400" />
+      <StatCard title="Total Client Sales" value={`₹${totalVal.toLocaleString()}`} icon={IndianRupee} color="bg-yellow-500/10 text-yellow-400" />
       <StatCard title="Average Lifetime Value" value={activeCount > 0 ? `₹${Math.round(totalVal / activeCount).toLocaleString()}` : '₹0'} icon={ShoppingBag} color="bg-red-500/10 text-red-400" />
     </div>
   );

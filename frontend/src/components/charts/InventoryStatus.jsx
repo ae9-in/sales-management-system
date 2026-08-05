@@ -69,7 +69,7 @@ const StockLevelsChart = ({ data }) => (
                 />
                 <Legend wrapperStyle={{ color: "#fff" }} />
                 <Bar dataKey="reorderLevel" name="Reorder Level" fill="#ef4444" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="currentStock" name="Current Stock" fill="#10b981" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="currentStock" name="Current Stock" fill="#AF719D" radius={[4, 4, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     </ChartContainer>

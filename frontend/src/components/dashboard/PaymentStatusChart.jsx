@@ -2,9 +2,9 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 const data = [
-  { name: 'Paid', value: 65, color: '#059669' },
+  { name: 'Paid', value: 65, color: '#403D88' },
   { name: 'Pending', value: 25, color: '#f59e0b' },
-  { name: 'Partial', value: 10, color: '#10b981' },
+  { name: 'Partial', value: 10, color: '#AF719D' },
 ];
 
 const PaymentStatusChart = () => (
@@ -26,7 +26,7 @@ const PaymentStatusChart = () => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
-          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
+          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(248,178,178,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(139,99,155,0.15)', color: '#111827', fontSize: '12px' }} />
           <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ color: '#d1d5db', fontSize: '12px' }} />
         </PieChart>
       </ResponsiveContainer>

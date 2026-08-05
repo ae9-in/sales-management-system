@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { toastConfig } from "../utils/toastConfig";
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
@@ -130,7 +131,10 @@ const Dashboard = () => {
         total,
         status,
         method,
-        date: new Date(`${date}T12:00:00`).toISOString()
+        date: (() => {
+          const d = new Date(date);
+          return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+        })()
       });
 
       toast.success("Sale details updated successfully!");
@@ -248,9 +252,9 @@ const Dashboard = () => {
       </main>
 
       {/* Edit Sale Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {showModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               Edit Sale: SAL-{String(editingSale.id).padStart(5, '0')}
             </h3>
@@ -379,13 +383,14 @@ const Dashboard = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* View Sale Modal */}
-      {viewingSale && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {viewingSale && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Transaction Details</h3>
             
             <div className="space-y-4 text-xs text-gray-600">
@@ -445,7 +450,8 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <ToastContainer {...toastConfig} />

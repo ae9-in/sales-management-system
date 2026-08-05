@@ -11,8 +11,8 @@ const SalesAnalysis = ({ data }) => {
                 <ComposedChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                     <XAxis dataKey="product" stroke="#fff" dy={5} />
-                    <YAxis yAxisId="left" stroke="#059669" tickFormatter={formatLargeCurrency} />
-                    <YAxis yAxisId="quantity" orientation="right" stroke="#10b981" tickFormatter={formatQuantityInKL} />
+                    <YAxis yAxisId="left" stroke="#403D88" tickFormatter={formatLargeCurrency} />
+                    <YAxis yAxisId="quantity" orientation="right" stroke="#8B639B" tickFormatter={formatQuantityInKL} />
                     <YAxis yAxisId="price" orientation="right" stroke="#f59e0b" tickFormatter={formatCurrency} axisLine={false} tickLine={false} />
                     <Tooltip
                         content={<CustomTooltip />}
@@ -30,8 +30,8 @@ const SalesAnalysis = ({ data }) => {
                         }}
                     />
                     <Legend wrapperStyle={{ color: "#fff" }} verticalAlign="top" height={36} />
-                    <Bar yAxisId="left" dataKey="revenue" name="Revenue (₹)" fill="#059669" radius={[4, 4, 0, 0]} />
-                    <Bar yAxisId="quantity" dataKey="quantity" name="Quantity" fill="#10b981" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="revenue" name="Revenue (₹)" fill="#403D88" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="quantity" dataKey="quantity" name="Quantity" fill="#8B639B" radius={[4, 4, 0, 0]} />
                     <Line yAxisId="price" type="monotone" dataKey="avgPrice" name="Avg Price (₹)" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4, fill: "#f59e0b" }} />
                 </ComposedChart>
             </ResponsiveContainer>

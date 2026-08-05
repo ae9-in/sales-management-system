@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndianRupee, TrendingUp, Users, ShoppingCart } from 'lucide-react';
+import { IndianRupee, Package, Users, ShoppingCart } from 'lucide-react';
 
 const StatCard = ({ title, amount, change, isPositive, icon: Icon }) => (
   <div className="flex flex-col justify-between glass-card-elevated p-5">
@@ -31,7 +31,7 @@ const DailyStats = ({ sales = [] }) => {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
       <StatCard title="Total Revenue" amount={`₹${total.toLocaleString()}`} change={total > 0 ? "15.4%" : ""} isPositive={true} icon={IndianRupee} />
       <StatCard title="Total Orders" amount={sales.length} change={sales.length > 0 ? "8.2%" : ""} isPositive={true} icon={ShoppingCart} />
-      <StatCard title="Total Quantity" amount={totalQty} change={totalQty > 0 ? "12.5%" : ""} isPositive={true} icon={TrendingUp} />
+      <StatCard title="Total Quantity" amount={totalQty} change={totalQty > 0 ? "12.5%" : ""} isPositive={true} icon={Package} />
       <StatCard title="Total Customers" amount={uniqueCustomers} change={uniqueCustomers > 0 ? "3 New" : ""} isPositive={true} icon={Users} />
     </div>
   );

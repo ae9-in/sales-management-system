@@ -1,12 +1,30 @@
 import { format, startOfMonth } from "date-fns";
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { createPortal } from "react-dom";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Download, Plus } from "lucide-react";
+import { Calendar, Download, Upload, FileDown, Plus } from "lucide-react";
 import { fetchEmployees, fetchSales } from "../services/api";
 import api from "../services/api";
 import DateFilter from "../components/forms/DateFilter";
 import { getDateRange, filterDataByDate } from "../utils/dateUtils";
+import { exportToExcel, downloadTemplate, importFromExcel } from "../utils/excelUtils";
+
+const EXECUTIVE_HEADERS = [
+  { key: "name", label: "Full Name" },
+  { key: "position", label: "Designation / Position" },
+  { key: "salary", label: "Base Salary" },
+  { key: "phone", label: "Mobile Number" },
+  { key: "area", label: "Area / Region" },
+];
+
+const EXECUTIVE_HEADERS_MAP = {
+  name: "Full Name",
+  position: "Designation / Position",
+  salary: "Base Salary",
+  phone: "Mobile Number",
+  area: "Area / Region",
+};
 
 import ExecutivesStats from "../components/sales-executives/ExecutivesStats";
 import ExecutivesTable from "../components/sales-executives/ExecutivesTable";
@@ -38,6 +56,67 @@ const EmployeeManagement = () => {
   const [salary, setSalary] = useState("");
   const [phone, setPhone] = useState("");
   const [area, setArea] = useState("");
+
+  const handleExportExcel = () => {
+    if (employees.length === 0) {
+      toast.info("No sales executives data to export.");
+      return;
+    }
+    exportToExcel(employees, EXECUTIVE_HEADERS, "sales_executives_list");
+    toast.success("Sales executives list exported to Excel!");
+  };
+
+  const handleDownloadTemplate = () => {
+    downloadTemplate(EXECUTIVE_HEADERS, "sales_executives");
+    toast.info("Excel template downloaded!");
+  };
+
+  const handleImportExcel = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const loadingToast = toast.loading("Parsing Excel file...");
+    try {
+      const rawRows = await importFromExcel(file, EXECUTIVE_HEADERS_MAP);
+      toast.update(loadingToast, { render: `Found ${rawRows.length} rows. Registering executives...`, type: "info", isLoading: true });
+
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const row of rawRows) {
+        if (!row.name || !row.salary) {
+          failCount++;
+          continue;
+        }
+        try {
+          await api.post("/employees", {
+            name: String(row.name).trim(),
+            position: String(row.position || "Sales Executive").trim(),
+            salary: parseFloat(row.salary),
+            phone: String(row.phone || "").trim(),
+            area: String(row.area || "").trim(),
+            date: new Date().toISOString()
+          });
+          successCount++;
+        } catch (err) {
+          console.error("Failed to import executive:", row, err);
+          failCount++;
+        }
+      }
+
+      loadData();
+      if (failCount === 0) {
+        toast.update(loadingToast, { render: `Successfully registered ${successCount} sales executives!`, type: "success", isLoading: false, autoClose: 2500 });
+      } else {
+        toast.update(loadingToast, { render: `Registered ${successCount} executives. Failed to register ${failCount} rows.`, type: "warning", isLoading: false, autoClose: 3500 });
+      }
+    } catch (err) {
+      console.error("Excel import error:", err);
+      toast.update(loadingToast, { render: `Import failed: ${err.message || "Invalid file format"}`, type: "error", isLoading: false, autoClose: 3000 });
+    } finally {
+      e.target.value = ""; // Clear file input
+    }
+  };
 
   const loadData = useCallback(async () => {
     try {
@@ -119,7 +198,7 @@ const EmployeeManagement = () => {
   if (loading) return <SkeletonPageFallback />;
 
   const activeDateRange = dateFilter.isCustom ? dateFilter.customRange : getDateRange(dateFilter.range);
-  const filteredEmployees = filterDataByDate(employees, activeDateRange, "date");
+  const filteredEmployees = filterDataByDate(employees, activeDateRange, "dateAdded");
   const filteredSales = filterDataByDate(sales, activeDateRange, "date");
 
   return (
@@ -134,6 +213,24 @@ const EmployeeManagement = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
+            <button 
+              onClick={handleDownloadTemplate}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Download Excel Template"
+            >
+              <FileDown className="w-4 h-4 mr-1 text-purple-500" /> Template
+            </button>
+            <label className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition cursor-pointer shadow-md">
+              <Upload className="w-4 h-4 mr-1 text-purple-500" /> Import
+              <input type="file" accept=".xlsx, .xls" onChange={handleImportExcel} className="hidden" />
+            </label>
+            <button 
+              onClick={handleExportExcel}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Export to Excel"
+            >
+              <Download className="w-4 h-4 mr-1 text-purple-500" /> Export
+            </button>
             <button 
               onClick={() => {
                 setEditingEmployee(null);
@@ -185,9 +282,9 @@ const EmployeeManagement = () => {
       </main>
 
       {/* Add/Edit Executive Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {showModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               {editingEmployee ? "Edit Sales Executive" : "Register Sales Executive"}
             </h3>
@@ -272,7 +369,8 @@ const EmployeeManagement = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <ToastContainer {...toastConfig} />

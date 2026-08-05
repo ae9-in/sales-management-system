@@ -48,7 +48,7 @@ api.interceptors.response.use(
     }
 
     // Session expired on protected routes
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
       localStorage.removeItem(STORAGE_KEYS.USER);
       if (!isSessionExpiredToastShown) {

@@ -81,9 +81,9 @@ const ExecutiveInsights = ({ sales = [], employees = [] }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 font-sans">
-      <InsightCard title="Top Performer" name={topName} amount={`₹${topAmount.toLocaleString()}`} subtext={`${topSalesCount} Sales`} icon={TrendingUp} color="#059669" colorClass="bg-emerald-100 text-emerald-700" chartData={topTrend} />
+      <InsightCard title="Top Performer" name={topName} amount={`₹${topAmount.toLocaleString()}`} subtext={`${topSalesCount} Sales`} icon={TrendingUp} color="#8B639B" colorClass="bg-emerald-100 text-emerald-700" chartData={topTrend} />
       <InsightCard title="Lowest Sales" name={lowName} amount={`₹${lowAmount.toLocaleString()}`} subtext={`${lowSalesCount} Sales`} icon={TrendingDown} color="#f59e0b" colorClass="bg-orange-100 text-orange-600" chartData={lowTrend} />
-      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#10b981" colorClass="bg-teal-100 text-teal-700" chartData={conversionTrend} />
+      <InsightCard title="Best Conversion" name={bestConversionName} amount={bestConversionVal} subtext="Conversion Rate" icon={Target} color="#AF719D" colorClass="bg-teal-100 text-teal-700" chartData={conversionTrend} />
       <InsightCard title="Avg. Revenue / Executive" name={`₹${avgRev.toLocaleString()}`} amount="" subtext="Per Executive" icon={IndianRupee} color="#8b5cf6" colorClass="bg-violet-100 text-violet-700" chartData={allTrend} />
     </div>
   );

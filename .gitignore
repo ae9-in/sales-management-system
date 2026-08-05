@@ -96,6 +96,7 @@ test_signup_endpoint.js
 test_duplicate_endpoint.js
 create_admin.js
 clear_dummy_data.js
+clear_db.js
 list_users.js
 clean_users.js
 scratch_*.js

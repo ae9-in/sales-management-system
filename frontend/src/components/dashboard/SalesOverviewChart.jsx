@@ -42,8 +42,8 @@ const SalesOverviewChart = ({ sales = [] }) => {
             <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#059669" stopOpacity={0.25}/>
-                  <stop offset="95%" stopColor="#059669" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#8B639B" stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor="#8B639B" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <XAxis dataKey="day" stroke="#9ca3af" fontSize={10} tickLine={false} axisLine={false} />
@@ -51,22 +51,19 @@ const SalesOverviewChart = ({ sales = [] }) => {
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(167,243,208,0.5)',
+                  border: '1px solid rgba(248,178,178,0.5)',
                   borderRadius: '10px',
-                  boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)',
+                  boxShadow: '0 8px 24px -4px rgba(139,99,155,0.15)',
                   color: '#111827',
                   fontSize: '12px',
                 }}
-                cursor={{ stroke: '#34d399', strokeWidth: 1, strokeDasharray: '4 4' }}
+                cursor={{ stroke: '#AF719D', strokeWidth: 1, strokeDasharray: '4 4' }}
               />
-              <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={2.5} fillOpacity={1} fill="url(#colorSales)" dot={false} activeDot={{ r: 5, fill: '#059669', stroke: 'white', strokeWidth: 2 }} />
+              <Area type="monotone" dataKey="value" stroke="#8B639B" strokeWidth={2.5} fillOpacity={1} fill="url(#colorSales)" dot={false} activeDot={{ r: 5, fill: '#8B639B', stroke: 'white', strokeWidth: 2 }} />
             </AreaChart>
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex flex-col items-center justify-center gap-2">
-            <div className="w-12 h-12 rounded-full glass-icon flex items-center justify-center">
-              <span className="text-2xl">📊</span>
-            </div>
             <p className="text-xs text-gray-400">No sales data yet</p>
           </div>
         )}

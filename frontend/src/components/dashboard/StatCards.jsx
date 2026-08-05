@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndianRupee, TrendingUp, Users, ShoppingCart, TrendingDown } from 'lucide-react';
+import { IndianRupee, Users, ShoppingCart, BarChart2 } from 'lucide-react';
 import { parseISO, format } from 'date-fns';
 
 const StatCard = ({ title, amount, change, isPositive, icon: Icon, accent = "emerald" }) => (
@@ -15,7 +15,6 @@ const StatCard = ({ title, amount, change, isPositive, icon: Icon, accent = "eme
             ? 'text-emerald-700 bg-emerald-100/80 border border-emerald-200/60'
             : 'text-red-600 bg-red-50 border border-red-200/60'
           }`}>
-          {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
           {isPositive && !change.startsWith('+') ? '+' : ''}{change}
         </span>
       )}
@@ -54,8 +53,8 @@ const StatCards = ({ sales = [], employees = [], selectedDate = format(new Date(
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 mb-6">
       <StatCard title="Total Sales Today" amount={`₹${todayTotal.toLocaleString()}`} change={todayTotal > 0 ? "18.6%" : ""} isPositive={true} icon={ShoppingCart} />
-      <StatCard title="Sales This Week" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "22.4%" : ""} isPositive={true} icon={TrendingUp} />
-      <StatCard title="Sales This Month" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "16.3%" : ""} isPositive={true} icon={TrendingUp} />
+      <StatCard title="Sales This Week" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "22.4%" : ""} isPositive={true} icon={BarChart2} />
+      <StatCard title="Sales This Month" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "16.3%" : ""} isPositive={true} icon={BarChart2} />
       <StatCard title="Total Revenue" amount={`₹${allTimeTotal.toLocaleString()}`} change={allTimeTotal > 0 ? "14.8%" : ""} isPositive={true} icon={IndianRupee} />
       <StatCard title="Total Customers" amount={uniqueCustomers} change={uniqueCustomers > 0 ? `${uniqueCustomers} New` : ""} isPositive={true} icon={Users} />
       <StatCard title="Sales Executives" amount={employees.length} change={employees.length > 0 ? "Active" : ""} isPositive={true} icon={Users} />

@@ -1,12 +1,35 @@
 import { format, startOfMonth, parseISO } from "date-fns";
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Download, Filter, Plus } from "lucide-react";
+import { Calendar, Download, Upload, FileDown, Filter, Plus } from "lucide-react";
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
 import api from "../services/api";
 import DateFilter from "../components/forms/DateFilter";
 import { getDateRange, filterDataByDate } from "../utils/dateUtils";
+import { exportToExcel, downloadTemplate, importFromExcel } from "../utils/excelUtils";
+
+const SALE_HEADERS = [
+  { key: "salesId", label: "Sales ID" },
+  { key: "date", label: "Date" },
+  { key: "rep", label: "Executive" },
+  { key: "customer", label: "Customer" },
+  { key: "product", label: "Product" },
+  { key: "total", label: "Amount" },
+  { key: "status", label: "Status" },
+  { key: "actions", label: "Action" }
+];
+
+const SALE_HEADERS_MAP = {
+  rep: "Executive",
+  customer: "Customer",
+  product: "Product",
+  quantity: "Qty",
+  price: "Price",
+  status: "Status",
+};
 
 import SalesHistoryStats from "../components/sales-history/SalesHistoryStats";
 import SalesHistoryTable from "../components/sales-history/SalesHistoryTable";
@@ -22,9 +45,11 @@ const getStatusColor = (status) => {
 };
 
 const SalesManagement = () => {
+  const navigate = useNavigate();
   const [sales, setSales] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [inventory, setInventory] = useState([]);
+  const [showNoProductsModal, setShowNoProductsModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingSale, setEditingSale] = useState(null);
@@ -39,6 +64,113 @@ const SalesManagement = () => {
   const [status, setStatus] = useState("Paid");
   const [method, setMethod] = useState("UPI");
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+  const handleExportExcel = () => {
+    if (sales.length === 0) {
+      toast.info("No sales transactions data to export.");
+      return;
+    }
+    // Export raw sales data mapped nicely
+    exportToExcel(sales, SALE_HEADERS, "sales_transactions_list");
+    toast.success("Sales transactions list exported to Excel!");
+  };
+
+  const handleDownloadTemplate = () => {
+    downloadTemplate(SALE_HEADERS, "sales_transactions");
+    toast.info("Excel template downloaded!");
+  };
+
+  const handleImportExcel = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (inventory.length === 0) {
+      toast.error("Please register products first in Products / Services page before importing sales.");
+      return;
+    }
+
+    const loadingToast = toast.loading("Parsing Excel file...");
+    try {
+      const rawRows = await importFromExcel(file, SALE_HEADERS_MAP);
+      toast.update(loadingToast, { render: `Found ${rawRows.length} rows. Recording transactions...`, type: "info", isLoading: true });
+
+      let successCount = 0;
+      let failCount = 0;
+      let errorMsgs = [];
+
+      for (const row of rawRows) {
+        if (!row.customer || !row.product || !row.quantity || !row.price) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Missing required fields.`);
+          continue;
+        }
+
+        const productItem = inventory.find(inv => inv.name.toLowerCase() === String(row.product).trim().toLowerCase());
+        if (!productItem) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Product "${row.product}" not found in inventory.`);
+          continue;
+        }
+
+        const qty = parseFloat(row.quantity);
+        if (qty > productItem.currentStock) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Insufficient stock for "${row.product}".`);
+          continue;
+        }
+
+        let rawStatus = String(row.status || "Paid").trim();
+        let statusVal = "Paid";
+        if (rawStatus.toLowerCase() === "pending") statusVal = "Pending";
+        if (rawStatus.toLowerCase() === "partial") statusVal = "Partial";
+
+        let rawMethod = String(row.method || "UPI").trim();
+        let methodVal = "UPI";
+        if (rawMethod.toLowerCase() === "cash") methodVal = "Cash";
+        if (rawMethod.toLowerCase() === "card") methodVal = "Card";
+        if (rawMethod.toLowerCase() === "bank transfer") methodVal = "Bank Transfer";
+
+        let saleDate = new Date().toISOString();
+        if (row.date) {
+          const parsedDate = new Date(row.date);
+          if (!isNaN(parsedDate.getTime())) {
+            saleDate = parsedDate.toISOString();
+          }
+        }
+
+        try {
+          await api.post("/sales", {
+            customer: String(row.customer).trim(),
+            rep: String(row.rep || (employees[0]?.name || "Arjun Kumar")).trim(),
+            product: productItem.name,
+            quantity: qty,
+            price: parseFloat(row.price),
+            total: qty * parseFloat(row.price),
+            status: statusVal,
+            method: methodVal,
+            date: saleDate
+          });
+          successCount++;
+        } catch (err) {
+          console.error("Failed to import sale:", row, err);
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Backend error (${err.response?.data?.message || err.message})`);
+        }
+      }
+
+      loadData();
+      if (failCount === 0) {
+        toast.update(loadingToast, { render: `Successfully recorded ${successCount} sale transactions!`, type: "success", isLoading: false, autoClose: 2500 });
+      } else {
+        toast.update(loadingToast, { render: `Recorded ${successCount} sales. Failed to import ${failCount} rows. Details: ${errorMsgs.slice(0, 2).join('; ')}`, type: "warning", isLoading: false, autoClose: 5000 });
+      }
+    } catch (err) {
+      console.error("Excel import error:", err);
+      toast.update(loadingToast, { render: `Import failed: ${err.message || "Invalid file format"}`, type: "error", isLoading: false, autoClose: 3000 });
+    } finally {
+      e.target.value = ""; // Clear file input
+    }
+  };
   const [dateFilter, setDateFilter] = useState({
     range: "month",
     isCustom: false,
@@ -91,7 +223,10 @@ const SalesManagement = () => {
           total,
           status,
           method,
-          date: new Date(`${date}T12:00:00`).toISOString()
+          date: (() => {
+            const d = new Date(date);
+            return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+          })()
         });
         toast.success("Sale transaction updated successfully!");
       } else {
@@ -104,7 +239,10 @@ const SalesManagement = () => {
           total,
           status,
           method,
-          date: new Date(`${date}T12:00:00`).toISOString()
+          date: (() => {
+            const d = new Date(date);
+            return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+          })()
         });
         toast.success("Sale transaction recorded successfully!");
       }
@@ -149,9 +287,27 @@ const SalesManagement = () => {
           <div className="flex gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
+              onClick={handleDownloadTemplate}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Download Excel Template"
+            >
+              <FileDown className="w-4 h-4 mr-1 text-purple-500" /> Template
+            </button>
+            <label className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition cursor-pointer shadow-md">
+              <Upload className="w-4 h-4 mr-1 text-purple-500" /> Import
+              <input type="file" accept=".xlsx, .xls" onChange={handleImportExcel} className="hidden" />
+            </label>
+            <button 
+              onClick={handleExportExcel}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Export to Excel"
+            >
+              <Download className="w-4 h-4 mr-1 text-purple-500" /> Export
+            </button>
+            <button 
               onClick={() => {
                 if (inventory.length === 0) {
-                  toast.error("Please add a product in Products / Services first!");
+                  setShowNoProductsModal(true);
                   return;
                 }
                 setEditingSale(null);
@@ -209,24 +365,36 @@ const SalesManagement = () => {
       </main>
 
       {/* Record/Edit Sale Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {showModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               {editingSale ? `Edit Sale: SAL-${String(editingSale.id).padStart(5, '0')}` : "Record New Sale"}
             </h3>
             
-            <form onSubmit={handleRecordSale} className="space-y-4 text-sm">
-              <div>
-                <label className="block text-gray-500 mb-1 text-xs">Customer Name</label>
-                <input 
-                  type="text" 
-                  value={customer} 
-                  onChange={(e) => setCustomer(e.target.value)} 
-                  placeholder="e.g. Rajesh Enterprises" 
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
-                  required
-                />
+            <form onSubmit={handleRecordSale} className="space-y-3.5 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-500 mb-1 text-xs">Customer Name</label>
+                  <input 
+                    type="text" 
+                    value={customer} 
+                    onChange={(e) => setCustomer(e.target.value)} 
+                    placeholder="e.g. Rajesh Enterprises" 
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-500 mb-1 text-xs">Sale Date</label>
+                  <input 
+                    type="date" 
+                    value={date} 
+                    onChange={(e) => setDate(e.target.value)}
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -309,17 +477,6 @@ const SalesManagement = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-gray-500 mb-1 text-xs">Sale Date</label>
-                <input 
-                  type="date" 
-                  value={date} 
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-gray-800 outline-none focus:border-emerald-500"
-                  required
-                />
-              </div>
-
               <div className="flex gap-3 justify-end pt-4">
                 <button 
                   type="button" 
@@ -340,13 +497,14 @@ const SalesManagement = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* View Sale Modal */}
-      {viewingSale && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {viewingSale && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Transaction Details</h3>
             
             <div className="space-y-4 text-xs text-gray-600">
@@ -406,10 +564,44 @@ const SalesManagement = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <ToastContainer {...toastConfig} />
+
+      {showNoProductsModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-sm p-5 text-center max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
+            <div className="w-12 h-12 rounded-full bg-orange-500/10 text-orange-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+              📦
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">No Products Available</h3>
+            <p className="text-gray-500 text-xs leading-relaxed mb-6">
+              You must register at least one product in your inventory before you can record sales transactions.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button 
+                onClick={() => setShowNoProductsModal(false)}
+                className="px-4 py-2 border border-gray-200 text-gray-600 rounded hover:bg-gray-100 transition text-xs font-semibold"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setShowNoProductsModal(false);
+                  const user = JSON.parse(localStorage.getItem("user") || "{}");
+                  navigate(user.role === "admin" ? "/admin/inventory" : "/inventory");
+                }}
+                className="px-4 py-2 bg-emerald-600 text-gray-900 rounded hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20 text-xs font-semibold"
+              >
+                Add Product
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

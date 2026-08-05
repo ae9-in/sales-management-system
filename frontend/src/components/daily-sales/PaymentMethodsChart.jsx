@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#059669', '#10b981', '#f59e0b', '#34d399'];
+const COLORS = ['#403D88', '#8B639B', '#AF719D', '#F8B2B2'];
 
 const PaymentMethodsChart = ({ sales = [] }) => {
   // Aggregate totals by payment method
@@ -39,7 +39,7 @@ const PaymentMethodsChart = ({ sales = [] }) => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(167,243,208,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(5,150,105,0.15)', color: '#111827', fontSize: '12px' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.96)', border: '1px solid rgba(248,178,178,0.5)', borderRadius: '10px', boxShadow: '0 8px 24px -4px rgba(139,99,155,0.15)', color: '#111827', fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>

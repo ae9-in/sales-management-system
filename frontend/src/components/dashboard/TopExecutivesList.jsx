@@ -48,7 +48,6 @@ const TopExecutivesList = ({ sales = [], employees = [] }) => {
         ))}
         {sortedList.length === 0 && (
           <div className="h-full flex flex-col items-center justify-center gap-2 py-8">
-            <div className="glass-icon w-10 h-10 rounded-full flex items-center justify-center text-xl">👥</div>
             <p className="text-xs text-gray-400">No executive data yet</p>
           </div>
         )}

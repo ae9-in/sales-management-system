@@ -1,11 +1,41 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { createPortal } from "react-dom";
 import { toastConfig } from "../utils/toastConfig";
-import { Calendar, Upload, Plus } from "lucide-react";
+import { Calendar, Download, Upload, FileDown, Plus } from "lucide-react";
 import { startOfMonth, format } from "date-fns";
 import { fetchSales, fetchEmployees, fetchInventory } from "../services/api";
 import api from "../services/api";
-import { exportToCSV } from "../components/common/ExportToCSV.jsx";
+import { exportToExcel, downloadTemplate, importFromExcel } from "../utils/excelUtils";
+
+const CUSTOMER_HEADERS = [
+  { key: "id", label: "ID" },
+  { key: "name", label: "Customer Name" },
+  { key: "phone", label: "Mobile" },
+  { key: "email", label: "Email" },
+  { key: "rep", label: "Sales Rep" },
+  { key: "orders", label: "Total Orders" },
+  { key: "spend", label: "Total Spend" },
+  { key: "lastDate", label: "Last Purchase" },
+  { key: "action", label: "Action" }
+];
+
+const CUSTOMER_HEADERS_MAP = {
+  id: "ID",
+  customerName: "Customer Name",
+  phone: "Mobile",
+  email: "Email",
+  rep: "Sales Rep",
+  orders: "Total Orders",
+  spend: "Total Spend",
+  lastDate: "Last Purchase",
+  action: "Action",
+  product: "Product",
+  quantity: "Quantity",
+  price: "Price",
+  status: "Status",
+  method: "Method"
+};
 import CustomersStats from "../components/customers/CustomersStats";
 import CustomersTable from "../components/customers/CustomersTable";
 import CustomerProfilePanel from "../components/customers/CustomerProfilePanel";
@@ -119,7 +149,9 @@ const Customers = () => {
         spend: 0,
         lastDate: sale.date,
         rep: sale.rep || 'Arjun Kumar',
-        product: sale.product
+        product: sale.product,
+        phone: sale.phone || '',
+        email: sale.email || ''
       };
     }
     acc[normalizedKey].orders += 1;
@@ -134,15 +166,122 @@ const Customers = () => {
 
   const customersList = Object.values(customerMap);
 
-  const handleExport = () => {
+  const handleExportExcel = () => {
+    if (customersList.length === 0) {
+      toast.info("No customers data to export.");
+      return;
+    }
     const customerHeaders = [
+      { key: 'id', label: 'ID' },
       { key: 'name', label: 'Customer Name' },
-      { key: 'orders', label: 'Total Orders' },
-      { key: 'spend', label: 'Total Spend' },
+      { key: 'phone', label: 'Mobile' },
+      { key: 'email', label: 'Email' },
       { key: 'rep', label: 'Sales Rep' },
-      { key: 'lastDate', label: 'Last Purchase' }
+      { key: 'orders', label: 'Total Orders' },
+      { key: 'spend', label: 'Total Spend (₹)' },
+      { key: 'lastDate', label: 'Last Purchase' },
+      { key: 'action', label: 'Action' }
     ];
-    exportToCSV(customersList, customerHeaders, "customers_list");
+    const listToExport = customersList.map((cust, idx) => ({
+      ...cust,
+      id: idx + 1,
+      action: 'View'
+    }));
+    exportToExcel(listToExport, customerHeaders, "customers_list");
+    toast.success("Customers list exported to Excel!");
+  };
+
+  const handleDownloadTemplate = () => {
+    downloadTemplate(CUSTOMER_HEADERS, "customers");
+    toast.info("Excel template downloaded!");
+  };
+
+  const handleImportExcel = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (inventory.length === 0) {
+      toast.error("Please register products first in Products / Services page before importing customers.");
+      return;
+    }
+
+    const loadingToast = toast.loading("Parsing Excel file...");
+    try {
+      const rawRows = await importFromExcel(file, CUSTOMER_HEADERS_MAP);
+      toast.update(loadingToast, { render: `Found ${rawRows.length} rows. Registering customers...`, type: "info", isLoading: true });
+
+      let successCount = 0;
+      let failCount = 0;
+      let errorMsgs = [];
+
+      for (const row of rawRows) {
+        const customerNameVal = row.customerName || row.name || row.customer;
+        if (!customerNameVal) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Missing customer name.`);
+          continue;
+        }
+
+        const productVal = row.product || (inventory[0]?.name || "");
+        const productItem = inventory.find(inv => inv.name.toLowerCase() === String(productVal).trim().toLowerCase());
+        if (!productItem) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Product "${productVal}" not found in inventory.`);
+          continue;
+        }
+
+        const qty = row.quantity ? parseFloat(row.quantity) : 1;
+        if (qty > productItem.currentStock) {
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Insufficient stock for "${productItem.name}".`);
+          continue;
+        }
+
+        const priceVal = row.price ? parseFloat(row.price) : 0;
+
+        let rawStatus = String(row.status || "Paid").trim();
+        let statusVal = "Paid";
+        if (rawStatus.toLowerCase() === "pending") statusVal = "Pending";
+        if (rawStatus.toLowerCase() === "partial") statusVal = "Partial";
+
+        let rawMethod = String(row.method || "UPI").trim();
+        let methodVal = "UPI";
+        if (rawMethod.toLowerCase() === "cash") methodVal = "Cash";
+        if (rawMethod.toLowerCase() === "card") methodVal = "Card";
+        if (rawMethod.toLowerCase() === "bank transfer") methodVal = "Bank Transfer";
+
+        try {
+          await api.post("/sales", {
+            customer: String(customerNameVal).trim(),
+            rep: String(row.rep || (employees[0]?.name || "Arjun Kumar")).trim(),
+            product: productItem.name,
+            quantity: qty,
+            price: priceVal,
+            total: qty * priceVal,
+            status: statusVal,
+            method: methodVal,
+            date: new Date().toISOString()
+          });
+          successCount++;
+        } catch (err) {
+          console.error("Failed to import customer transaction:", row, err);
+          failCount++;
+          errorMsgs.push(`Row ${successCount + failCount + 1}: Backend error (${err.response?.data?.message || err.message})`);
+        }
+      }
+
+      loadData();
+      if (failCount === 0) {
+        toast.update(loadingToast, { render: `Successfully registered ${successCount} customers!`, type: "success", isLoading: false, autoClose: 2500 });
+      } else {
+        toast.update(loadingToast, { render: `Registered ${successCount} customers. Failed to import ${failCount} rows. Details: ${errorMsgs.slice(0, 2).join('; ')}`, type: "warning", isLoading: false, autoClose: 5000 });
+      }
+    } catch (err) {
+      console.error("Excel import error:", err);
+      toast.update(loadingToast, { render: `Import failed: ${err.message || "Invalid file format"}`, type: "error", isLoading: false, autoClose: 3000 });
+    } finally {
+      e.target.value = ""; // Clear file input
+    }
   };
 
   return (
@@ -158,10 +297,22 @@ const Customers = () => {
           <div className="flex flex-wrap gap-3">
             <DateFilter dateFilter={dateFilter} setDateFilter={setDateFilter} />
             <button 
-              onClick={handleExport}
-              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition"
+              onClick={handleDownloadTemplate}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Download Excel Template"
             >
-              <Upload className="w-4 h-4 mr-2" /> Export
+              <FileDown className="w-4 h-4 mr-1 text-purple-500" /> Template
+            </button>
+            <label className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition cursor-pointer shadow-md">
+              <Upload className="w-4 h-4 mr-1 text-purple-500" /> Import
+              <input type="file" accept=".xlsx, .xls" onChange={handleImportExcel} className="hidden" />
+            </label>
+            <button 
+              onClick={handleExportExcel}
+              className="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm flex items-center hover:bg-gray-100 transition shadow-md"
+              title="Export to Excel"
+            >
+              <Download className="w-4 h-4 mr-1 text-purple-500" /> Export
             </button>
             <button 
               onClick={() => {
@@ -202,9 +353,9 @@ const Customers = () => {
       </main>
 
       {/* Add Customer Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      {showModal && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] animate-fadeIn">
+          <div className="glass-modal relative w-full max-w-md p-5 max-h-[90vh] overflow-y-auto no-scrollbar animate-modalSlideIn">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Register Customer</h3>
             
             <form onSubmit={handleAddCustomerSubmit} className="space-y-4 text-sm">
@@ -317,7 +468,8 @@ const Customers = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <ToastContainer {...toastConfig} />
