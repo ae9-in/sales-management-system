@@ -104,9 +104,10 @@ export async function ensureSchema() {
     if (adminCount.rows[0].count === 0) {
       const adminUsername = process.env.ADMIN_USERNAME || "admin";
       const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S";
+      const adminEmail = process.env.ADMIN_EMAIL || "superadmin@toksharasales.com";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-        args: [adminUsername, "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
+        args: [adminUsername, adminEmail, adminPasswordHash, "admin", "active"]
       });
       console.log("✓ Seeded default admin user in users table");
     }

@@ -41,9 +41,10 @@ async function main() {
 
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S';
+  const adminEmail = process.env.ADMIN_EMAIL || 'superadmin@toksharasales.com';
   await client.execute({
     sql: 'INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)',
-    args: [adminUsername, 'admin@toksharasales.com', adminPasswordHash, 'admin', 'active']
+    args: [adminUsername, adminEmail, adminPasswordHash, 'admin', 'active']
   });
   console.log('✓ Seeded users table & default admin');
 

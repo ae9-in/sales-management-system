@@ -106,3 +106,15 @@ scratch_*.js
 
 # Prettier cache
 .prettiercache
+
+# Sensitive credentials and certificate files
+*.cert
+*.pfx
+*.p12
+*.pkcs12
+*credentials*
+credentials.json
+client_secret*.json
+session.json
+*secrets*
+build_output.txt
