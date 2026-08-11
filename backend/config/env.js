@@ -11,7 +11,9 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   CORS_ALLOWED_ORIGINS: z
     .string()
-    .default("http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000"),
+    .default(
+      "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000,https://sales-management-system-rouge.vercel.app,https://sales-management-system-0wq0.onrender.com"
+    ),
   TURSO_DB_URL: z.string().optional().default("file:sales.db"),
   TURSO_AUTH_TOKEN: z.string().optional(),
   SEED_ADMIN_PASSWORD: z.string().optional(),

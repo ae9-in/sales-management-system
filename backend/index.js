@@ -20,24 +20,40 @@ import { errorHandler } from "./middleware/errorHandler.js";
 const app = express();
 const PORT = env.PORT || 5000;
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(compression());
 app.use(cookieParser());
 
-// CORS configuration (Strict non-wildcard origin matching)
-const allowedOrigins = env.CORS_ALLOWED_ORIGINS.split(",").map((o) => o.trim());
+// Dynamic CORS configuration allowing localhost, configured origins, Vercel deployments, and Render endpoints
+const configuredOrigins = env.CORS_ALLOWED_ORIGINS.split(",").map((o) => o.trim());
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  if (configuredOrigins.includes(origin)) return true;
+  if (process.env.FRONTEND_URL && process.env.FRONTEND_URL === origin) return true;
+  if (origin.endsWith(".vercel.app")) return true;
+  if (origin.endsWith(".onrender.com")) return true;
+  if (origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:")) return true;
+  return false;
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isOriginAllowed(origin)) {
         callback(null, true);
       } else {
         console.warn("CORS Blocked Origin:", origin);
-        callback(new Error("Not allowed by CORS"));
+        callback(null, false);
       }
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     optionsSuccessStatus: 200,
   })
 );
