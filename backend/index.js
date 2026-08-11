@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import helmet from "helmet";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 
+import { env } from "./config/env.js";
 import { connectDB, ensureSchema } from "./db.js";
 import salesRoutes from "./routes/sales.js";
 import employeeRoutes from "./routes/employees.js";
@@ -13,40 +14,23 @@ import reportsRoutes from "./routes/reports.js";
 import authRoutes from "./routes/auth.js";
 import backupRoutes from "./routes/backupRoutes.js";
 import userRoutes from "./routes/users.js";
+import integrationRoutes from "./routes/integrations.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
-// only load .env file in dev — Vercel injects env vars directly
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
-
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = env.PORT || 5000;
 
 app.use(helmet());
 app.use(compression());
+app.use(cookieParser());
 
-// CORS
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "http://127.0.0.1:5173",
-  "http://127.0.0.1:3000",
-  "https://sales-management-system-0wq0.onrender.com",
-  process.env.FRONTEND_URL,
-].filter(Boolean);
+// CORS configuration (Strict non-wildcard origin matching)
+const allowedOrigins = env.CORS_ALLOWED_ORIGINS.split(",").map((o) => o.trim());
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      const isDev = process.env.NODE_ENV !== "production";
-      const isAllowed =
-        isDev ||
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        origin.endsWith(".vercel.app");
-
-      if (isAllowed) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         console.warn("CORS Blocked Origin:", origin);
@@ -80,10 +64,18 @@ app.use("/api/expenses", expenseRoutes);
 app.use("/api/reports", reportsRoutes);
 app.use("/api/backup", backupRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/integrations", integrationRoutes);
 
-// Health check
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+// Health check endpoint (generic degraded response on error - no raw error leakage)
+app.get("/api/health", async (req, res) => {
+  try {
+    const db = await connectDB();
+    await db.execute("SELECT 1");
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  } catch (err) {
+    console.error("Health check DB failure:", err.message);
+    res.status(503).json({ status: "degraded" });
+  }
 });
 
 // 404 for unmatched API routes

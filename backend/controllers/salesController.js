@@ -1,4 +1,5 @@
 import { getDB } from "../db.js";
+import { getSalePointScope } from "../utils/scope.js";
 
 const formatSale = (sale) => ({
   id: sale.id,
@@ -22,6 +23,12 @@ export const getSales = async (req, res, next) => {
     
     let query = "SELECT * FROM sales WHERE 1=1";
     let args = [];
+
+    const scope = getSalePointScope(req.user);
+    if (scope.isScoped) {
+      query += " AND (salePointId = ? OR rep = ?)";
+      args.push(scope.salePointId, req.user?.username || scope.salePointId);
+    }
 
     if (product && product !== "All") { query += " AND product = ?"; args.push(product); }
     if (quantityMin) { query += " AND quantity >= ?"; args.push(parseFloat(quantityMin)); }

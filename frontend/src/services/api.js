@@ -17,6 +17,7 @@ const toastConfig = {
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 20000,
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 

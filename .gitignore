@@ -11,6 +11,7 @@ node_modules/
 .env.test.local
 .env.production.local
 backend/.env
+frontend/.env
 frontend/.env.local
 frontend/.env.production.local
 # Allow frontend/.env.production (no secrets, just VITE_API_URL)

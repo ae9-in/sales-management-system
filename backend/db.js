@@ -1,20 +1,16 @@
 import { createClient } from "@libsql/client";
+import { env } from "./config/env.js";
 
 let client = null;
 
 export async function connectDB() {
-  const url = process.env.TURSO_DB_URL;
-  const authToken = process.env.TURSO_AUTH_TOKEN;
-
-  if (!url || !authToken) {
-    throw new Error("TURSO_DB_URL or TURSO_AUTH_TOKEN is not defined in environment variables");
-  }
+  const url = env.TURSO_DB_URL;
+  const authToken = env.TURSO_AUTH_TOKEN;
 
   if (!client) {
-    client = createClient({
-      url,
-      authToken,
-    });
+    const config = { url };
+    if (authToken) config.authToken = authToken;
+    client = createClient(config);
   }
 
   return client;
@@ -103,7 +99,7 @@ export async function ensureSchema() {
     const adminCount = await db.execute("SELECT COUNT(*) as count FROM users WHERE role = 'admin'");
     if (adminCount.rows[0].count === 0) {
       const adminUsername = process.env.ADMIN_USERNAME || "admin";
-      const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S";
+      const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$9QAaYfi5akSKE8jIX6F3WuwiDPgQ2xE46XFRTYpfnJQfo9NK4IcdO";
       const adminEmail = process.env.ADMIN_EMAIL || "superadmin@toksharasales.com";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
@@ -125,6 +121,10 @@ export async function ensureSchema() {
     "ALTER TABLE employees ADD COLUMN area TEXT DEFAULT ''",
     "ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'employee'",
     "ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'active'",
+    "ALTER TABLE sales ADD COLUMN salePointId TEXT DEFAULT 'Main Office'",
+    "ALTER TABLE employees ADD COLUMN salePointId TEXT DEFAULT 'Main Office'",
+    "ALTER TABLE inventory ADD COLUMN salePointId TEXT DEFAULT 'Main Office'",
+    "ALTER TABLE users ADD COLUMN salePointId TEXT DEFAULT 'Main Office'",
   ];
 
   for (const sql of alterStatements) {

@@ -5,6 +5,10 @@
   "scripts": {
     "start": "node --quiet index.js",
     "dev": "nodemon --quiet index.js",
+    "seed:dev": "node seed.dev.js",
+    "seed:prod": "node seed.prod.js",
+    "db:migrate": "node migrations/migrate.js",
+    "test": "node test.js",
     "build": "echo 'Backend ready for deployment'"
   },
   "dependencies": {
@@ -12,13 +16,15 @@
     "akshara-sales-management": "file:..",
     "bcryptjs": "^3.0.2",
     "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^8.6.0",
     "helmet": "^8.3.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

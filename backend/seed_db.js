@@ -3,10 +3,9 @@ import { createClient } from '@libsql/client';
 
 dotenv.config();
 
-const client = createClient({
-  url: process.env.TURSO_DB_URL,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+const clientConfig = { url: process.env.TURSO_DB_URL || "file:sales.db" };
+if (process.env.TURSO_AUTH_TOKEN) clientConfig.authToken = process.env.TURSO_AUTH_TOKEN;
+const client = createClient(clientConfig);
 
 function getOffsetDate(daysOffset, hoursOffset = 0, minsOffset = 0) {
   const d = new Date();
@@ -40,7 +39,7 @@ async function main() {
   `);
 
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '$2b$10$GOemKQqMXFD7EEcCAHVN5upItFlus6PIWZmMwFg99LxKBFSFe5m1S';
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '$2b$10$9QAaYfi5akSKE8jIX6F3WuwiDPgQ2xE46XFRTYpfnJQfo9NK4IcdO';
   const adminEmail = process.env.ADMIN_EMAIL || 'superadmin@toksharasales.com';
   await client.execute({
     sql: 'INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)',

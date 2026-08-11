@@ -51,23 +51,17 @@ const Login = () => {
       if (result.success) {
         const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
         
-        if (isAdminMode) {
-          if (loggedInUser.role === "admin") {
-            showToast.success("Admin login successful! Redirecting...");
-            setTimeout(() => navigate("/admin/dashboard"), 1000);
-          } else {
+        if (loggedInUser.role === "admin") {
+          showToast.success("Admin login successful! Redirecting...");
+          setTimeout(() => navigate("/admin/dashboard"), 1000);
+        } else {
+          if (isAdminMode) {
             logout();
             showToast.error("Unauthorized. Employees must log in via the main login page.");
             setFormData(prev => ({ ...prev, password: "" }));
-          }
-        } else {
-          if (loggedInUser.role !== "admin") {
+          } else {
             showToast.success("Login successful! Redirecting...");
             setTimeout(() => navigate("/dashboard"), 1000);
-          } else {
-            logout();
-            showToast.error("Admins must log in via the Admin Login page.");
-            setFormData(prev => ({ ...prev, password: "" }));
           }
         }
       } else {
@@ -94,13 +88,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center min-h-screen text-gray-900 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+    <div className="flex flex-col justify-center min-h-screen text-white bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <main className="flex flex-col items-center justify-center w-full max-w-6xl p-6 mx-auto">
-
-
-        <div className="relative z-10 w-full max-w-md p-12 transition-all duration-300 bg-black rounded-lg shadow-xl opacity-90 backdrop-blur-sm hover:shadow-2xl">
-          <h1 className="mb-8 text-3xl font-bold text-center text-gray-900">
-            {isAdminMode ? "Admin Portal" : "Welcome Back!"}
+        <div className="relative z-10 w-full max-w-md p-12 transition-all duration-300 bg-gray-900/90 border border-gray-800 rounded-xl shadow-2xl backdrop-blur-md">
+          <h1 className="mb-8 text-3xl font-bold text-center text-white tracking-wide">
+            Admin Portal
           </h1>
 
           <div className="space-y-4">
@@ -114,9 +106,9 @@ const Login = () => {
                   onKeyDown={(e) => handleKeyPress(e, field)}
                   autoComplete={field === "email" ? "email" : "current-password"}
                   required
-                  className="w-full px-5 py-4 text-gray-900 transition-all duration-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full px-5 py-4 text-white bg-gray-800/80 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300"
                 />
-                <label className={`absolute left-5 top-4 text-gray-500 transition-all duration-300 pointer-events-none ${formData[field] ? "text-xs -translate-y-3" : ""}`}>
+                <label className={`absolute left-5 top-4 text-gray-400 transition-all duration-300 pointer-events-none ${formData[field] ? "text-xs -translate-y-3 text-red-400" : ""}`}>
                   {field === "email" ? "Email Address" : "Password"}
                 </label>
               </div>
@@ -126,47 +118,36 @@ const Login = () => {
               type="button"
               onClick={handleLogin}
               disabled={state.isSubmitting}
-              className={`w-full px-4 py-3 mt-2 font-semibold text-gray-900 bg-red-600 rounded transition-all duration-300 hover:bg-red-700 ${state.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`w-full px-4 py-3.5 mt-2 font-semibold text-white bg-red-600 rounded-lg shadow-lg hover:bg-red-700 transition-all duration-300 ${state.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {state.isSubmitting ? "Signing in..." : "Sign In"}
             </button>
           </div>
 
-          <div className="mt-3.5 text-center flex flex-col gap-2">
+          <div className="mt-6 text-center flex flex-col gap-2">
             <button
               type="button"
               onClick={() => setState(prev => ({ ...prev, showHelpModal: true }))}
-              className="text-gray-900 text-xs transition-colors duration-300 hover:text-red-400 hover:underline focus:outline-none"
+              className="text-gray-400 text-xs transition-colors duration-300 hover:text-white hover:underline focus:outline-none"
             >
               Need Help?
             </button>
-            {isAdminMode ? (
-              <span className="text-gray-500 text-[11px] mt-1">
-                Are you an Employee?{" "}
-                <button
-                  type="button"
-                  onClick={() => navigate("/")}
-                  className="text-red-500 font-semibold hover:underline focus:outline-none"
-                >
-                  Employee Portal
-                </button>
-              </span>
-            ) : (
-              <span className="text-gray-500 text-[11px] mt-1">
+            <div className="flex justify-center items-center gap-3 text-gray-400 text-[11px] mt-2">
+              <span>
                 Don't have an account?{" "}
                 <button
                   type="button"
                   onClick={() => navigate("/signup")}
-                  className="text-red-500 font-semibold hover:underline focus:outline-none"
+                  className="text-red-400 font-semibold hover:underline focus:outline-none"
                 >
                   Sign Up
                 </button>
               </span>
-            )}
+            </div>
           </div>
         </div>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="text-white">Loading...</div>}>
           {state.showHelpModal && (
             <HelpModal
               onClose={() => setState(prev => ({ ...prev, showHelpModal: false }))}

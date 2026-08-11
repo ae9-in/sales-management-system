@@ -2,6 +2,14 @@ import { getDB } from "../db.js";
 
 export const exportBackup = async (req, res) => {
   try {
+    console.log("[AUDIT LOG]", {
+      action: "EXPORT_BACKUP",
+      userId: req.user?.id,
+      username: req.user?.username,
+      timestamp: new Date().toISOString(),
+      ip: req.ip || req.headers["x-forwarded-for"] || "127.0.0.1",
+    });
+
     const db = getDB();
     const [salesRes, employeesRes, inventoryRes, expensesRes] = await Promise.all([
       db.execute("SELECT * FROM sales"),
@@ -24,6 +32,14 @@ export const exportBackup = async (req, res) => {
 
 export const importBackup = async (req, res) => {
   try {
+    console.log("[AUDIT LOG]", {
+      action: "IMPORT_BACKUP",
+      userId: req.user?.id,
+      username: req.user?.username,
+      timestamp: new Date().toISOString(),
+      ip: req.ip || req.headers["x-forwarded-for"] || "127.0.0.1",
+    });
+
     const db = getDB();
     const { sales, employees, inventory, expenses } = req.body;
 

@@ -4,6 +4,54 @@ A premium, modern Sales Operating System and CRM built for real-time transaction
 
 ---
 
+## 📁 Repository Structure
+
+```text
+├── backend
+│   ├── config
+│   │   └── env.js
+│   ├── controllers
+│   │   ├── authController.js
+│   │   ├── backupController.js
+│   │   ├── employeeController.js
+│   │   ├── expenseController.js
+│   │   ├── inventoryController.js
+│   │   ├── salesController.js
+│   │   └── userController.js
+│   ├── middleware
+│   │   ├── auth.js
+│   │   ├── errorHandler.js
+│   │   └── validation.js
+│   ├── routes
+│   │   ├── auth.js
+│   │   ├── backupRoutes.js
+│   │   ├── employees.js
+│   │   ├── expenseRoutes.js
+│   │   ├── inventoryroutes.js
+│   │   ├── reports.js
+│   │   ├── sales.js
+│   │   └── users.js
+│   ├── db.js
+│   ├── index.js
+│   ├── seed.dev.js
+│   └── seed.prod.js
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   ├── hooks
+│   │   ├── pages
+│   │   ├── services
+│   │   ├── styles
+│   │   └── utils
+│   ├── index.html
+│   └── vite.config.js
+├── SECURITY_CHANGELOG.md
+├── package.json
+└── vercel.json
+```
+
+---
+
 ## 🚀 Key Features
 
 * **Real-time Sales Tracking**: Log, edit, and delete transactions with instant synchronization.
@@ -19,8 +67,8 @@ A premium, modern Sales Operating System and CRM built for real-time transaction
 ## 🛠️ Technology Stack
 
 * **Frontend**: React (Vite, TailwindCSS, Lucide Icons, Recharts, Axios, Date-fns)
-* **Backend**: Node.js & Express (RESTful architecture, modular routing, error handler middleware)
-* **Database**: Turso (Edge SQLite database client with batch transaction executions)
+* **Backend**: Node.js & Express (Zod schema validation, RESTful architecture, modular routing, error handler middleware)
+* **Database**: Turso & SQLite (Edge SQLite database client with batch transaction executions)
 
 ---
 
@@ -30,17 +78,13 @@ Create a `.env` file in the `backend/` directory with the following keys:
 
 ```env
 PORT=5000
-NODE_ENV=production
-
-# Authentication Settings
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD_HASH=$2b$10$78IE4m4G23EhAEZ3MpgjiOvy21qu9nY2QZE1NKMwmNeKGwTNzbugm
-JWT_SECRET=supersecretjwtkey
-JWT_EXPIRES_IN=1h
-
-# Turso Database Configuration
-TURSO_DB_URL=your_turso_db_connection_url
-TURSO_AUTH_TOKEN=your_turso_authorization_token
+NODE_ENV=development
+JWT_SECRET=replace_with_openssl_rand_hex_32
+JWT_EXPIRES_IN=24h
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+TURSO_DB_URL=file:sales.db
+TURSO_AUTH_TOKEN=replace_if_using_turso_cloud
+SEED_ADMIN_PASSWORD=replace_with_secure_admin_password
 ```
 
 ---
@@ -71,9 +115,9 @@ TURSO_AUTH_TOKEN=your_turso_authorization_token
 
 ## ☁️ Vercel Deployment
 
-This project is fully configured for deployment on **Vercel** via the root `vercel.json` file. 
+This project is fully configured for deployment on **Vercel** via the root `vercel.json` file.
 
 To deploy:
 1. Link your repository to a new Vercel Project.
-2. Add your environment variables (`TURSO_DB_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`, `JWT_SECRET`) in Vercel.
+2. Add your environment variables (`JWT_SECRET`, `CORS_ALLOWED_ORIGINS`, `TURSO_DB_URL`, `TURSO_AUTH_TOKEN`, `SEED_ADMIN_PASSWORD`) in Vercel.
 3. Click **Deploy**. Vercel will build the frontend React assets and host the backend serverless Express functions automatically.
