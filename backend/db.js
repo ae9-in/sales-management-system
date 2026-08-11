@@ -100,13 +100,13 @@ export async function ensureSchema() {
     const adminPassword = process.env.ADMIN_PASSWORD || "admin";
     const adminPasswordHash = bcrypt.hashSync(adminPassword, 10);
     
-    // Get all existing admin emails
-    const allAdmins = await db.execute("SELECT id, email, username FROM users WHERE role = 'admin'");
+    // Get all existing admin/superadmin emails
+    const allAdmins = await db.execute("SELECT id, email, username FROM users WHERE role = 'admin' OR role = 'superadmin'");
     
     if (allAdmins.rows.length > 0) {
       // Update ALL existing admin passwords to ensure login works
       await db.execute({
-        sql: "UPDATE users SET password = ?, status = 'active' WHERE role = 'admin'",
+        sql: "UPDATE users SET password = ?, status = 'active' WHERE role = 'admin' OR role = 'superadmin'",
         args: [adminPasswordHash]
       });
     }
@@ -131,13 +131,20 @@ export async function ensureSchema() {
       const uname2 = existing2.rows.length > 0 ? "superadmin_" + Date.now() : "superadmin";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-        args: [uname2, "superadmin@toksharasales.com", adminPasswordHash, "admin", "active"]
+        args: [uname2, "superadmin@toksharasales.com", adminPasswordHash, "superadmin", "active"]
       });
     }
     
-    console.log("✓ Admin users ensured in users table");
+    console.log("✓ Admin & Superadmin users ensured in users table");
   } catch (e) {
     console.error("Failed to seed default admin:", e);
+  }
+
+  // Migration: Update existing admin user to superadmin
+  try {
+    await db.execute("UPDATE users SET role = 'superadmin' WHERE role = 'admin' AND (username = 'admin' OR email = 'superadmin@toksharasales.com')");
+  } catch (e) {
+    console.error("Migration to superadmin failed:", e);
   }
 
   // Add missing columns to existing tables (safe — ignores if already exists)

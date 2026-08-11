@@ -112,7 +112,8 @@ const AppContent = () => {
   if (!validRoutes.includes(location.pathname)) {
     if (authState) {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
-      return <Navigate to={user.role === "admin" ? "/admin/dashboard" : "/dashboard"} replace />;
+      const isAdmin = user.role === "admin" || user.role === "superadmin";
+      return <Navigate to={isAdmin ? "/admin/dashboard" : "/dashboard"} replace />;
     }
     return <Navigate to="/" replace />;
   }
@@ -124,18 +125,19 @@ const AppContent = () => {
 
   if (authState) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.role === "admin" || user.role === "superadmin";
     
     // If on login pages, redirect to dashboards
     if (isLoginPage) {
-      return <Navigate to={user.role === "admin" ? "/admin/dashboard" : "/dashboard"} replace />;
+      return <Navigate to={isAdmin ? "/admin/dashboard" : "/dashboard"} replace />;
     }
     
     // Enforce RBAC route access
-    if (user.role === "admin" && !location.pathname.startsWith("/admin")) {
+    if (isAdmin && !location.pathname.startsWith("/admin")) {
       return <Navigate to="/admin/dashboard" replace />;
     }
     
-    if (user.role !== "admin" && location.pathname.startsWith("/admin")) {
+    if (!isAdmin && location.pathname.startsWith("/admin")) {
       return <Navigate to="/dashboard" replace />;
     }
   }

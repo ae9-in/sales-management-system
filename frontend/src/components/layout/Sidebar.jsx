@@ -121,7 +121,7 @@ const Sidebar = ({ updateSidebarState }) => {
   }, [isExpanded, updateSidebarState]);
 
   const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
-  const isAdmin = loggedInUser.role === "admin";
+  const isAdmin = loggedInUser.role === "admin" || loggedInUser.role === "superadmin";
 
   const items = NAV_ITEMS.filter(item => {
     // Hide Admin-only features from normal employees

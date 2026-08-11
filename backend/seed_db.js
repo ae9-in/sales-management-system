@@ -43,9 +43,9 @@ async function main() {
   const adminEmail = process.env.ADMIN_EMAIL || 'superadmin@toksharasales.com';
   await client.execute({
     sql: 'INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)',
-    args: [adminUsername, adminEmail, adminPasswordHash, 'admin', 'active']
+    args: [adminUsername, adminEmail, adminPasswordHash, 'superadmin', 'active']
   });
-  console.log('✓ Seeded users table & default admin');
+  console.log('✓ Seeded users table & default superadmin');
 
   await client.execute(`
     CREATE TABLE employees (

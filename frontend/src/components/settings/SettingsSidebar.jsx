@@ -3,14 +3,14 @@ import { Settings, User, Building, Users, Shield, Bell, DollarSign, CreditCard, 
 
 const SettingsSidebar = ({ activeMenu, setActiveMenu }) => {
   const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
-  const isAdmin = loggedInUser.role === "admin";
+  const isSuperAdmin = loggedInUser.role === "superadmin";
 
   const menuItems = [
     { icon: Settings, label: 'General' },
     { icon: Building, label: 'Company' },
     { icon: Shield, label: 'Security' },
     { icon: Bell, label: 'System Preferences' },
-    ...(isAdmin ? [{ icon: Users, label: 'User Management' }] : [])
+    ...(isSuperAdmin ? [{ icon: Users, label: 'User Management' }] : [])
   ];
 
   return (

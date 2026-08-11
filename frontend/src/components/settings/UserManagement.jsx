@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, UserX, ShieldCheck, ShieldAlert, Trash2 } from "lucide-react";
+import { Users, UserX, ShieldCheck, ShieldAlert, Trash2, CheckCircle } from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 
@@ -30,14 +30,19 @@ const UserManagement = () => {
       toast.error("You cannot suspend your own account.");
       return;
     }
+    if (user.role === "superadmin") {
+      toast.error("You cannot modify a Super Admin account.");
+      return;
+    }
 
+    const isPending = user.status === "pending";
     const nextStatus = user.status === "active" ? "suspended" : "active";
     try {
       await api.put(`/users/${user.id}`, {
         role: user.role,
         status: nextStatus
       });
-      toast.success(`User status updated to ${nextStatus}.`);
+      toast.success(isPending ? "Admin approved successfully!" : `User status updated to ${nextStatus}.`);
       fetchUsers();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update user status.");
@@ -47,6 +52,10 @@ const UserManagement = () => {
   const handleToggleRole = async (user) => {
     if (user.id === currentUser.id) {
       toast.error("You cannot change your own role.");
+      return;
+    }
+    if (user.role === "superadmin") {
+      toast.error("You cannot change the role of a Super Admin.");
       return;
     }
 
@@ -64,8 +73,13 @@ const UserManagement = () => {
   };
 
   const handleDeleteUser = async (userId) => {
+    const userToDelete = users.find(u => u.id === userId);
     if (userId === currentUser.id) {
       toast.error("You cannot delete your own account.");
+      return;
+    }
+    if (userToDelete && userToDelete.role === "superadmin") {
+      toast.error("You cannot delete a Super Admin account.");
       return;
     }
 
@@ -116,6 +130,7 @@ const UserManagement = () => {
           <tbody className="divide-y divide-gray-700/50">
             {users.map((u) => {
               const isSelf = u.id === currentUser.id;
+              const isSuper = u.role === "superadmin";
               return (
                 <tr key={u.id} className={`hover:bg-gray-100/20 ${isSelf ? "bg-emerald-500/5" : ""}`}>
                   <td className="py-3 px-2 font-semibold text-gray-800">
@@ -125,7 +140,9 @@ const UserManagement = () => {
                   <td className="py-3 px-2 text-center">
                     <span
                       className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-semibold ${
-                        u.role === "admin"
+                        u.role === "superadmin"
+                          ? "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                          : u.role === "admin"
                           ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
                           : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                       }`}
@@ -138,6 +155,8 @@ const UserManagement = () => {
                       className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-semibold ${
                         u.status === "active"
                           ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                          : u.status === "pending"
+                          ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
                           : "bg-red-500/10 text-red-400 border border-red-500/20"
                       }`}
                     >
@@ -149,41 +168,49 @@ const UserManagement = () => {
                       {/* Toggle Role Button */}
                       <button
                         onClick={() => handleToggleRole(u)}
-                        disabled={isSelf}
-                        title={u.role === "admin" ? "Demote to Employee" : "Promote to Admin"}
+                        disabled={isSelf || isSuper}
+                        title={isSuper ? "Cannot demote Super Admin" : u.role === "admin" ? "Demote to Employee" : "Promote to Admin"}
                         className={`p-1.5 rounded transition ${
-                          isSelf
-                            ? "text-gray-600 cursor-not-allowed"
+                          isSelf || isSuper
+                            ? "text-gray-400 cursor-not-allowed"
                             : "text-purple-400 hover:bg-purple-500/10"
                         }`}
                       >
                         {u.role === "admin" ? <ShieldAlert size={14} /> : <ShieldCheck size={14} />}
                       </button>
 
-                      {/* Toggle Status Button */}
+                      {/* Toggle Status / Approve Button */}
                       <button
                         onClick={() => handleToggleStatus(u)}
-                        disabled={isSelf}
-                        title={u.status === "active" ? "Suspend Account" : "Activate Account"}
-                        className={`p-1.5 rounded transition ${
-                          isSelf
-                            ? "text-gray-600 cursor-not-allowed"
+                        disabled={isSelf || isSuper}
+                        title={
+                          u.status === "pending"
+                            ? "Approve Admin"
                             : u.status === "active"
-                            ? "text-yellow-400 hover:bg-yellow-500/10"
-                            : "text-green-400 hover:bg-green-500/10"
+                            ? "Suspend Account"
+                            : "Activate Account"
+                        }
+                        className={`p-1.5 rounded transition ${
+                          isSelf || isSuper
+                            ? "text-gray-400 cursor-not-allowed"
+                            : u.status === "pending"
+                            ? "text-emerald-500 hover:bg-emerald-500/10"
+                            : u.status === "active"
+                            ? "text-yellow-500 hover:bg-yellow-500/10"
+                            : "text-green-500 hover:bg-green-500/10"
                         }`}
                       >
-                        <UserX size={14} />
+                        {u.status === "pending" ? <CheckCircle size={14} /> : <UserX size={14} />}
                       </button>
 
                       {/* Delete User Button */}
                       <button
                         onClick={() => handleDeleteUser(u.id)}
-                        disabled={isSelf}
-                        title="Delete User"
+                        disabled={isSelf || isSuper}
+                        title={isSuper ? "Cannot delete Super Admin" : "Delete User"}
                         className={`p-1.5 rounded transition ${
-                          isSelf
-                            ? "text-gray-600 cursor-not-allowed"
+                          isSelf || isSuper
+                            ? "text-gray-400 cursor-not-allowed"
                             : "text-red-400 hover:bg-red-500/10"
                         }`}
                       >

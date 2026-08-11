@@ -8,7 +8,7 @@ const SettingsAccountSummary = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const displayRole = user.role === "admin" ? "Super Admin" : "Employee";
+  const displayRole = user.role === "superadmin" ? "Super Admin" : user.role === "admin" ? "Admin" : "Employee";
   const displayUsername = user.username || "Guest";
 
   const handleLogout = () => {

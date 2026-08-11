@@ -29,6 +29,12 @@ export const login = async (req, res) => {
 
     const user = result.rows[0];
 
+    if (user.status === "pending") {
+      return res.status(403).json({
+        message: "Your admin account is pending approval by a Super Admin."
+      });
+    }
+
     if (user.status !== "active") {
       return res.status(403).json({
         message: "Your account is suspended. Please contact admin.",
@@ -78,7 +84,7 @@ export const login = async (req, res) => {
 
 export const signup = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({
         message: "Username, email, and password are required.",
@@ -100,11 +106,17 @@ export const signup = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userRole = "employee"; // Forced to employee role for security (no self-admin creation)
+    
+    let userRole = "employee";
+    let status = "active";
+    if (role === "admin") {
+      userRole = "admin";
+      status = "pending";
+    }
 
     const result = await db.execute({
       sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?) RETURNING id, username, email, role, status",
-      args: [username.trim(), email.trim().toLowerCase(), hashedPassword, userRole, "active"],
+      args: [username.trim(), email.trim().toLowerCase(), hashedPassword, userRole, status]
     });
 
     res.status(201).json({
