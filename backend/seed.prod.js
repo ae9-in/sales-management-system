@@ -28,16 +28,19 @@ async function main() {
     return;
   }
 
-  const adminUsername = "admin";
-  const adminEmail = "superadmin@toksharasales.com";
   const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
 
   await client.execute({
     sql: "INSERT OR IGNORE INTO users (username, email, password, role, status, mustChangePassword) VALUES (?, ?, ?, ?, ?, ?)",
-    args: [adminUsername, adminEmail, adminPasswordHash, "admin", "active", 1],
+    args: ["admin", "superadmin@toksharasales.com", adminPasswordHash, "admin", "active", 0],
   });
 
-  console.log("✅ Production super-admin user seeded safely (mustChangePassword flag set).");
+  await client.execute({
+    sql: "INSERT OR IGNORE INTO users (username, email, password, role, status, mustChangePassword) VALUES (?, ?, ?, ?, ?, ?)",
+    args: ["admin_user", "admin@toksharasales.com", adminPasswordHash, "admin", "active", 0],
+  });
+
+  console.log("✅ Production admin users seeded safely.");
 }
 
 main().catch((err) => {

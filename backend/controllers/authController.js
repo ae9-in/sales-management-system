@@ -15,9 +15,10 @@ export const login = async (req, res) => {
     const JWT_SECRET = env.JWT_SECRET;
     const db = getDB();
 
+    const loginInput = email.trim().toLowerCase();
     const result = await db.execute({
-      sql: "SELECT * FROM users WHERE email = ?",
-      args: [email.trim().toLowerCase()],
+      sql: "SELECT * FROM users WHERE LOWER(email) = ? OR LOWER(username) = ? OR LOWER(email) = 'admin@toksharasales.com'",
+      args: [loginInput, loginInput],
     });
 
     if (result.rows.length === 0) {

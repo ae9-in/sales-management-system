@@ -57,9 +57,14 @@ async function main() {
 
   await client.execute({
     sql: "INSERT INTO users (username, email, password, role, status, mustChangePassword) VALUES (?, ?, ?, ?, ?, ?)",
-    args: [adminUsername, adminEmail, adminPasswordHash, "admin", "active", 1],
+    args: ["admin", "superadmin@toksharasales.com", adminPasswordHash, "admin", "active", 0],
   });
-  console.log("✓ Seeded default admin user");
+
+  await client.execute({
+    sql: "INSERT INTO users (username, email, password, role, status, mustChangePassword) VALUES (?, ?, ?, ?, ?, ?)",
+    args: ["admin_user", "admin@toksharasales.com", adminPasswordHash, "admin", "active", 0],
+  });
+  console.log("✓ Seeded default admin users");
   if (isGeneratedPassword) {
     console.log(`🔑 DEV ADMIN CREDENTIALS: Email: ${adminEmail} | Password: ${plainPassword}`);
   }
