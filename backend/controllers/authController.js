@@ -17,7 +17,7 @@ export const login = async (req, res) => {
 
     const loginInput = email.trim().toLowerCase();
     const result = await db.execute({
-      sql: "SELECT * FROM users WHERE LOWER(email) = ? OR LOWER(username) = ? OR LOWER(email) = 'admin@toksharasales.com'",
+      sql: "SELECT * FROM users WHERE LOWER(email) = ? OR LOWER(username) = ?",
       args: [loginInput, loginInput],
     });
 
@@ -51,8 +51,8 @@ export const login = async (req, res) => {
     // Set httpOnly cookie for secure session storage
     res.cookie("token", token, {
       httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });

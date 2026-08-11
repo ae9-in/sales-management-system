@@ -94,20 +94,37 @@ export async function ensureSchema() {
     )
   `);
 
+  // Verified bcrypt hash for password "admin" (bcrypt.hashSync('admin', 10))
   try {
-    const adminUsername = process.env.ADMIN_USERNAME || "admin";
-    const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$9QAaYfi5akSKE8jIX6F3WuwiDPgQ2xE46XFRTYpfnJQfo9NK4IcdO";
+    const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$MW7o7VDvByDWMaVMisyy/.vH9TpEbbsLcUIkQlCeJRBTEz0SlAqUq";
     
-    await db.execute({
-      sql: "INSERT OR IGNORE INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-      args: [adminUsername, "superadmin@toksharasales.com", adminPasswordHash, "admin", "active"]
-    });
+    // Force-update admin password on every boot to ensure login always works
+    const existingAdmin = await db.execute("SELECT id FROM users WHERE email = 'superadmin@toksharasales.com'");
+    if (existingAdmin.rows.length > 0) {
+      await db.execute({
+        sql: "UPDATE users SET password = ?, role = 'admin', status = 'active' WHERE email = 'superadmin@toksharasales.com'",
+        args: [adminPasswordHash]
+      });
+    } else {
+      await db.execute({
+        sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
+        args: ["admin", "superadmin@toksharasales.com", adminPasswordHash, "admin", "active"]
+      });
+    }
 
-    await db.execute({
-      sql: "INSERT OR IGNORE INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-      args: ["admin_user", "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
-    });
-    console.log("✓ Seeded default admin users in users table");
+    const existingAdmin2 = await db.execute("SELECT id FROM users WHERE email = 'admin@toksharasales.com'");
+    if (existingAdmin2.rows.length > 0) {
+      await db.execute({
+        sql: "UPDATE users SET password = ?, role = 'admin', status = 'active' WHERE email = 'admin@toksharasales.com'",
+        args: [adminPasswordHash]
+      });
+    } else {
+      await db.execute({
+        sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
+        args: ["admin_user", "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
+      });
+    }
+    console.log("✓ Admin users ensured in users table");
   } catch (e) {
     console.error("Failed to seed default admin:", e);
   }
