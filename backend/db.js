@@ -1,4 +1,5 @@
 import { createClient } from "@libsql/client";
+import bcrypt from "bcryptjs";
 import { env } from "./config/env.js";
 
 let client = null;
@@ -94,9 +95,10 @@ export async function ensureSchema() {
     )
   `);
 
-  // Verified bcrypt hash for password "admin" (bcrypt.hashSync('admin', 10))
+  // Hash admin password at runtime to guarantee it always matches
   try {
-    const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "$2b$10$MW7o7VDvByDWMaVMisyy/.vH9TpEbbsLcUIkQlCeJRBTEz0SlAqUq";
+    const adminPassword = process.env.ADMIN_PASSWORD || "admin";
+    const adminPasswordHash = bcrypt.hashSync(adminPassword, 10);
     
     // Force-update admin password on every boot to ensure login always works
     const existingAdmin = await db.execute("SELECT id FROM users WHERE email = 'superadmin@toksharasales.com'");
