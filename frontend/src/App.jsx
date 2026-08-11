@@ -29,6 +29,7 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Sidebar = lazy(() => import("./components/layout/Sidebar"));
+const UserManagementPage = lazy(() => import("./pages/UserManagementPage"));
 
 // Thin spinner used only for sidebar (tiny lazy load)
 const LoadingSpinner = () => (
@@ -108,6 +109,7 @@ const AppContent = () => {
     "/admin/notifications",
     "/admin/settings",
     "/admin/reports",
+    "/admin/users",
   ];
   if (!validRoutes.includes(location.pathname)) {
     if (authState) {
@@ -139,6 +141,11 @@ const AppContent = () => {
     
     if (!isAdmin && location.pathname.startsWith("/admin")) {
       return <Navigate to="/dashboard" replace />;
+    }
+
+    const isSuperAdmin = user.role === "superadmin";
+    if (location.pathname === "/admin/users" && !isSuperAdmin) {
+      return <Navigate to="/admin/dashboard" replace />;
     }
   }
 
@@ -192,6 +199,7 @@ const ProtectedLayout = () => {
             <Route path="/admin/notifications" element={<Notifications />} />
             <Route path="/admin/settings" element={<Settings />} />
             <Route path="/admin/reports" element={<Reports />} />
+            <Route path="/admin/users" element={<UserManagementPage />} />
           </Routes>
         </Suspense>
       </div>

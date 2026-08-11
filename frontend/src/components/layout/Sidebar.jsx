@@ -24,6 +24,7 @@ const NAV_ITEMS = [
   { icon: Calendar, label: "Calendar", path: "/calendar", color: "purple" },
   { icon: Bell, label: "Notifications", path: "/notifications", color: "orange" },
   { icon: Settings, label: "Settings", path: "/settings", color: "gray" },
+  { icon: Users, label: "User Management", path: "/users", color: "green" },
 ];
 
 // 🔹 Single NavItem component for reusability & clean structure
@@ -122,10 +123,15 @@ const Sidebar = ({ updateSidebarState }) => {
 
   const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
   const isAdmin = loggedInUser.role === "admin" || loggedInUser.role === "superadmin";
-
+  const isSuperAdmin = loggedInUser.role === "superadmin";
+  
   const items = NAV_ITEMS.filter(item => {
     // Hide Admin-only features from normal employees
     if (!isAdmin && (item.path === "/reports" || item.path === "/employees")) {
+      return false;
+    }
+    // Hide User Management from non-superadmins
+    if (item.path === "/users" && !isSuperAdmin) {
       return false;
     }
     return true;
