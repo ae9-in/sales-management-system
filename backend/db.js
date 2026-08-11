@@ -100,32 +100,41 @@ export async function ensureSchema() {
     const adminPassword = process.env.ADMIN_PASSWORD || "admin";
     const adminPasswordHash = bcrypt.hashSync(adminPassword, 10);
     
-    // Force-update admin password on every boot to ensure login always works
-    const existingAdmin = await db.execute("SELECT id FROM users WHERE email = 'superadmin@toksharasales.com'");
-    if (existingAdmin.rows.length > 0) {
+    // Get all existing admin emails
+    const allAdmins = await db.execute("SELECT id, email, username FROM users WHERE role = 'admin'");
+    
+    if (allAdmins.rows.length > 0) {
+      // Update ALL existing admin passwords to ensure login works
       await db.execute({
-        sql: "UPDATE users SET password = ?, role = 'admin', status = 'active' WHERE email = 'superadmin@toksharasales.com'",
+        sql: "UPDATE users SET password = ?, status = 'active' WHERE role = 'admin'",
         args: [adminPasswordHash]
       });
-    } else {
+    }
+    
+    // Ensure admin@toksharasales.com exists
+    const adminExists = await db.execute("SELECT id FROM users WHERE email = 'admin@toksharasales.com'");
+    if (adminExists.rows.length === 0) {
+      // Pick a unique username
+      const existing = await db.execute("SELECT id FROM users WHERE username = 'admin'");
+      const uname = existing.rows.length > 0 ? "admin_main" : "admin";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-        args: ["admin", "superadmin@toksharasales.com", adminPasswordHash, "admin", "active"]
+        args: [uname, "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
       });
     }
-
-    const existingAdmin2 = await db.execute("SELECT id FROM users WHERE email = 'admin@toksharasales.com'");
-    if (existingAdmin2.rows.length > 0) {
-      await db.execute({
-        sql: "UPDATE users SET password = ?, role = 'admin', status = 'active' WHERE email = 'admin@toksharasales.com'",
-        args: [adminPasswordHash]
-      });
-    } else {
+    
+    // Ensure superadmin@toksharasales.com exists
+    const superExists = await db.execute("SELECT id FROM users WHERE email = 'superadmin@toksharasales.com'");
+    if (superExists.rows.length === 0) {
+      // Pick a unique username
+      const existing2 = await db.execute("SELECT id FROM users WHERE username = 'superadmin'");
+      const uname2 = existing2.rows.length > 0 ? "superadmin_" + Date.now() : "superadmin";
       await db.execute({
         sql: "INSERT INTO users (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
-        args: ["admin_user", "admin@toksharasales.com", adminPasswordHash, "admin", "active"]
+        args: [uname2, "superadmin@toksharasales.com", adminPasswordHash, "admin", "active"]
       });
     }
+    
     console.log("✓ Admin users ensured in users table");
   } catch (e) {
     console.error("Failed to seed default admin:", e);
