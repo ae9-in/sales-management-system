@@ -104,9 +104,9 @@ export async function ensureSchema() {
     const allAdmins = await db.execute("SELECT id, email, username FROM users WHERE role = 'admin' OR role = 'superadmin'");
     
     if (allAdmins.rows.length > 0) {
-      // Update ALL existing admin passwords to ensure login works
+      // Update default seeded admin/superadmin passwords to ensure login works
       await db.execute({
-        sql: "UPDATE users SET password = ?, status = 'active' WHERE role = 'admin' OR role = 'superadmin'",
+        sql: "UPDATE users SET password = ? WHERE role = 'superadmin' OR (role = 'admin' AND email = 'admin@toksharasales.com')",
         args: [adminPasswordHash]
       });
     }
